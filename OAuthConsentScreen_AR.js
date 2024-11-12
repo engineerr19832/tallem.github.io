@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 el.innerHTML = "السماح بالدخول باستخدام حساب الغوغل";
                 el.style.textAlign = "center";
                 el.style.position = "relative";
-                el.style.right = "-45px";
+                el.style.right = "-39px";
+                el.style.fontSize = "18px";
             }
         });
 
