@@ -36,7 +36,7 @@ function signOutUser() {
                     }).then(() => {
                         console.log('User successfully signed out.');
                         // Optionally, redirect to login screen or perform other actions
-                        window.location.href = "https://engineerr1983.github.io/hello-world-page/";
+                        window.location.href = "https://talleem.github.io/";
                     }).catch((error) => {
                         console.error('Error updating document: ', error);
                     });
