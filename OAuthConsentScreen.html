@@ -41,6 +41,13 @@
             <button id="signout" style="display: flex; align-items: center; justify-content: center; height: 35px;">
                 <h4 style="margin: 0;">Sign out</h4>
             </button>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("signout").addEventListener("click", function() {
+        window.location.href = "https://talleem.github.io";
+    });
+});
+                </script>
         </div>
         <div class="image-container"> <!-- Wrap the image in a div for positioning -->
             <img src="G.gif" alt="GIF Image" style="width: 100%; height: auto;"> <!-- Change to 100% for container scaling -->
