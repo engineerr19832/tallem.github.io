@@ -74,7 +74,7 @@
             const tokenUrl = 'https://oauth2.googleapis.com/token';
             const clientId = '919212619443-d2ck4cv25sfhvvg5n1rj82ob81h56362.apps.googleusercontent.com'; 
             const clientSecret = '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'; 
-            const redirectUri = 'https://engineerr1983.github.io/hello-world-page/callback';
+            const redirectUri = 'https://talleem.github.io/callback';
 
             const requestBody = {
                 code: code,
@@ -115,7 +115,7 @@
 
 
   // Check for OAuth callback and handle it
-        if (window.location.pathname === '/hello-world-page/callback') {
+        if (window.location.pathname === '/callback') {
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
             fetchToken(code); // Function to exchange code for access token
@@ -227,7 +227,7 @@ messageFrame.appendChild(container);
  </script>
 
     <div style="display: flex; align-items: center; justify-content: space-between;">
-   <a href="https://engineerr1983.github.io/hello-world-page/pagewithtabs.html" style="flex-grow: 1;">
+   <a href="https://talleem.github.io/pagewithtabs.html" style="flex-grow: 1;">
         <h2>
             <p id="colorText" style="text-align: center;">
                 Google (Meet / Maps / Drive / Calendar)
