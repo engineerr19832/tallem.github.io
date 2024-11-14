@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const buttons = document.querySelectorAll('.tablink');
         
         if (buttons.length >= 7) {
-            buttons[0].innerHTML = "غرفة الاجتماعات G-meet";
-            buttons[1].innerHTML = "Reels مقاطع";
-            buttons[2].innerHTML = "Posts منشورات";
-            buttons[3].innerHTML = "Resumes سير ذاتية";
-            buttons[4].innerHTML = "lectures archive  محتوى";
-            buttons[5].innerHTML = "Admin مدير";
-            buttons[6].innerHTML = "sign out خروج";
+            buttons[0].innerHTML = "غرفة الاجتماعات";
+            buttons[1].innerHTML = "مقاطع";
+            buttons[2].innerHTML = "منشورات";
+            buttons[3].innerHTML = "سير ذاتية";
+            buttons[4].innerHTML = "محتوى";
+            buttons[5].innerHTML = "مدير";
+            buttons[6].innerHTML = "خروج";
             
             // Make the text bold for each button
             buttons.forEach(button => {
