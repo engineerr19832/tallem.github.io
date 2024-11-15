@@ -130,16 +130,23 @@
                 /* Additional inline styles here if needed */
             " required>
         </div>
-        <!-- Start Time Container -->
-        <div style="position: absolute; top: 455px; right: 8px; padding: 10px;">
-            <input type="datetime-local" id="starttime" name="starttime" placeholder="Enter the start time here.." style="
+     <!-- Start Time -->
+<div style="position: absolute; top: 455px; right: 8px; padding: 10px; width: 310px;">
+    <input 
+        type="datetime-local" 
+        id="starttime" 
+        name="starttime" 
+        placeholder="Enter the start time here.." 
+        style="
             height: 50px; 
-            width: 300px; 
+            width: 100%; 
             background-color: #ddfcf7; 
             text-align: center; 
             font-weight: bold; 
-        " required>
-        </div>
+        " 
+        required
+    >
+</div>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script>
         flatpickr("#starttime", {
@@ -148,15 +155,22 @@
             placeholder: "Enter date and time"
         });
     </script>
-        <div style="position: absolute; top: 481px; right: 8px; padding: 10px;">
-            <input type="datetime-local" id="endtime" name="endtime" placeholder="Enter the end time here.." style="
+      <div style="position: absolute; top: 511px; right: 8px; padding: 10px; width: 310px;">
+    <input 
+        type="datetime-local" 
+        id="endtime" 
+        name="endtime" 
+        placeholder="Enter the end time here.." 
+        style="
             height: 50px; 
-            width: 300px; 
+            width: 100%; 
             background-color: #ddfcf7; 
             text-align: center; 
             font-weight: bold; 
-        " required>
-        </div>
+        " 
+        required
+    >
+</div>
         <script>
     // Attach event listeners to all elements with class "checkListTrigger"
     document.querySelectorAll('.checkListTrigger').forEach(function(element) {
