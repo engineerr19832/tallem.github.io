@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-      
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Persistent Storage Example</title>
-    <!-- Other head elements like meta, title, CSS, etc. -->
-     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
-     <script src="https://apis.google.com/js/api.js"></script>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-   
-     <script src="loadattendeailfromfirestore.js"></script> 
-
-    
- <script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Persistent Storage Example</title>
+        <!-- Other head elements like meta, title, CSS, etc. -->
+        <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="loadattendeailfromfirestore.js"></script>         
+        <script>
     document.addEventListener('DOMContentLoaded', function() {
         const savedValuesList = document.getElementById('savedValuesList');
         const storedEmail = localStorage.getItem('loggedInEmail');
@@ -66,31 +62,27 @@
             }
         });
     });
-</script> 
-    <script src="googlemeetpage_AR.js"></script>
-    <script src="waitingalert.js"></script>
-    <script src="newmeetingeventswindow_AR.js"></script>
-     <script src="updatemeetingwindow_AR.js"></script>
-      <script src=" stopsavetogdchannel.js"></script>
-     
-</head>
-<body bgcolor="#ffffe0">
-   <h4 style="font-weight:bold;color:#0000ff;">Enter:Google Meet list of attendees emails with the</h4>
-     <h4 style="font-weight:bold;color:#0000ff;font-style:Times New Roman">logged email in blue bold font (REQUIRED)</h4>
-    <input type="email" id="attendeeEmail" name="attendeeEmail" placeholder="Enter attendee's email here.." style="height: 30px; width: 300px; background-color: #ddfcf7" required>
-    <button id="sendinvit" style="height: 35px;">Add attendees</button>   
-    <script src="sendinvtoattendee.js"></script> 
-    
-     
-<div id="container" style="display: flex; align-items: flex-start; margin-top: 15px;">
-    <div>
-        <h3 style="margin-bottom: 2px;">Attendee Emails</h3>
-        <ul id="savedValuesList" style="margin: 0; padding: 25px; list-style-type: none; position: relative;"></ul>
-    </div>
-    <button id="deleteattendee1" style="margin-left: 27px; height: 35px;">Delete Attendee</button>
-</div>
-
-<script>
+</script>         
+        <script src="googlemeetpage_AR.js"></script>
+        <script src="waitingalert.js"></script>
+        <script src="newmeetingeventswindow_AR.js"></script>
+        <script src="updatemeetingwindow_AR.js"></script>
+        <script src=" stopsavetogdchannel.js"></script>
+    </head>
+    <body bgcolor="#ffffe0">
+        <h5 style="font-weight:bold;color:#0000ff;">Enter:Google Meet list of attendees emails with the</h5>
+        <h4 style="font-weight:bold;color:#0000ff;font-style:Times New Roman">logged email in blue bold font (REQUIRED)</h4>
+        <input type="email" id="attendeeEmail" name="attendeeEmail" placeholder="Enter attendee's email here.." style="height: 30px; width: 300px; background-color: #ddfcf7" required>
+        <button id="sendinvit" style="height: 35px;">Add attendees</button>         
+        <script src="sendinvtoattendee.js"></script>         
+        <div id="container" style="display: flex; align-items: flex-start; margin-top: 15px;">
+            <div>
+                <h3 style="margin-bottom: 2px;">Attendee Emails</h3>
+                <ul id="savedValuesList" style="margin: 0; padding: 25px; list-style-type: none; position: relative;"></ul>
+            </div>
+            <button id="deleteattendee1" style="margin-left: 27px; height: 35px;">Delete Attendee</button>
+        </div>
+        <script>
     // Handle selection
     document.getElementById('savedValuesList').addEventListener('click', function(event) {
         if (event.target && event.target.nodeName === 'LI') {
@@ -109,8 +101,7 @@
         }
     });
 </script>
-
-<style>
+        <style>
     /* Style for selected item */
     #savedValuesList li.selected {
         background-color: #b3d9ff;
@@ -120,12 +111,8 @@
         box-sizing: border-box;
     }
 </style>
-
-    
-     <div style="display: flex; justify-content: flex-end; padding: 20px;">
-        <h4 
-            id="texttip" 
-            style=" 
+        <div style="display: flex; justify-content: flex-end; padding: 20px;">
+            <h4 id="texttip" style=" 
                 background-color: #ffffdd;
                 font-style: Times New Roman;
                 text-align: center;
@@ -136,20 +123,11 @@
                 display: flex;
                 margin: 0; /* Remove default margin */
                 /* Additional inline styles here if needed */
-            "
-        >
-           Enter: (Attendees emails-Start time-End time
-           <br>and meeting description) for creating 
-            <br>new meeting...
-        </h4>
-    </div>
-    
-    <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
-        <input 
-            id="meetingdesc" 
-            name="meetingdesc" 
-            placeholder="Enter the Meeting desc here.." 
-            style="
+            ">
+           Enter: (Attendees emails-Start time-End time <br>and meeting description) for creating  <br>new meeting... </h4>
+        </div>
+        <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
+            <input id="meetingdesc" name="meetingdesc" placeholder="Enter the Meeting desc here.." style="
                 height: 30px; 
                 width: 300px; 
                 background-color: #ddfcf7; 
@@ -157,20 +135,12 @@
                 font-weight: bold; /* Make font bold */
                 position: fixed; /* Absolute position within .container */
                 right: 20px; /* Distance from the right edge */
-                top: 100px;
+                top: 425px;
                 /* Additional inline styles here if needed */
-            " 
-            required
-            >
-    </div>
-    
-<div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
-        <input 
-            type="datetime-local" 
-            id="starttime" 
-            name="starttime" 
-            placeholder="Enter the start time here.." 
-            style="
+            " required>
+        </div>
+        <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
+            <input type="datetime-local" id="starttime" name="starttime" placeholder="Enter the start time here.." style="
                 height: 30px; 
                 width: 300px; 
                 background-color: #ddfcf7; 
@@ -178,28 +148,20 @@
                 font-weight: bold; /* Make font bold */
                  position: fixed; /* Absolute position within .container */
                  right: 20px; /* Distance from the right edge */
-                  top: 140px;
+                  top: 465px;
                 /* Additional inline styles here if needed */
-            " 
-            required
-        >
-    </div>
-    
-     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
+            " required>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
         flatpickr("#starttime", {
             enableTime: true,
             dateFormat: "Y-m-d H:i", // Customize date format
             placeholder: "Enter date and time"
         });
     </script>
-    <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
-        <input 
-            type="datetime-local" 
-            id="endtime" 
-            name="endtime" 
-            placeholder="Enter the end time here.." 
-            style="
+        <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
+            <input type="datetime-local" id="endtime" name="endtime" placeholder="Enter the end time here.." style="
                 height: 30px; 
                 width: 300px; 
                 background-color: #ddfcf7; 
@@ -207,14 +169,11 @@
                 font-weight: bold; /* Make font bold */
                position: fixed; /* Absolute position within .container */
                right: 20px; /* Distance from the right edge */
-               top: 180px;
+               top: 505px;
                 /* Additional inline styles here if needed */
-            " 
-            required
-        >
-    </div>
-
-    <script>
+            " required>
+        </div>
+        <script>
     // Attach event listeners to all elements with class "checkListTrigger"
     document.querySelectorAll('.checkListTrigger').forEach(function(element) {
         element.addEventListener('click', function() {
@@ -222,27 +181,22 @@
         });
     });
 </script>
-    
-     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
         flatpickr("#endtime", {
             enableTime: true,
             dateFormat: "Y-m-d H:i", // Customize date format
             placeholder: "Enter date and time"
         });
     </script>
-    <div style="display: flex; justify-content: flex-end; padding: 20px;">
-          <span style="
+        <div style="display: flex; justify-content: flex-end; padding: 20px;"><span style="
         font-weight: bold;
         margin-right: 10px; /* Adjust the spacing between the title and input fields */
         position: fixed; 
         right: 210px; 
-        top: 225px;
+        top: 585px;
     ">Repeat Every:</span>
-        <input 
-            id="repeatevery" 
-            name="repeatevery"  
-            style="
+            <input id="repeatevery" name="repeatevery" style="
                 height: 30px; 
                 width: 60px; 
                 background-color: #ddfcf7; 
@@ -250,14 +204,10 @@
                 font-weight: bold; /* Make font bold */
                 position: fixed; /* Absolute position within .container */
                 right: 135px; /* Distance from the right edge */
-                top: 220px;
+                top: 585px;
                 /* Additional inline styles here if needed */
-            " 
-        >
-         <select 
-        id="repeatFrequency" 
-        name="repeatFrequency"
-        style="
+            ">
+            <select id="repeatFrequency" name="repeatFrequency" style="
             height: 35px; 
             width: 100px; 
             background-color: #ddfcf7; 
@@ -265,27 +215,22 @@
             font-weight: bold; 
             position: fixed; 
             right: 20px; 
-            top: 220px;
-        "
-    >
-        <option value="null"></option>
-        <option value="Daily">Daily</option>
-        <option value="Weekly">Weekly</option>
-        <option value="Monthly">Monthly</option>
-        <option value="Yearly">Yearly</option>
-    </select>
-     <div style="display: flex; justify-content: flex-end; padding: 20px;">
-         <span style="
+            top: 585px;
+        ">
+                <option value="null"></option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Yearly">Yearly</option>
+            </select>
+            <div style="display: flex; justify-content: flex-end; padding: 20px;"><span style="
         font-weight: bold;
         margin-right: 10px; /* Adjust the spacing between the title and input fields */
         position: fixed; 
         right: 210px; 
-        top: 265px;
+        top: 625px;
     ">No of Occurs:</span>
-        <input 
-            id="numofoccur" 
-            name="numofoccur"  
-            style="
+                <input id="numofoccur" name="numofoccur" style="
                 height: 30px; 
                 width: 60px; 
                 background-color: #ddfcf7; 
@@ -293,16 +238,13 @@
                 font-weight: bold; /* Make font bold */
                 position: fixed; /* Absolute position within .container */
                 right: 135px; /* Distance from the right edge */
-                top: 260px;
+                top: 625px;
                 /* Additional inline styles here if needed */
-            " 
-        >   
-
-<button id="loadinvit" style="height: 35px; text-align: center; font-weight: bold; position: fixed; right: 35px; top: 305px;">
-    Load invit
+            "> 
+                <button id="loadinvit" style="height: 35px; text-align: center; font-weight: bold; position: fixed; right: 35px; top: 690px;">
+                    Load invit
 </button>
-
-<script>
+                <script>
 const storage = firebase.storage();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -548,16 +490,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-     <button id="updateinvit" style=" height: 35px; 
+                <button id="updateinvit" style=" height: 35px; 
                 text-align: center;
                 font-weight: bold; /* Make font bold */
                position: fixed; /* Absolute position within .container */
                right: 120px; /* Distance from the right edge */
-               top: 305px;
+               top: 690px;
                 /* Additional inline styles here if needed */
             ">Update invit</button>
-  <script>
+                <script>
 document.getElementById("updateinvit").onclick = function() {
     var accessToken = localStorage.getItem('accessToken');
     var loggedInEmail = localStorage.getItem('loggedInEmail');
@@ -781,20 +722,15 @@ document.getElementById("updateinvit").onclick = function() {
  loadMeetings();
 };
      </script>
-
-
-    
-     <button id="createinvit" style=" height: 35px; 
+                <button id="createinvit" style=" height: 35px; 
                 text-align: center;
                 font-weight: bold; /* Make font bold */
                position: fixed; /* Absolute position within .container */
                right: 220px; /* Distance from the right edge */
-               top: 305px;
+               top: 690px;
                 /* Additional inline styles here if needed */
-            " 
-         >Create invit</button>
-    
-<script>
+            ">Create invit</button>
+                <script>
     document.addEventListener('DOMContentLoaded', function() {
         const savedValuesList = document.getElementById('savedValuesList');
         const startTimeInput = document.getElementById('starttime');
@@ -918,9 +854,8 @@ document.getElementById("updateinvit").onclick = function() {
             }
         });
     });
-</script> 
-         
-          <script>
+</script>                 
+                <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Check if localStorage has 'arpage' set to 'ar' after the content is fully loaded
             const arpage = localStorage.getItem('arpage');
@@ -929,5 +864,5 @@ document.getElementById("updateinvit").onclick = function() {
             }
         });
     </script>
-</body>
+    </body>
 </html>
