@@ -101,16 +101,7 @@
         }
     });
 </script>
-        <style>
-    /* Style for selected item */
-    #savedValuesList li.selected {
-        background-color: #b3d9ff;
-        color: #333;
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-</style>
+        <style>/* Style for selected item */#savedValuesList li.selected { background-color: #b3d9ff; color: #333; width: 100%; padding: 10px; box-sizing: border-box; }</style>
         <div style="display: flex; justify-content: flex-end; padding: 20px;">
             <h5 id="texttip" style=" 
                 background-color: #ffffdd;
@@ -141,13 +132,13 @@
         </div>
         <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
             <input type="datetime-local" id="starttime" name="starttime" placeholder="Enter the start time here.." style="
-                height: 30px; 
+                height: 40px; 
                 width: 300px; 
                 background-color: #ddfcf7; 
                 text-align: center;
                 font-weight: bold; /* Make font bold */
                  position: fixed; /* Absolute position within .container */
-                 right: 20px; /* Distance from the right edge */
+                 right: 16px; /* Distance from the right edge */
                   top: 465px;
                 /* Additional inline styles here if needed */
             " required>
@@ -162,14 +153,14 @@
     </script>
         <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
             <input type="datetime-local" id="endtime" name="endtime" placeholder="Enter the end time here.." style="
-                height: 30px; 
+                height: 40px; 
                 width: 300px; 
                 background-color: #ddfcf7; 
                 text-align: center;
                 font-weight: bold; /* Make font bold */
                position: fixed; /* Absolute position within .container */
-               right: 20px; /* Distance from the right edge */
-               top: 505px;
+               right: 16px; /* Distance from the right edge */
+               top: 475px;
                 /* Additional inline styles here if needed */
             " required>
         </div>
@@ -189,8 +180,7 @@
             placeholder: "Enter date and time"
         });
     </script>
-        <div style="display: flex; justify-content: flex-end; padding: 20px;">
-            <span style="
+        <div style="display: flex; justify-content: flex-end; padding: 20px;"><span style="
         font-weight: bold;
         margin-right: 10px; /* Adjust the spacing between the title and input fields */
         position: fixed; 
@@ -224,8 +214,7 @@
                 <option value="Monthly">Monthly</option>
                 <option value="Yearly">Yearly</option>
             </select>
-            <div style="display: flex; justify-content: flex-end; padding: 20px;">
-                <span style="
+            <div style="display: flex; justify-content: flex-end; padding: 20px;"><span style="
         font-weight: bold;
         margin-right: 10px; /* Adjust the spacing between the title and input fields */
         position: fixed; 
