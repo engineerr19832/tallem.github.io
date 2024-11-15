@@ -130,18 +130,15 @@
                 /* Additional inline styles here if needed */
             " required>
         </div>
-        <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
+        <!-- Start Time Container -->
+        <div style="position: absolute; top: 50px; left: 50px; padding: 10px;">
             <input type="datetime-local" id="starttime" name="starttime" placeholder="Enter the start time here.." style="
-                height: 40px; 
-                width: 300px; 
-                background-color: #ddfcf7; 
-                text-align: center;
-                font-weight: bold; /* Make font bold */
-                 position: fixed; /* Absolute position within .container */
-                 right: 16px; /* Distance from the right edge */
-                  top: 465px;
-                /* Additional inline styles here if needed */
-            " required>
+            height: 40px; 
+            width: 300px; 
+            background-color: #ddfcf7; 
+            text-align: center; 
+            font-weight: bold; 
+        " required>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script>
@@ -151,18 +148,14 @@
             placeholder: "Enter date and time"
         });
     </script>
-        <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
+        <div style="position: absolute; top: 120px; left: 50px; padding: 10px;">
             <input type="datetime-local" id="endtime" name="endtime" placeholder="Enter the end time here.." style="
-                height: 40px; 
-                width: 300px; 
-                background-color: #ddfcf7; 
-                text-align: center;
-                font-weight: bold; /* Make font bold */
-               position: relative; /* Absolute position within .container */
-               right: 1px; /* Distance from the right edge */
-               top: 475px;
-                /* Additional inline styles here if needed */
-            " required>
+            height: 40px; 
+            width: 300px; 
+            background-color: #ddfcf7; 
+            text-align: center; 
+            font-weight: bold; 
+        " required>
         </div>
         <script>
     // Attach event listeners to all elements with class "checkListTrigger"
@@ -180,8 +173,7 @@
             placeholder: "Enter date and time"
         });
     </script>
-        <div style="display: flex; justify-content: flex-end; padding: 20px;">
-            <span style="
+        <div style="display: flex; justify-content: flex-end; padding: 20px;"><span style="
         font-weight: bold;
         margin-right: 10px; /* Adjust the spacing between the title and input fields */
         position: fixed; 
@@ -215,8 +207,7 @@
                 <option value="Monthly">Monthly</option>
                 <option value="Yearly">Yearly</option>
             </select>
-            <div style="display: flex; justify-content: flex-end; padding: 20px;">
-                <span style="
+            <div style="display: flex; justify-content: flex-end; padding: 20px;"><span style="
         font-weight: bold;
         margin-right: 10px; /* Adjust the spacing between the title and input fields */
         position: fixed; 
