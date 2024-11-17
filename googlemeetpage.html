@@ -68,6 +68,33 @@
         <script src="newmeetingeventswindow_AR.js"></script>
         <script src="updatemeetingwindow_AR.js"></script>
         <script src=" stopsavetogdchannel.js"></script>
+        <style>
+    /* Common styles for all input elements */
+    .common-style {
+        width: 240px; /* Adjust width */
+        background-color: #ddfcf7;
+        text-align: center;
+        font-weight: bold; /* Make font bold */
+        position: fixed;
+        right: 8px; /* Align to the right edge with 8px spacing */
+    }
+
+    /* Individual positioning for each element */
+    #meetingdesc {
+        top: 425px;
+        height: 25px; /* Height for the meeting description */
+    }
+
+    #starttime {
+        top: 455px;
+        height: 95px; /* Specific for datetime-local inputs */
+    }
+
+    #endtime {
+        top: 555px; /* Adjusted for spacing below starttime */
+        height: 95px; /* Specific for datetime-local inputs */
+    }
+</style>
     </head>
     <body bgcolor="#ffffe0">
         <h5 style="font-weight:bold;color:#0000ff;">Enter:Google Meet list of attendees emails with the</h5>
@@ -117,76 +144,65 @@
             ">
            Enter: (Attendees emails-Start time-End time <br>and meeting description) for creating  <br>new meeting... </h5>
         </div>
-        <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
-            <input id="meetingdesc" name="meetingdesc" placeholder="Enter the Meeting desc here.." style="
-                height: 25px; 
-                width: 240px; 
-                background-color: #ddfcf7; 
-                text-align: center;
-                font-weight: bold; /* Make font bold */
-                position: fixed; /* Absolute position within .container */
-                left: 120px; /* Distance from the right edge */
-                top: 425px;
-                /* Additional inline styles here if needed */
-            " required>
-        </div>
-     <!-- Start Time -->
-<div style="position: fixed;  left: 145px; top: 455px; padding: 10px; width: 380px;">
-    <input 
-        type="datetime-local" 
-        id="starttime" 
-        name="starttime" 
-        placeholder="Enter the start time here.." 
-        style="
-            height: 95px; 
-            width: 100%; 
-            background-color: #ddfcf7; 
-            text-align: center; 
-            font-weight: bold; 
-        " 
+
+        
+       <!-- Meeting Description -->
+<div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
+    <input
+        id="meetingdesc"
+        name="meetingdesc"
+        placeholder="Enter the Meeting desc here.."
+        class="common-style"
         required
     >
 </div>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script>
-        flatpickr("#starttime", {
-            enableTime: true,
-            dateFormat: "Y-m-d H:i", // Customize date format
-            placeholder: "Enter date and time"
-        });
-    </script>
-      <div style="position: fixed;  left: 145px; top: 485px; padding: 10px; width: 380px;">
-    <input 
-        type="datetime-local" 
-        id="endtime" 
-        name="endtime" 
-        placeholder="Enter the end time here.." 
-        style="
-            height: 95px; 
-            width: 100%; 
-            background-color: #ddfcf7; 
-            text-align: center; 
-            font-weight: bold; 
-        " 
+
+<!-- Start Time -->
+<div>
+    <input
+        type="datetime-local"
+        id="starttime"
+        name="starttime"
+        placeholder="Enter the start time here.."
+        class="common-style"
         required
     >
 </div>
-        <script>
-    // Attach event listeners to all elements with class "checkListTrigger"
-    document.querySelectorAll('.checkListTrigger').forEach(function(element) {
-        element.addEventListener('click', function() {
+
+<!-- End Time -->
+<div>
+    <input
+        type="datetime-local"
+        id="endtime"
+        name="endtime"
+        placeholder="Enter the end time here.."
+        class="common-style"
+        required
+    >
+</div>
+
+<!-- JavaScript for Date/Time Picker -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("#starttime", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i", // Customize date format
+    });
+
+    flatpickr("#endtime", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i", // Customize date format
+    });
+
+    // Event listener for checklist trigger
+    document.querySelectorAll('.checkListTrigger').forEach(function (element) {
+        element.addEventListener('click', function () {
             checkList();
         });
     });
 </script>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script>
-        flatpickr("#endtime", {
-            enableTime: true,
-            dateFormat: "Y-m-d H:i", // Customize date format
-            placeholder: "Enter date and time"
-        });
-    </script>
+
+        
         <div style="display: flex; justify-content: flex-end; padding: 20px;">
             <span style="
         font-weight: bold;
