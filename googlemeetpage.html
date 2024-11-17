@@ -4,33 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Persistent Storage Example</title>
-         <style>
-    /* Common styles for all input elements */
-    .common-style {
-        width: 240px; /* Adjust width */
-        background-color: #ddfcf7;
-        text-align: center;
-        font-weight: bold; /* Make font bold */
-        position: fixed;
-        right: 8px; /* Align to the right edge with 8px spacing */
-    }
-
-    /* Individual positioning for each element */
-    #meetingdesc {
-        top: 425px;
-        height: 25px; /* Height for the meeting description */
-    }
-
-    #starttime {
-        top: 455px;
-        height: 95px; /* Specific for datetime-local inputs */
-    }
-
-    #endtime {
-        top: 555px; /* Adjusted for spacing below starttime */
-        height: 95px; /* Specific for datetime-local inputs */
-    }
-</style>
         <!-- Other head elements like meta, title, CSS, etc. -->
         <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
@@ -95,7 +68,6 @@
         <script src="newmeetingeventswindow_AR.js"></script>
         <script src="updatemeetingwindow_AR.js"></script>
         <script src=" stopsavetogdchannel.js"></script>
-       
     </head>
     <body bgcolor="#ffffe0">
         <h5 style="font-weight:bold;color:#0000ff;">Enter:Google Meet list of attendees emails with the</h5>
@@ -147,13 +119,22 @@
         </div>
 
         
-       <!-- Meeting Description -->
+  <!-- Meeting Description -->
 <div style="display: flex; justify-content: flex-end; padding: 20px;" class="checkListTrigger">
     <input
         id="meetingdesc"
         name="meetingdesc"
         placeholder="Enter the Meeting desc here.."
-        class="common-style"
+        style="
+            width: 240px; /* Adjust width */
+            background-color: #ddfcf7;
+            text-align: center;
+            font-weight: bold; /* Make font bold */
+            position: fixed;
+            right: 8px; /* Align to the right edge with 8px spacing */
+            top: 425px; /* Positioning */
+            height: 25px; /* Height for the meeting description */
+        "
         required
     >
 </div>
@@ -165,7 +146,16 @@
         id="starttime"
         name="starttime"
         placeholder="Enter the start time here.."
-        class="common-style"
+        style="
+            width: 245px; /* Adjust width */
+            background-color: #ddfcf7;
+            text-align: center;
+            font-weight: bold; /* Make font bold */
+            position: fixed;
+            right: 8px; /* Align to the right edge with 8px spacing */
+            top: 475px; /* Positioning */
+            height: 125px; /* Specific for datetime-local inputs */
+        "
         required
     >
 </div>
@@ -177,7 +167,16 @@
         id="endtime"
         name="endtime"
         placeholder="Enter the end time here.."
-        class="common-style"
+        style="
+            width: 240px; /* Adjust width */
+            background-color: #ddfcf7;
+            text-align: center;
+            font-weight: bold; /* Make font bold */
+            position: fixed;
+            right: 8px; /* Align to the right edge with 8px spacing */
+            top: 555px; /* Adjusted for spacing below starttime */
+            height: 125px; /* Specific for datetime-local inputs */
+        "
         required
     >
 </div>
