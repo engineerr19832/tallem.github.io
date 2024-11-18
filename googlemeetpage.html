@@ -78,18 +78,22 @@
         <div id="container" style="display: flex; align-items: flex-start; margin-top: 15px;">
             <div>
                 <h5 style="margin-bottom: 2px;margin-top: 7px;">Attendee Emails</h5>
-                <ul id="savedValuesList" style="
+               <ul id="savedValuesList" style="
     list-style: none; 
     margin: 0; 
-    padding: 10px; 
+    padding: 0; 
     border: 1px solid #ccc; 
     border-radius: 4px; 
     background-color: #fff; 
     width: 300px; 
-    max-height: 200px; 
+    max-height: 150px; 
     overflow-y: auto; 
-    cursor: pointer;">
+    cursor: pointer;
+    position: relative; /* Ensures dropdown behavior */
+">
+    <!-- JavaScript will dynamically populate items here -->
 </ul>
+
 
             </div>
             <button id="deleteattendee1" style="margin-left: 27px; height: 35px;">Delete Attendee</button>
