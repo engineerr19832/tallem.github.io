@@ -891,7 +891,7 @@ document.getElementById("updateinvit").onclick = function() {
 
                 
 <script>
-  // Expand list on click
+// Expand the list or select an item when clicking inside the list
 savedValuesList.addEventListener('click', function (event) {
     // Handle list item selection if <li> is clicked
     if (event.target.tagName === 'LI') {
@@ -906,15 +906,10 @@ savedValuesList.addEventListener('click', function (event) {
         event.target.classList.add('selected');
         event.target.style.backgroundColor = 'aqua'; // Highlight selected item
     }
-});
 
-// Expand the list when clicking on the <ul> (if you want to allow expanding when clicking anywhere inside the list)
-savedValuesList.addEventListener('click', function (event) {
-    if (event.target.tagName === 'UL') {
-        event.stopPropagation(); // Prevent collapse when clicking inside the list
-        savedValuesList.style.maxHeight = 'none'; // Fully expand based on content
-        savedValuesList.style.overflowY = 'auto'; // Allow scrolling for large lists
-    }
+    // Expand the list when clicking on the <ul> or an <li>
+    savedValuesList.style.maxHeight = 'none'; // Fully expand based on content
+    savedValuesList.style.overflowY = 'auto'; // Allow scrolling for large lists
 });
 
 // Collapse list and deselect item when clicking outside
