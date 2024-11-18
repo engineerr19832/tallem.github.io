@@ -78,7 +78,9 @@
         <div id="container" style="display: flex; align-items: flex-start; margin-top: 15px;">
             <div>
                 <h5 style="margin-bottom: 2px;margin-top: 7px;">Attendee Emails</h5>
-               <ul id="savedValuesList" style="
+              
+<!-- The UL list -->
+<ul id="savedValuesList" style="
     list-style: none; 
     margin: 0; 
     padding: 0; 
@@ -86,15 +88,15 @@
     border-radius: 4px; 
     background-color: #fff; 
     width: 300px; 
-    max-height: 150px; 
-    overflow-y: auto; 
-    cursor: pointer;
-    position: relative; /* Ensures dropdown behavior */
+    max-height: 40px; /* Initially small height to show only the first option */
+    overflow: hidden; /* Hide overflowing items */
+    cursor: pointer; 
+    position: relative;
+    transition: max-height 0.3s ease; /* Smooth transition when expanding/collapsing */
 ">
-    <!-- JavaScript will dynamically populate items here -->
+    <!-- Options dynamically populated -->
 </ul>
-
-
+                
             </div>
             <button id="deleteattendee1" style="margin-left: 27px; height: 35px;">Delete Attendee</button>
         </div>
@@ -887,5 +889,30 @@ document.getElementById("updateinvit").onclick = function() {
             }
         });
     </script>
+
+                
+<script>
+// Toggle list size on click
+savedValuesList.addEventListener('click', function (event) {
+    // Prevent bubbling if the click event is on a child element
+    event.stopPropagation();
+
+    if (savedValuesList.style.maxHeight === '40px' || savedValuesList.style.maxHeight === '') {
+        savedValuesList.style.maxHeight = '200px'; // Expand to show all options
+        savedValuesList.style.overflowY = 'auto'; // Add scrollbar if needed
+    } else {
+        savedValuesList.style.maxHeight = '40px'; // Collapse to show only the first option
+        savedValuesList.style.overflowY = 'hidden'; // Hide overflow
+    }
+});
+
+// Collapse the list when clicking outside
+document.addEventListener('click', function (event) {
+    if (!savedValuesList.contains(event.target)) {
+        savedValuesList.style.maxHeight = '40px'; // Collapse to default size
+        savedValuesList.style.overflowY = 'hidden'; // Hide overflow
+    }
+});
+            </script>
     </body>
 </html>
