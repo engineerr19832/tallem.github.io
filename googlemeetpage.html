@@ -891,7 +891,6 @@ document.getElementById("updateinvit").onclick = function() {
 
                 
 <script>
-const savedValuesList = document.getElementById('savedValuesList');
 
 // Expand list on click
 savedValuesList.addEventListener('click', function (event) {
@@ -924,11 +923,13 @@ savedValuesList.addEventListener('click', function (event) {
             previouslySelected.classList.remove('selected');
             previouslySelected.style.backgroundColor = ''; // Reset background color
         }
-         // Select the clicked item
+
+        // Select the clicked item
         event.target.classList.add('selected');
-        event.target.style.backgroundColor = 'blue'; // Highlight selected item
+        event.target.style.backgroundColor = 'aqua'; // Highlight selected item
     }
 });
+
 
             </script>
     </body>
