@@ -897,11 +897,11 @@ savedValuesList.addEventListener('click', function (event) {
     // Prevent bubbling if the click event is on a child element
     event.stopPropagation();
 
-    if (savedValuesList.style.maxHeight === '40px' || savedValuesList.style.maxHeight === '') {
+    if (savedValuesList.style.maxHeight === '20px' || savedValuesList.style.maxHeight === '') {
         savedValuesList.style.maxHeight = '200px'; // Expand to show all options
         savedValuesList.style.overflowY = 'auto'; // Add scrollbar if needed
     } else {
-        savedValuesList.style.maxHeight = '40px'; // Collapse to show only the first option
+        savedValuesList.style.maxHeight = '20px'; // Collapse to show only the first option
         savedValuesList.style.overflowY = 'hidden'; // Hide overflow
     }
 });
@@ -909,7 +909,7 @@ savedValuesList.addEventListener('click', function (event) {
 // Collapse the list when clicking outside
 document.addEventListener('click', function (event) {
     if (!savedValuesList.contains(event.target)) {
-        savedValuesList.style.maxHeight = '40px'; // Collapse to default size
+        savedValuesList.style.maxHeight = '20px'; // Collapse to default size
         savedValuesList.style.overflowY = 'hidden'; // Hide overflow
     }
 });
