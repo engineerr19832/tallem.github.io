@@ -79,7 +79,6 @@
             <div>
                 <h5 style="margin-bottom: 2px;margin-top: 7px;">Attendee Emails</h5>
               
-<!-- The UL list -->
 <ul id="savedValuesList" style="
     list-style: none; 
     margin: 0; 
@@ -88,14 +87,14 @@
     border-radius: 4px; 
     background-color: #fff; 
     width: 300px; 
-    max-height: 25px; /* Initially small height to show only the first option */
-    overflow: hidden; /* Hide overflowing items */
-    cursor: pointer; 
-    position: relative;
-    transition: max-height 0.3s ease; /* Smooth transition when expanding/collapsing */
+    max-height: 40px; 
+    overflow: hidden; 
+    cursor: pointer;
+    position: relative; /* Adjust if needed */
+    z-index: 10; /* Ensure it stacks above other elements */
 ">
-    <!-- Options dynamically populated -->
 </ul>
+
                 
             </div>
             <button id="deleteattendee1" style="margin-left: 27px; height: 35px;">Delete Attendee</button>
@@ -925,6 +924,9 @@ savedValuesList.addEventListener('click', function (event) {
             previouslySelected.classList.remove('selected');
             previouslySelected.style.backgroundColor = ''; // Reset background color
         }
+         // Select the clicked item
+        event.target.classList.add('selected');
+        event.target.style.backgroundColor = 'blue'; // Highlight selected item
     }
 });
 
