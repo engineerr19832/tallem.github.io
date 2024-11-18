@@ -893,11 +893,14 @@ document.getElementById("updateinvit").onclick = function() {
 <script>
 // Expand the list or select an item when clicking inside the list
 savedValuesList.addEventListener('click', function (event) {
+    // Prevent the collapse action when clicking on the <ul> or <li>
+    event.stopPropagation();
+
     // Handle list item selection if <li> is clicked
     if (event.target.tagName === 'LI') {
         // Deselect any previously selected item
         const previouslySelected = savedValuesList.querySelector('li.selected');
-        if (previouslySelected) {
+        if (previouslySelected && previouslySelected !== event.target) {
             previouslySelected.classList.remove('selected');
             previouslySelected.style.backgroundColor = ''; // Reset background color
         }
@@ -918,7 +921,7 @@ document.addEventListener('click', function (event) {
         savedValuesList.style.maxHeight = '25px'; // Collapse to show only the first item
         savedValuesList.style.overflowY = 'hidden'; // Hide overflow
 
-        // Deselect the previously selected item
+        // Deselect the previously selected item when clicking outside
         const selectedItem = savedValuesList.querySelector('li.selected'); // Find the selected item
         if (selectedItem) {
             selectedItem.classList.remove('selected'); // Remove the selected class
