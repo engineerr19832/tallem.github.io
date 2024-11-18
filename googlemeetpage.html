@@ -90,8 +90,8 @@
     max-height: 25px; 
     overflow: hidden; 
     cursor: pointer;
-    position: relative; /* Adjust if needed */
-    z-index: 10; /* Ensure it stacks above other elements */
+    position: relative;
+    z-index: 10;
 ">
 </ul>
 
@@ -891,12 +891,27 @@ document.getElementById("updateinvit").onclick = function() {
 
                 
 <script>
+    savedValuesList.addEventListener('click', function (event) {
+    // Ensure the list expands only when clicked directly, not on <li> elements
+    if (event.target.tagName === 'UL') {
+        event.stopPropagation(); // Prevent collapse when clicking inside the list
+        savedValuesList.style.maxHeight = 'none'; // Fully expand based on content
+        savedValuesList.style.overflowY = 'auto'; // Allow scrolling for large lists
+    }
 
-// Expand list on click
-savedValuesList.addEventListener('click', function (event) {
-    event.stopPropagation(); // Prevent collapse when clicking inside the list
-    savedValuesList.style.maxHeight = 'none'; // Fully expand based on content
-    savedValuesList.style.overflowY = 'auto'; // Allow scrolling for large lists
+    // Handle selection of list items
+    if (event.target.tagName === 'LI') {
+        // Deselect any previously selected item
+        const previouslySelected = savedValuesList.querySelector('li.selected');
+        if (previouslySelected) {
+            previouslySelected.classList.remove('selected');
+            previouslySelected.style.backgroundColor = ''; // Reset background color
+        }
+
+        // Select the clicked item
+        event.target.classList.add('selected');
+        event.target.style.backgroundColor = 'aqua'; // Highlight selected item
+    }
 });
 
 // Collapse list and deselect item when clicking outside
@@ -913,24 +928,8 @@ document.addEventListener('click', function (event) {
         }
     }
 });
+</script>
 
-// Handle selection of list items
-savedValuesList.addEventListener('click', function (event) {
-    if (event.target.tagName === 'LI') {
-        // Deselect any previously selected item
-        const previouslySelected = savedValuesList.querySelector('li.selected');
-        if (previouslySelected) {
-            previouslySelected.classList.remove('selected');
-            previouslySelected.style.backgroundColor = ''; // Reset background color
-        }
-
-        // Select the clicked item
-        event.target.classList.add('selected');
-        event.target.style.backgroundColor = 'aqua'; // Highlight selected item
-    }
-});
-
-
-            </script>
+                
     </body>
 </html>
