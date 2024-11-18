@@ -892,27 +892,42 @@ document.getElementById("updateinvit").onclick = function() {
 
                 
 <script>
-// Toggle list size on click
-savedValuesList.addEventListener('click', function (event) {
-    // Prevent bubbling if the click event is on a child element
-    event.stopPropagation();
+const savedValuesList = document.getElementById('savedValuesList');
 
-    if (savedValuesList.style.maxHeight === '25px' || savedValuesList.style.maxHeight === '') {
-        savedValuesList.style.maxHeight = '200px'; // Expand to show all options
-        savedValuesList.style.overflowY = 'auto'; // Add scrollbar if needed
-    } else {
-        savedValuesList.style.maxHeight = '25px'; // Collapse to show only the first option
-        savedValuesList.style.overflowY = 'hidden'; // Hide overflow
-    }
+// Expand list on click
+savedValuesList.addEventListener('click', function (event) {
+    event.stopPropagation(); // Prevent collapse when clicking inside the list
+    savedValuesList.style.maxHeight = 'none'; // Fully expand based on content
+    savedValuesList.style.overflowY = 'auto'; // Allow scrolling for large lists
 });
 
-// Collapse the list when clicking outside
+// Collapse list and deselect item when clicking outside
 document.addEventListener('click', function (event) {
     if (!savedValuesList.contains(event.target)) {
-        savedValuesList.style.maxHeight = '25px'; // Collapse to default size
+        savedValuesList.style.maxHeight = '25px'; // Collapse to show only the first item
         savedValuesList.style.overflowY = 'hidden'; // Hide overflow
+
+        // Deselect the previously selected item
+        const selectedItem = savedValuesList.querySelector('li.selected'); // Find the selected item
+        if (selectedItem) {
+            selectedItem.classList.remove('selected'); // Remove the selected class
+            selectedItem.style.backgroundColor = ''; // Reset background color (optional)
+        }
     }
 });
+
+// Handle selection of list items
+savedValuesList.addEventListener('click', function (event) {
+    if (event.target.tagName === 'LI') {
+        // Deselect any previously selected item
+        const previouslySelected = savedValuesList.querySelector('li.selected');
+        if (previouslySelected) {
+            previouslySelected.classList.remove('selected');
+            previouslySelected.style.backgroundColor = ''; // Reset background color
+        }
+    }
+});
+
             </script>
     </body>
 </html>
