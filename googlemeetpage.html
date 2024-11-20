@@ -93,31 +93,30 @@
     position: relative;
     z-index: 10;
 ">
+    <!-- Example items -->
+    <li style="padding: 5px;">Attendee 1</li>
+    <li style="padding: 5px;">Attendee 2</li>
+    <li style="padding: 5px;">Attendee 3</li>
 </ul>
 
-                
-            </div>
-            <button id="deleteattendee1" style="margin-left: 27px; height: 35px;">Delete Attendee</button>
-        </div>
-        <script>
-    // Handle selection
-    document.getElementById('savedValuesList').addEventListener('click', function(event) {
-        if (event.target && event.target.nodeName === 'LI') {
-            // Remove 'selected' class from all list items
-            Array.from(this.children).forEach(item => item.classList.remove('selected'));
-            // Add 'selected' class to the clicked list item
-            event.target.classList.add('selected');
-        }
+<script>
+    // Expand list on click
+    document.getElementById('savedValuesList').addEventListener('click', function (event) {
+        event.stopPropagation(); // Prevent collapse when clicking inside the list
+        this.style.maxHeight = 'none'; // Expand the list fully
+        this.style.overflowY = 'auto'; // Allow scrolling for large lists
     });
 
-    // Handle deletion
-    document.getElementById('deleteattendee1').addEventListener('click', function() {
-        const selectedItem = document.querySelector('#savedValuesList li.selected');
-        if (selectedItem) {
-            selectedItem.remove();
+    // Collapse list when clicking outside
+    document.addEventListener('click', function (event) {
+        const savedValuesList = document.getElementById('savedValuesList');
+        if (!savedValuesList.contains(event.target)) {
+            savedValuesList.style.maxHeight = '25px'; // Shrink the list back
+            savedValuesList.style.overflowY = 'hidden'; // Hide overflow
         }
     });
 </script>
+
         <style>/* Style for selected item */#savedValuesList li.selected { background-color: #b3d9ff; color: #333; width: 100%; padding: 10px; box-sizing: border-box; }</style>
         <div style="display: flex; justify-content: flex-end; padding: 20px;">
             <h6 id="texttip" style=" 
