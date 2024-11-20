@@ -119,6 +119,16 @@
     });
 </script>
 
+           <script>
+            // Handle deletion
+    document.getElementById('deleteattendee1').addEventListener('click', function() {
+        const selectedItem = document.querySelector('#savedValuesList li.selected');
+        if (selectedItem) {
+            selectedItem.remove();
+        }
+    });
+</script>
+        
         <style>/* Style for selected item */#savedValuesList li.selected { background-color: #b3d9ff; color: #333; width: 100%; padding: 10px; box-sizing: border-box; }</style>
         <div style="display: flex; justify-content: flex-end; padding: 20px;">
             <h6 id="texttip" style=" 
