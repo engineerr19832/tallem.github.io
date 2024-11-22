@@ -525,12 +525,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+              <div style="
+    position: fixed; 
+    height: 5px; 
+    width: 100%; 
+    background-color: black; 
+    top: 510px; /* Place 5px above the button */
+    left: 0; /* Span the entire width */
+    z-index: 2; /* Ensure the line is above the button */
+"></div>
                 <button id="updateinvit" style=" height: 35px; 
                 text-align: center;
                 font-weight: bold; /* Make font bold */
                position: fixed; /* Absolute position within .container */
                right: 130px; /* Distance from the right edge */
                top: 515px;
+                    z-index: 1; /* Ensure the button is below the line */
                 /* Additional inline styles here if needed */
             ">Update invit</button>
                 <script>
