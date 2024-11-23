@@ -385,20 +385,22 @@ recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the 
                     });
 
                     // Add the Stop Recording button
-                    const stopButton = newWindow.document.createElement('button');
-                    stopButton.id = 'stoprecord';
-                    stopButton.textContent = 'Stop Recording';
-                    stopButton.style.backgroundColor = 'red';
-                    stopButton.style.color = 'white';
-                    stopButton.style.position = 'fixed';
-                    stopButton.style.top = '50px';
-                    stopButton.style.right = '10px';
-                    stopButton.style.padding = '10px 20px';
-                    stopButton.style.fontWeight = 'bold';
-                    stopButton.style.border = 'none';
-                    stopButton.style.borderRadius = '5px';
-                    stopButton.style.cursor = 'pointer';
-                    stopButton.style.boxShadow = '0 4px #999';
+                 const stopButton = newWindow.document.createElement('button');
+stopButton.id = 'stoprecord';
+stopButton.textContent = 'Stop Recording';
+stopButton.style.backgroundColor = 'red'; // Keep its background color
+stopButton.style.color = 'white';
+stopButton.style.position = 'fixed';
+stopButton.style.top = '10px'; // Align vertically with recordButton
+stopButton.style.right = '120px'; // Place to the left of the recordButton
+stopButton.style.padding = '15px 40px'; // Match padding with recordButton
+stopButton.style.fontSize = '30px'; // Match font size with recordButton
+stopButton.style.fontWeight = 'bold';
+stopButton.style.border = 'none';
+stopButton.style.borderRadius = '10px'; // Match border-radius with recordButton
+stopButton.style.cursor = 'pointer';
+stopButton.style.boxShadow = '0 8px #999'; // Match shadow with recordButton
+
                     stopButton.disabled = true; // Initially disabled
 
                     let mediaRecorder;
