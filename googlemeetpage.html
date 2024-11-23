@@ -354,21 +354,22 @@ filteredEvents.forEach(event => {
 newWindow.document.write('</ul>');
 
 
-                    // Add the Start Recording button
-                    const recordButton = newWindow.document.createElement('button');
-                    recordButton.id = 'recordmeet';
-                    recordButton.textContent = 'Start Recording';
-                    recordButton.style.backgroundColor = 'green';
-                    recordButton.style.color = 'white';
-                    recordButton.style.position = 'fixed';
-                    recordButton.style.top = '10px';
-                    recordButton.style.right = '10px';
-                    recordButton.style.padding = '10px 20px';
-                    recordButton.style.fontWeight = 'bold';
-                    recordButton.style.border = 'none';
-                    recordButton.style.borderRadius = '5px';
-                    recordButton.style.cursor = 'pointer';
-                    recordButton.style.boxShadow = '0 4px #999';
+                  const recordButton = newWindow.document.createElement('button');
+recordButton.id = 'recordmeet';
+recordButton.textContent = 'Start Recording';
+recordButton.style.backgroundColor = 'green';
+recordButton.style.color = 'white';
+recordButton.style.position = 'fixed';
+recordButton.style.top = '10px';
+recordButton.style.right = '10px';
+recordButton.style.padding = '15px 30px'; // Increase padding for larger size
+recordButton.style.fontSize = '18px'; // Increase font size
+recordButton.style.fontWeight = 'bold';
+recordButton.style.border = 'none';
+recordButton.style.borderRadius = '8px'; // Adjust border-radius for aesthetics
+recordButton.style.cursor = 'pointer';
+recordButton.style.boxShadow = '0 6px #999'; // Slightly deeper shadow
+
 
                     recordButton.addEventListener('mousedown', function() {
                         this.style.backgroundColor = '#3e8e41';
