@@ -313,45 +313,46 @@ document.addEventListener('DOMContentLoaded', function() {
                     newWindow.document.write('<html><head><title>Meetings</title></head><body>');
                     newWindow.document.write('<h2>Meetings</h2>');
                     
-                   newWindow.document.write('<ul>');
+                  newWindow.document.write('<ul style="list-style: none; margin: 0; padding: 0; font-size: 10px;">');
 
-                    filteredEvents.forEach(event => {
-                        const startTime = new Date(event.start.dateTime).toLocaleString();
-                        const endTime = new Date(event.end.dateTime).toLocaleString();
-                        const creatorEmail = event.creator.email;
-                        localStorage.setItem('creatorEmail', creatorEmail);
-                        const description = event.description || 'No description';
-                        const hangoutLink = event.hangoutLink || 'No link available';
+filteredEvents.forEach(event => {
+    const startTime = new Date(event.start.dateTime).toLocaleString();
+    const endTime = new Date(event.end.dateTime).toLocaleString();
+    const creatorEmail = event.creator.email;
+    localStorage.setItem('creatorEmail', creatorEmail);
+    const description = event.description || 'No description';
+    const hangoutLink = event.hangoutLink || 'No link available';
 
-                        let recurrenceInfo = 'Single event';
-                        if (event.recurrence) {
-                            recurrenceInfo = 'Recurring event';
+    let recurrenceInfo = 'Single event';
+    if (event.recurrence) {
+        recurrenceInfo = 'Recurring event';
 
-                            const recurrenceRule = event.recurrence[0];
-                            const countMatch = recurrenceRule.match(/COUNT=(\d+)/);
-                            if (countMatch) {
-                                recurrenceInfo += `, Occurs ${countMatch[1]} times`;
-                            }
+        const recurrenceRule = event.recurrence[0];
+        const countMatch = recurrenceRule.match(/COUNT=(\d+)/);
+        if (countMatch) {
+            recurrenceInfo += `, Occurs ${countMatch[1]} times`;
+        }
 
-                            const freqMatch = recurrenceRule.match(/FREQ=(\w+)/);
-                            if (freqMatch) {
-                                recurrenceInfo += `, Frequency: ${freqMatch[1].toLowerCase()}`;
-                            }
-                        }
+        const freqMatch = recurrenceRule.match(/FREQ=(\w+)/);
+        if (freqMatch) {
+            recurrenceInfo += `, Frequency: ${freqMatch[1].toLowerCase()}`;
+        }
+    }
 
-                        newWindow.document.write(`  
-                            <li>  
-                                <strong>Start Time:</strong> ${startTime}<br>  
-                                <strong>End Time:</strong> ${endTime}<br>  
-                                <strong>Creator's Email:</strong> ${creatorEmail}<br>  
-                                <strong>Description:</strong> ${description}<br>  
-                                <strong>Meeting Link:</strong> <a href="${hangoutLink}" class="meeting-link" data-creator-email="${creatorEmail}" target="_blank">${hangoutLink}</a><br>  
-                                <strong>Meeting Type:</strong> ${recurrenceInfo}  
-                            </li>  
-                        `);  
-                    });
+    newWindow.document.write(`
+        <li style="margin-bottom: 5px; border-bottom: 1px solid #ccc;">
+            <strong>Start Time:</strong> ${startTime}<br>
+            <strong>End Time:</strong> ${endTime}<br>
+            <strong>Creator's Email:</strong> ${creatorEmail}<br>
+            <strong>Description:</strong> ${description}<br>
+            <strong>Meeting Link:</strong> <a href="${hangoutLink}" target="_blank">${hangoutLink}</a><br>
+            <strong>Meeting Type:</strong> ${recurrenceInfo}
+        </li>
+    `);
+});
 
-                    newWindow.document.write('</ul>');
+newWindow.document.write('</ul>');
+
 
                     // Add the Start Recording button
                     const recordButton = newWindow.document.createElement('button');
