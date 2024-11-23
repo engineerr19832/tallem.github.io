@@ -354,7 +354,7 @@ filteredEvents.forEach(event => {
 newWindow.document.write('</ul>');
 
 
-                  const recordButton = newWindow.document.createElement('button');
+             const recordButton = newWindow.document.createElement('button');
 recordButton.id = 'recordmeet';
 recordButton.textContent = 'Start Recording';
 recordButton.style.backgroundColor = 'green';
@@ -362,13 +362,14 @@ recordButton.style.color = 'white';
 recordButton.style.position = 'fixed';
 recordButton.style.top = '10px';
 recordButton.style.right = '10px';
-recordButton.style.padding = '15px 30px'; // Increase padding for larger size
-recordButton.style.fontSize = '18px'; // Increase font size
+recordButton.style.padding = '15px 40px'; // Increased horizontal padding for larger size
+recordButton.style.fontSize = '20px'; // Slightly increased font size for proportional text
 recordButton.style.fontWeight = 'bold';
 recordButton.style.border = 'none';
-recordButton.style.borderRadius = '8px'; // Adjust border-radius for aesthetics
+recordButton.style.borderRadius = '10px'; // Increased border-radius for better aesthetics with the larger button
 recordButton.style.cursor = 'pointer';
-recordButton.style.boxShadow = '0 6px #999'; // Slightly deeper shadow
+recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the increased size
+
 
 
                     recordButton.addEventListener('mousedown', function() {
