@@ -539,7 +539,7 @@ recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the 
                     backButton.style.boxShadow = '0 4px #999';
                     // Add event listener to navigate to googlemeetpage.html
 backButton.addEventListener('click', () => {
-    window.location.href = 'googlemeetpage.html'; // Redirect to the desired page
+    newWindow.close(); // Close the new window
 });
                     newWindow.document.body.appendChild(backButton);
 
