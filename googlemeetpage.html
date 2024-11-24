@@ -384,25 +384,23 @@ recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the 
                         this.style.transform = 'translateY(0px)';
                     });
 
-                    // Add the Stop Recording button
- const stopButton = newWindow.document.createElement('button');
+                     // Add the Stop Recording button
+                    const stopButton = newWindow.document.createElement('button');
                     stopButton.id = 'stoprecord';
-                    stopButton.textContent = 'Stop';
+                    stopButton.textContent = 'Stop Recording';
                     stopButton.style.backgroundColor = 'red';
                     stopButton.style.color = 'white';
                     stopButton.style.position = 'fixed';
-                    stopButton.style.top = '10px';
-                    stopButton.style.right = '195px';
-                    stopButton.style.padding = '15px 40px';
-                    stopButton.style.fontSize = '30px'; // Slightly increased font size for proportional text
+                    stopButton.style.top = '50px';
+                    stopButton.style.right = '10px';
+                    stopButton.style.padding = '10px 20px';
                     stopButton.style.fontWeight = 'bold';
                     stopButton.style.border = 'none';
                     stopButton.style.borderRadius = '5px';
                     stopButton.style.cursor = 'pointer';
                     stopButton.style.boxShadow = '0 4px #999';
-
-
                     stopButton.disabled = true; // Initially disabled
+
 
                     let mediaRecorder;
                     let stream;
