@@ -522,19 +522,7 @@ recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the 
 
                     newWindow.document.body.appendChild(stopSaveToGDriveButton);
 
-                    newWindow.document.write('</body></html>');
-                    newWindow.document.close();
-                })
-                .catch(error => console.error('Error fetching meetings:', error));
-            }
-
-            loadMeetings();
-        } else {
-            alert("User is not authenticated.");
-        }
-    });
-});
-                    const backButton = newWindow.document.createElement('button');
+                      const backButton = newWindow.document.createElement('button');
                     backButton.id = 'backbutton';
                     backButton.textContent = 'Back';
                     backButton.style.backgroundColor = 'blue';
@@ -549,6 +537,21 @@ recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the 
                     backButton.style.borderRadius = '5px';
                     backButton.style.cursor = 'pointer';
                     backButton.style.boxShadow = '0 4px #999';
+                    newWindow.document.body.appendChild(backButton);
+
+                    newWindow.document.write('</body></html>');
+                    newWindow.document.close();
+                })
+                .catch(error => console.error('Error fetching meetings:', error));
+            }
+
+            loadMeetings();
+        } else {
+            alert("User is not authenticated.");
+        }
+    });
+});
+                  
 </script>
               <div style="
     position: fixed; 
