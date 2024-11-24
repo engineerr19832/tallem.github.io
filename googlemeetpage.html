@@ -522,26 +522,7 @@ recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the 
 
                     newWindow.document.body.appendChild(stopSaveToGDriveButton);
 
-                      const backButton = newWindow.document.createElement('button');
-                    backButton.id = 'backbutton';
-                    backButton.textContent = 'Back';
-                    backButton.style.backgroundColor = 'blue';
-                    backButton.style.color = 'white';
-                    backButton.style.position = 'fixed';
-                    backButton.style.top = '80px';
-                    backButton.style.right = '10px';
-                    backButton.style.padding = '15px 55px';
-                    backButton.style.fontSize = '30px'; // Slightly increased font size for proportional text
-                    backButton.style.fontWeight = 'bold';
-                    backButton.style.border = 'none';
-                    backButton.style.borderRadius = '5px';
-                    backButton.style.cursor = 'pointer';
-                    backButton.style.boxShadow = '0 4px #999';
-                    // Add event listener to navigate to googlemeetpage.html
-backButton.addEventListener('click', () => {
-    newWindow.close(); // Close the new window
-});
-                    newWindow.document.body.appendChild(backButton);
+                     
 
                     newWindow.document.write('</body></html>');
                     newWindow.document.close();
