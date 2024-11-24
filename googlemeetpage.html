@@ -498,21 +498,29 @@ recordButton.style.boxShadow = '0 8px #999'; // Deeper shadow to complement the 
                     newWindow.document.body.appendChild(recordButton);
                     newWindow.document.body.appendChild(stopButton);
 
-                    // Add the new button for stopping the save to Google Drive
+                   // Add the new button for stopping the save to Google Drive
                     const stopSaveToGDriveButton = newWindow.document.createElement('button');
                     stopSaveToGDriveButton.id = 'stopsavetogd';
-                    stopSaveToGDriveButton.textContent = 'Google';
+                    stopSaveToGDriveButton.textContent = 'Stop Save to G Drive';
                     stopSaveToGDriveButton.style.backgroundColor = '#f39c12'; // Set a distinct color
                     stopSaveToGDriveButton.style.color = 'white';
                     stopSaveToGDriveButton.style.position = 'fixed';
-                    stopSaveToGDriveButton.style.top = '10px'; // Below the Stop Recording button
-                   
+                    stopSaveToGDriveButton.style.top = '90px'; // Below the Stop Recording button
+                    stopSaveToGDriveButton.style.right = '10px';
+                    stopSaveToGDriveButton.style.padding = '10px 20px';
+                    stopSaveToGDriveButton.style.fontWeight = 'bold';
+                    stopSaveToGDriveButton.style.border = 'none';
+                    stopSaveToGDriveButton.style.borderRadius = '5px';
+                    stopSaveToGDriveButton.style.cursor = 'pointer';
+                    stopSaveToGDriveButton.style.boxShadow = '0 4px #999';
+
                     stopSaveToGDriveButton.addEventListener('click', function() {
                         // Call the function from stopsavetogdchannel.js here
                         stopsavetogdchannel(mediaRecorder, stream, loggedInEmail, newWindow); // Ensure this function is defined in the loaded script
                     });
 
                     newWindow.document.body.appendChild(stopSaveToGDriveButton);
+
 
                      
 
