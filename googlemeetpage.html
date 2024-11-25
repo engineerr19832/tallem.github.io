@@ -675,7 +675,7 @@ document.getElementById("updateinvit").onclick = function() {
 
             <p style="display: flex; align-items: center; gap: 10px;">
             <h1 style="font-size: 40px; margin: 0;">Repeat Frequency:</h1>
-                <select id="repeatFrequency">
+                <select id="repeatFrequency" style="width: 150px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);">
                     <option value="null"></option>
                     <option value="daily" ${recurrenceDetails.frequency === 'daily' ? 'selected' : ''}>Daily</option>
                     <option value="weekly" ${recurrenceDetails.frequency === 'weekly' ? 'selected' : ''}>Weekly</option>
