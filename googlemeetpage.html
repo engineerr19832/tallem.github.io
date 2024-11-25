@@ -674,7 +674,7 @@ document.getElementById("updateinvit").onclick = function() {
             <h1 style="font-size: 25px; margin: 0;">Repeat Every:</h1> <input type="number" id="repeatevery" style="width: 150px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${recurrenceDetails.interval || ''}"></p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 25px; margin: 0;">Repeat Frequency:</h1>
+            <h1 style="font-size: 40px; margin: 0;">Repeat Frequency:</h1>
                 <select id="repeatFrequency">
                     <option value="null"></option>
                     <option value="daily" ${recurrenceDetails.frequency === 'daily' ? 'selected' : ''}>Daily</option>
