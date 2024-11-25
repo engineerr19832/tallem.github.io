@@ -671,10 +671,10 @@ document.getElementById("updateinvit").onclick = function() {
             <h1 style="font-size: 15px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
-            <h3 style="font-size: 25px; margin: 0;">Repeat Every:</h3> <input type="number" id="repeatevery" style="width: 150px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${recurrenceDetails.interval || ''}"></p>
+            <h4 style="font-size: 25px; margin: 0;">Repeat Every:</h4> <input type="number" id="repeatevery" style="width: 150px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${recurrenceDetails.interval || ''}"></p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 40px; margin: 0;">Repeat Frequency:</h1>
+            <h4 style="font-size: 40px; margin: 0;">Repeat Frequency:</h4>
                 <select id="repeatFrequency" style="width: 150px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);">
                     <option value="null"></option>
                     <option value="daily" ${recurrenceDetails.frequency === 'daily' ? 'selected' : ''}>Daily</option>
@@ -685,7 +685,7 @@ document.getElementById("updateinvit").onclick = function() {
             </p>
             
             <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 40px; margin: 0;">Number of Occurrences:</h1> <input type="number" id="numofoccur" style="width: 100px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${recurrenceDetails.count || ''}" style="width: 60px;"></p>
+            <h4 style="font-size: 40px; margin: 0;">Number of Occurrences:</h4> <input type="number" id="numofoccur" style="width: 100px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${recurrenceDetails.count || ''}" style="width: 60px;"></p>
            
             <ul id="attendeesList"></ul>
             <input type="text" id="attendeeEmail" placeholder="Add Attendee">
