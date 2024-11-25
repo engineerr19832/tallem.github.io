@@ -657,6 +657,7 @@ document.getElementById("updateinvit").onclick = function() {
                 }
             </style>
             <p><br><h1 style="font-size: 40px;"><strong>Description:</strong></h1> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
+         
           <p style="display: flex; align-items: center; gap: 10px;">
   <h1 style="font-size: 40px; margin: 0;">Start Time:</h1>
   <input 
@@ -668,8 +669,12 @@ document.getElementById("updateinvit").onclick = function() {
 
             <p style="display: flex; align-items: center; gap: 10px;">
             <h1 style="font-size: 40px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
-            <p><strong>Repeat Every:</strong> <input type="number" id="repeatevery" value="${recurrenceDetails.interval || ''}" style="width: 60px;"></p>
-            <p><strong>Repeat Frequency:</strong>
+
+            <p style="display: flex; align-items: center; gap: 10px;">
+            <h1 style="font-size: 40px; margin: 0;">Repeat Every:</h1> <input type="number" id="repeatevery" value="${recurrenceDetails.interval || ''}" style="width: 100px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);"></p>
+
+            <p style="display: flex; align-items: center; gap: 10px;">
+            <h1 style="font-size: 40px; margin: 0;">Repeat Frequency:</h1>
                 <select id="repeatFrequency">
                     <option value="null"></option>
                     <option value="daily" ${recurrenceDetails.frequency === 'daily' ? 'selected' : ''}>Daily</option>
@@ -678,7 +683,10 @@ document.getElementById("updateinvit").onclick = function() {
                     <option value="yearly" ${recurrenceDetails.frequency === 'yearly' ? 'selected' : ''}>Yearly</option>
                 </select>
             </p>
-            <p><strong>Number of Occurrences:</strong> <input type="number" id="numofoccur" value="${recurrenceDetails.count || ''}" style="width: 60px;"></p>
+            
+            <p style="display: flex; align-items: center; gap: 10px;">
+            <h1 style="font-size: 40px; margin: 0;">Number of Occurrences:</h1> <input type="number" id="numofoccur" style="width: 100px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${recurrenceDetails.count || ''}" style="width: 60px;"></p>
+           
             <ul id="attendeesList"></ul>
             <input type="text" id="attendeeEmail" placeholder="Add Attendee">
             <button id="addAttendee">Add Attendee</button>
