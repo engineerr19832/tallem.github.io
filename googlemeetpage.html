@@ -662,12 +662,12 @@ document.getElementById("updateinvit").onclick = function() {
   <input 
     type="datetime-local" 
     id="startTime" 
-    style="width: 350px; font-size: 35px;" 
+    style="width: 350px; font-size: 35px;background-color: rgba(0, 255, 255, 0.5);" 
     value="${meeting.start.dateTime ? new Date(meeting.start.dateTime).toISOString().slice(0, 16) : ''}">
 </p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 40px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px;" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
+            <h1 style="font-size: 40px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
             <p><strong>Repeat Every:</strong> <input type="number" id="repeatevery" value="${recurrenceDetails.interval || ''}" style="width: 60px;"></p>
             <p><strong>Repeat Frequency:</strong>
                 <select id="repeatFrequency">
