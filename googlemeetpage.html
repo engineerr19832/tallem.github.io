@@ -656,10 +656,10 @@ document.getElementById("updateinvit").onclick = function() {
                     background-color: #b3d9ff;
                 }
             </style>
-            <p><br><h2 style="font-size: 30px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
+            <p><br><h2 style="font-size: 35px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
          
           <p style="display: flex; align-items: center; gap: 10px;">
-  <h1 style="font-size: 30px; margin: 0;">Start Time:</h1>
+  <h1 style="font-size: 35px; margin: 0;">Start Time:</h1>
   <input 
     type="datetime-local" 
     id="startTime" 
@@ -668,7 +668,7 @@ document.getElementById("updateinvit").onclick = function() {
 </p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 30px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
+            <h1 style="font-size: 35px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
             <h1 style="font-size: 40px; margin: 0;">Repeat Every:</h1> <input type="number" id="repeatevery" style="width: 150px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${recurrenceDetails.interval || ''}"></p>
