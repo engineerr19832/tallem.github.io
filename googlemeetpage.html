@@ -724,6 +724,31 @@ document.getElementById("updateinvit").onclick = function() {
             <button id="updateMeeting" style="width: 285px; height: 70px; font-size: 40px;">Upd Meeting</button> &nbsp;<button id="deleteMeeting" style="width: 285px; height: 70px; font-size: 40px;">Del Meeting</button>
              </p>
         `);
+
+updateWindow.document.write(`
+    <script>
+        const attendeesList = updateWindow.document.getElementById('attendeesList');
+
+        // Toggle expand/collapse on click
+        attendeesList.addEventListener('click', () => {
+            attendeesList.classList.toggle('expanded');
+        });
+
+        // Handle selection
+        attendeesList.addEventListener('click', (event) => {
+            if (event.target.tagName === 'LI') {
+                // Remove 'selected' class from all items
+                attendeesList.querySelectorAll('li').forEach(item => item.classList.remove('selected'));
+                // Add 'selected' class to clicked item
+                event.target.classList.add('selected');
+                // Optionally collapse the list after selection
+                attendeesList.classList.remove('expanded');
+            }
+        });
+    </script>
+`);
+
+        
         var attendeesList = updateWindow.document.getElementById('attendeesList');
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
         var addAttendeeButton = updateWindow.document.getElementById('addAttendee');
