@@ -648,41 +648,6 @@ document.getElementById("updateinvit").onclick = function() {
         updateWindow.document.write('<title>Update Meeting Details</title>');
         updateWindow.document.write('<h2 style="font-size: 47px;">Update Meetings</h2>');
         updateWindow.document.write(`
-            <style>
-                 #attendeesList {
-            list-style: none; 
-            margin: 0; 
-            padding: 0; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-            background-color: #fff; 
-            width: 300px; 
-            max-height: 30px; 
-            overflow: hidden; 
-            cursor: pointer; 
-            position: relative; 
-            z-index: 10;
-        }
-
-        #attendeesList.expanded {
-            max-height: 200px; /* Expand to show more items */
-            overflow: auto; /* Add scrolling for overflow */
-        }
-
-        #attendeesList li {
-            padding: 8px 12px; 
-            font-size: 20px; 
-            cursor: pointer; 
-        }
-
-        #attendeesList li:hover {
-            background-color: #f0f0f0; /* Highlight on hover */
-        }
-
-        #attendeesList li.selected {
-            background-color: #b3d9ff; /* Highlight selected item */
-        }
-            </style>
             <p><br><h2 style="font-size: 35px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
          
           <p style="display: flex; align-items: center; gap: 10px;">
@@ -714,7 +679,20 @@ document.getElementById("updateinvit").onclick = function() {
             <p style="display: flex; align-items: center; gap: 10px;">
             <h1 style="font-size: 40px; margin: 0;">Occur:</h1> <input type="number" id="numofoccur" style="width: 100px;height: 60px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);text-align: center;" value="${recurrenceDetails.count || ''}" style="width: 60px;"></p>
            
-            <ul id="attendeesList"></ul>
+            <ul id="attendeesList" style="
+    list-style: none; 
+    margin: 0; 
+    padding: 0; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    background-color: #fff; 
+    width: 300px; 
+    max-height: 25px; 
+    overflow: hidden; 
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+"></ul>
             <input type="text" id="attendeeEmail" placeholder="Add Attendee" style="width: 700px;height: 80px; background-color: rgba(144, 238, 144, 0.5); font-size: 37px;"><br><br>
 
              &nbsp;<p style="text-align: center;">
@@ -724,27 +702,6 @@ document.getElementById("updateinvit").onclick = function() {
             <button id="updateMeeting" style="width: 285px; height: 70px; font-size: 40px;">Upd Meeting</button> &nbsp;<button id="deleteMeeting" style="width: 285px; height: 70px; font-size: 40px;">Del Meeting</button>
              </p>
         `);
-
-updateWindow.document.write(`
-        const attendeesList = updateWindow.document.getElementById('attendeesList');
-
-        // Toggle expand/collapse on click
-        attendeesList.addEventListener('click', () => {
-            attendeesList.classList.toggle('expanded');
-        });
-
-        // Handle selection
-        attendeesList.addEventListener('click', (event) => {
-            if (event.target.tagName === 'LI') {
-                // Remove 'selected' class from all items
-                attendeesList.querySelectorAll('li').forEach(item => item.classList.remove('selected'));
-                // Add 'selected' class to clicked item
-                event.target.classList.add('selected');
-                // Optionally collapse the list after selection
-                attendeesList.classList.remove('expanded');
-            }
-        });
-`);
 
         
         var attendeesList = updateWindow.document.getElementById('attendeesList');
