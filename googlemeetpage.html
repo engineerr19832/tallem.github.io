@@ -649,12 +649,39 @@ document.getElementById("updateinvit").onclick = function() {
         updateWindow.document.write('<h2 style="font-size: 47px;">Update Meetings</h2>');
         updateWindow.document.write(`
             <style>
-                .attendee-item {
-                    cursor: pointer;
-                }
-                .attendee-item.selected {
-                    background-color: #b3d9ff;
-                }
+                 #attendeesList {
+            list-style: none; 
+            margin: 0; 
+            padding: 0; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            background-color: #fff; 
+            width: 300px; 
+            max-height: 30px; 
+            overflow: hidden; 
+            cursor: pointer; 
+            position: relative; 
+            z-index: 10;
+        }
+
+        #attendeesList.expanded {
+            max-height: 200px; /* Expand to show more items */
+            overflow: auto; /* Add scrolling for overflow */
+        }
+
+        #attendeesList li {
+            padding: 8px 12px; 
+            font-size: 20px; 
+            cursor: pointer; 
+        }
+
+        #attendeesList li:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+
+        #attendeesList li.selected {
+            background-color: #b3d9ff; /* Highlight selected item */
+        }
             </style>
             <p><br><h2 style="font-size: 35px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
          
