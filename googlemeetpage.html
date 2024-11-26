@@ -704,6 +704,21 @@ document.getElementById("updateinvit").onclick = function() {
              </p>
         `);
 
+    // Expand list on click
+    document.getElementById('attendeesList').addEventListener('click', function (event) {
+        event.stopPropagation(); // Prevent collapse when clicking inside the list
+        this.style.maxHeight = 'none'; // Expand the list fully
+        this.style.overflowY = 'auto'; // Allow scrolling for large lists
+    });
+
+    // Collapse list when clicking outside
+    document.addEventListener('click', function (event) {
+        const attendeesList = document.getElementById('attendeesList');
+        if (!attendeesList.contains(event.target)) {
+            attendeesList.style.maxHeight = '55px'; // Shrink the list back
+            attendeesList.style.overflowY = 'hidden'; // Hide overflow
+        }
+    });
         
         var attendeesList = updateWindow.document.getElementById('attendeesList');
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
