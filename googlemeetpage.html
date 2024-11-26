@@ -651,7 +651,7 @@ document.getElementById("updateinvit").onclick = function() {
             <p><br><h2 style="font-size: 40px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
          
           <p style="display: flex; align-items: center; gap: 10px;">
-  <h1 style="font-size: 35px; margin: 0;">Start Time:</h1>
+  <h1 style="font-size: 40px; margin: 0;">Start Time:</h1>
   <input 
     type="datetime-local" 
     id="startTime" 
@@ -660,7 +660,7 @@ document.getElementById("updateinvit").onclick = function() {
 </p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 35px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
+            <h1 style="font-size: 40px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
 
             <p style="display: flex; align-items: center; gap: 10px;">
             <h1 style="font-size: 40px; margin: 0;">Rep. Every:</h1> <input type="number" id="repeatevery" style="width: 150px;height: 60px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);text-align: center;" value="${recurrenceDetails.interval || ''}"></p>
