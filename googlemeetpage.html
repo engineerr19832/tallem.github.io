@@ -697,7 +697,10 @@ document.getElementById("updateinvit").onclick = function() {
             <button id="updateMeeting" style="width: 285px; height: 70px; font-size: 40px;">Upd Meeting</button> &nbsp;<button id="deleteMeeting" style="width: 285px; height: 70px; font-size: 40px;">Del Meeting</button><br><br>
              &nbsp;<button id="backButton2" style="width: 285px; height: 70px; font-size: 40px;">Back</button>
              </p>
-             
+              // Add event listener to navigate to googlemeetpage.html
+backButton2.addEventListener('click', () => {
+    newWindow.close(); // Close the new window
+});
         `);
 
         var attendeesList = updateWindow.document.getElementById('attendeesList');
