@@ -694,14 +694,9 @@ document.getElementById("updateinvit").onclick = function() {
             <button id="addAttendee" style="width: 285px; height: 70px; font-size: 40px;">Add Attendee</button>
             &nbsp;<button id="deleteAttendee" style="width: 285px; height: 70px; font-size: 40px;">Del Attendee</button><br><br>
             <button id="previous" style="width: 285px; height: 70px; font-size: 40px;">Previous</button>  &nbsp;<button id="next" style="width: 285px; height: 70px; font-size: 40px;">Next</button><br><br>
-            <button id="updateMeeting" style="width: 285px; height: 70px; font-size: 40px;">Upd Meeting</button> &nbsp;<button id="deleteMeeting" style="width: 285px; height: 70px; font-size: 40px;">Del Meeting</button><br><br>
-             &nbsp;<button id="backButton2" style="width: 285px; height: 70px; font-size: 40px;">Back</button>
+            <button id="updateMeeting" style="width: 285px; height: 70px; font-size: 40px;">Upd Meeting</button> &nbsp;<button id="deleteMeeting" style="width: 285px; height: 70px; font-size: 40px;">Del Meeting</button>
              </p>
         `);
-     // Add event listener to navigate to googlemeetpage.html
-backButton2.addEventListener('click', () => {
-    updateWindow.close(); // Close the new window
-});
         var attendeesList = updateWindow.document.getElementById('attendeesList');
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
         var addAttendeeButton = updateWindow.document.getElementById('addAttendee');
