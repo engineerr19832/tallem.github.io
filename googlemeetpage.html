@@ -704,6 +704,31 @@ document.getElementById("updateinvit").onclick = function() {
              </p>
         `);
 
+           attendeesList.innerHTML = '';
+        if (meeting.attendees) {
+            meeting.attendees.forEach(function(attendee) {
+                var li = updateWindow.document.createElement('li');
+                li.className = 'attendee-item';
+                li.textContent = attendee.email;
+                attendeesList.appendChild(li);
+            });
+        }
+
+            const attendeesList = updateWindow.document.getElementById('attendeesList'); 
+// Make sure list items are clickable and selectable
+const attendeeItems = attendeesList.getElementsByTagName('li'); // Get all <li> items inside the list
+for (let item of attendeeItems) {
+    item.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the click event from triggering collapse
+        // Optionally, toggle 'selected' class or perform any other action
+        for (let i of attendeeItems) {
+            i.classList.remove('selected'); // Remove 'selected' class from all items
+        }
+        item.classList.add('selected'); // Add 'selected' class to clicked item
+    });
+}
+
+
     // Expand list on click
     updateWindow.document.getElementById('attendeesList').addEventListener('click', function (event) {
         event.stopPropagation(); // Prevent collapse when clicking inside the list
@@ -724,31 +749,6 @@ document.getElementById("updateinvit").onclick = function() {
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
         var addAttendeeButton = updateWindow.document.getElementById('addAttendee');
         var deleteAttendeeButton = updateWindow.document.getElementById('deleteAttendee');
-
-        attendeesList.innerHTML = '';
-        if (meeting.attendees) {
-            meeting.attendees.forEach(function(attendee) {
-                var li = updateWindow.document.createElement('li');
-                li.className = 'attendee-item';
-                li.textContent = attendee.email;
-                attendeesList.appendChild(li);
-            });
-        }
-
-          const attendeesList = updateWindow.document.getElementById('attendeesList'); 
-// Make sure list items are clickable and selectable
-const attendeeItems = attendeesList.getElementsByTagName('li'); // Get all <li> items inside the list
-for (let item of attendeeItems) {
-    item.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent the click event from triggering collapse
-        // Optionally, toggle 'selected' class or perform any other action
-        for (let i of attendeeItems) {
-            i.classList.remove('selected'); // Remove 'selected' class from all items
-        }
-        item.classList.add('selected'); // Add 'selected' class to clicked item
-    });
-}
-
 
         addAttendeeButton.onclick = function() {
             var newAttendee = addAttendeeInput.value.trim();
