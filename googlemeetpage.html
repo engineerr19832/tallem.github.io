@@ -735,7 +735,7 @@ for (let item of attendeeItems) {
 }
 
 // Expand list on click
-attendeesList.addEventListener('click', function (event) {
+updateWindow.document.getElementById('attendeesList').addEventListener('click', function (event) {
     // Stop propagation to prevent the outside click handler from firing
     event.stopPropagation();
 
