@@ -729,21 +729,21 @@ for (let item of attendeeItems) {
     });
 }
 
-    // Expand list on click
-    attendeesList.addEventListener('click', function (event) {
-        event.stopPropagation(); // Prevent collapse when clicking inside the list
-        this.style.maxHeight = 'none'; // Expand the list fully
-        this.style.overflowY = 'auto'; // Allow scrolling for large lists
-    });
+   // Expand list on click
+attendeesList.addEventListener('click', function (event) {
+    event.stopPropagation(); // Prevent collapse when clicking inside the list
+    attendeesList.style.maxHeight = 'none'; // Expand the list fully
+    attendeesList.style.overflowY = 'auto'; // Allow scrolling for large lists
+});
 
+// Collapse list when clicking outside
+updateWindow.document.addEventListener('click', function (event) {
+    if (!attendeesList.contains(event.target)) {
+        attendeesList.style.maxHeight = '35px'; // Shrink the list back
+        attendeesList.style.overflowY = 'hidden'; // Hide overflow
+    }
+});
 
-    // Collapse list when clicking outside
-    updateWindow.document.addEventListener('click', function (event) {
-        if (!attendeesList.contains(event.target)) {
-            attendeesList.style.maxHeight = '55px'; // Shrink the list back
-            attendeesList.style.overflowY = 'hidden'; // Hide overflow
-        }
-    });
         
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
         var addAttendeeButton = updateWindow.document.getElementById('addAttendee');
