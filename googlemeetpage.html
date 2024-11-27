@@ -688,7 +688,7 @@ document.getElementById("updateinvit").onclick = function() {
     background-color: #fff; 
     width: 600px; 
     font-size: 30px;
-    max-height: 40px; 
+    max-height: 100px; 
     overflow: hidden; 
     cursor: pointer;
     position: relative;
@@ -716,33 +716,6 @@ if (meeting.attendees) {
         attendeesList.appendChild(li);
     });
 }
-
-// Handle clicks on the <ul> for both expanding and selecting
-attendeesList.addEventListener('click', function (event) {
-    // Check if the click is on an <li> element
-    if (event.target.tagName === 'LI') {
-        // Handle selection logic
-        const attendeeItems = attendeesList.getElementsByTagName('li');
-        for (let i of attendeeItems) {
-            i.classList.remove('selected'); // Remove 'selected' from all items
-        }
-        event.target.classList.add('selected'); // Add 'selected' to clicked item
-        event.stopPropagation(); // Prevent collapse when selecting
-    } else {
-        // Expand the list if clicking directly on the <ul>
-        this.style.maxHeight = 'none'; // Expand the list fully
-        this.style.overflowY = 'auto'; // Allow scrolling
-    }
-});
-
-// Collapse list when clicking outside
-updateWindow.document.addEventListener('click', function (event) {
-    if (!attendeesList.contains(event.target)) {
-        attendeesList.style.maxHeight = '35px'; // Collapse the list
-        attendeesList.style.overflowY = 'hidden'; // Hide overflow
-        console.log('Collapse triggered');
-    }
-});
  
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
         var addAttendeeButton = updateWindow.document.getElementById('addAttendee');
