@@ -704,43 +704,55 @@ document.getElementById("updateinvit").onclick = function() {
              </p>
         `);
 
-        const attendeesList = updateWindow.document.getElementById('attendeesList');
+      const attendeesList = updateWindow.document.getElementById('attendeesList');
 
-           attendeesList.innerHTML = '';
-        if (meeting.attendees) {
-            meeting.attendees.forEach(function(attendee) {
-                var li = updateWindow.document.createElement('li');
-                li.className = 'attendee-item';
-                li.textContent = attendee.email;
-                attendeesList.appendChild(li);
-            });
-        }
-
-          // Make sure list items are clickable and selectable
-const attendeeItems = attendeesList.getElementsByTagName('li'); // Get all <li> items inside the list
-for (let item of attendeeItems) {
-    item.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent the click event from triggering collapse
-        // Optionally, toggle 'selected' class or perform any other action
-        for (let i of attendeeItems) {
-            i.classList.remove('selected'); // Remove 'selected' class from all items
-        }
-        item.classList.add('selected'); // Add 'selected' class to clicked item
+// Clear and populate the list
+attendeesList.innerHTML = '';
+if (meeting.attendees) {
+    meeting.attendees.forEach(function(attendee) {
+        var li = updateWindow.document.createElement('li');
+        li.className = 'attendee-item';
+        li.textContent = attendee.email;
+        attendeesList.appendChild(li);
     });
 }
 
-   // Expand list on click
+// Make list items clickable and selectable
+const attendeeItems = attendeesList.getElementsByTagName('li'); // Get all <li> items inside the list
+for (let item of attendeeItems) {
+    item.addEventListener('click', function(event) {
+        // Prevent the click event from collapsing the list
+        event.stopPropagation();
+
+        // Remove 'selected' class from all items
+        for (let i of attendeeItems) {
+            i.classList.remove('selected');
+        }
+
+        // Add 'selected' class to the clicked item
+        item.classList.add('selected');
+    });
+}
+
+// Expand list on click
 attendeesList.addEventListener('click', function (event) {
-    event.stopPropagation(); // Prevent collapse when clicking inside the list
-    attendeesList.style.maxHeight = 'none'; // Expand the list fully
-    attendeesList.style.overflowY = 'auto'; // Allow scrolling for large lists
+    // Stop propagation to prevent the outside click handler from firing
+    event.stopPropagation();
+
+    // Expand the list
+    attendeesList.style.maxHeight = 'none';
+    attendeesList.style.overflowY = 'auto';
+    console.log('Expand clicked');
 });
 
 // Collapse list when clicking outside
 updateWindow.document.addEventListener('click', function (event) {
+    // Check if the click is outside the list
     if (!attendeesList.contains(event.target)) {
-        attendeesList.style.maxHeight = '35px'; // Shrink the list back
-        attendeesList.style.overflowY = 'hidden'; // Hide overflow
+        // Collapse the list
+        attendeesList.style.maxHeight = '35px';
+        attendeesList.style.overflowY = 'hidden';
+         console.log('Outside clicked');
     }
 });
 
