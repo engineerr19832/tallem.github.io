@@ -712,6 +712,11 @@ document.getElementById("updateinvit").onclick = function() {
              </p>
         `);
 
+         // Add event listener for the "Back" button
+    updateWindow.document.getElementById('backbutton2').addEventListener('click', function () {
+        updateWindow.close();
+    });
+
       const attendeesList = updateWindow.document.getElementById('attendeesList');
 
 // Clear and populate the list
