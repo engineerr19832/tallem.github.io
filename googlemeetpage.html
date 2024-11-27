@@ -740,7 +740,23 @@ updateWindow.document.addEventListener('click', function (event) {
     }
 });
 
-        
+  // Make list items clickable and selectable
+const attendeeItems = attendeesList.getElementsByTagName('li'); // Get all <li> items inside the list
+for (let item of attendeeItems) {
+    item.addEventListener('click', function(event) {
+        // Prevent the click event from collapsing the list
+        event.stopPropagation();
+
+        // Remove 'selected' class from all items
+        for (let i of attendeeItems) {
+            i.classList.remove('selected');
+        }
+
+        // Add 'selected' class to the clicked item
+        item.classList.add('selected');
+    });
+}
+      
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
         var addAttendeeButton = updateWindow.document.getElementById('addAttendee');
         var deleteAttendeeButton = updateWindow.document.getElementById('deleteAttendee');
