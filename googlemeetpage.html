@@ -714,20 +714,6 @@ document.getElementById("updateinvit").onclick = function() {
             });
         }
 
-            const attendeesList = updateWindow.document.getElementById('attendeesList'); 
-// Make sure list items are clickable and selectable
-const attendeeItems = attendeesList.getElementsByTagName('li'); // Get all <li> items inside the list
-for (let item of attendeeItems) {
-    item.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent the click event from triggering collapse
-        // Optionally, toggle 'selected' class or perform any other action
-        for (let i of attendeeItems) {
-            i.classList.remove('selected'); // Remove 'selected' class from all items
-        }
-        item.classList.add('selected'); // Add 'selected' class to clicked item
-    });
-}
-
 
     // Expand list on click
     updateWindow.document.getElementById('attendeesList').addEventListener('click', function (event) {
