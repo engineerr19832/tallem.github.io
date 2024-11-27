@@ -648,6 +648,13 @@ document.getElementById("updateinvit").onclick = function() {
         updateWindow.document.write('<title>Update Meeting Details</title>');
         updateWindow.document.write('<h2 style="font-size: 55px;">Update Meetings</h2>');
         updateWindow.document.write(`
+    <style>
+        .selected {
+            background-color: #b3d9ff; /* Highlight with a light blue color */
+        }
+    </style>
+`);
+        updateWindow.document.write(`
             <p><br><h2 style="font-size: 40px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
          
           <p style="display: flex; align-items: center; gap: 10px;">
