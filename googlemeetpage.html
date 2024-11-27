@@ -704,6 +704,8 @@ document.getElementById("updateinvit").onclick = function() {
              </p>
         `);
 
+        const attendeesList = updateWindow.document.getElementById('attendeesList');
+
            attendeesList.innerHTML = '';
         if (meeting.attendees) {
             meeting.attendees.forEach(function(attendee) {
@@ -725,7 +727,6 @@ document.getElementById("updateinvit").onclick = function() {
 
     // Collapse list when clicking outside
     updateWindow.document.addEventListener('click', function (event) {
-        const attendeesList = updateWindow.document.getElementById('attendeesList');
         if (!attendeesList.contains(event.target)) {
             attendeesList.style.maxHeight = '55px'; // Shrink the list back
             attendeesList.style.overflowY = 'hidden'; // Hide overflow
