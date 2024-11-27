@@ -717,46 +717,33 @@ if (meeting.attendees) {
     });
 }
 
-
-// Expand list on click
-updateWindow.document.getElementById('attendeesList').addEventListener('click', function (event) {
-    // Stop propagation to prevent the outside click handler from firing
-    event.stopPropagation();
-
-    // Expand the list
-    attendeesList.style.maxHeight = 'none';
-    attendeesList.style.overflowY = 'auto';
-    console.log('Expand clicked');
+// Handle clicks on the <ul> for both expanding and selecting
+attendeesList.addEventListener('click', function (event) {
+    // Check if the click is on an <li> element
+    if (event.target.tagName === 'LI') {
+        // Handle selection logic
+        const attendeeItems = attendeesList.getElementsByTagName('li');
+        for (let i of attendeeItems) {
+            i.classList.remove('selected'); // Remove 'selected' from all items
+        }
+        event.target.classList.add('selected'); // Add 'selected' to clicked item
+        event.stopPropagation(); // Prevent collapse when selecting
+    } else {
+        // Expand the list if clicking directly on the <ul>
+        this.style.maxHeight = 'none'; // Expand the list fully
+        this.style.overflowY = 'auto'; // Allow scrolling
+    }
 });
 
 // Collapse list when clicking outside
 updateWindow.document.addEventListener('click', function (event) {
-    // Check if the click is outside the list
     if (!attendeesList.contains(event.target)) {
-        // Collapse the list
-        attendeesList.style.maxHeight = '35px';
-        attendeesList.style.overflowY = 'hidden';
-         console.log('Outside clicked');
+        attendeesList.style.maxHeight = '35px'; // Collapse the list
+        attendeesList.style.overflowY = 'hidden'; // Hide overflow
+        console.log('Collapse triggered');
     }
 });
-
-  // Make list items clickable and selectable
-const attendeeItems = attendeesList.getElementsByTagName('li'); // Get all <li> items inside the list
-for (let item of attendeeItems) {
-    item.addEventListener('click', function(event) {
-        // Prevent the click event from collapsing the list
-        event.stopPropagation();
-
-        // Remove 'selected' class from all items
-        for (let i of attendeeItems) {
-            i.classList.remove('selected');
-        }
-
-        // Add 'selected' class to the clicked item
-        item.classList.add('selected');
-    });
-}
-      
+ 
         var addAttendeeInput = updateWindow.document.getElementById('attendeeEmail');
         var addAttendeeButton = updateWindow.document.getElementById('addAttendee');
         var deleteAttendeeButton = updateWindow.document.getElementById('deleteAttendee');
