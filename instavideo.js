@@ -1,5 +1,5 @@
-// Function to handle mouse enter and scale the divs
-function handleMouseEnter() {
+// Function to handle click and scale the divs
+function handleClick() {
     const containers = document.querySelectorAll('.instagram-container');
     
     containers.forEach(container => {
@@ -8,15 +8,15 @@ function handleMouseEnter() {
             container.style.transform = 'scale(0.0067)'; // 1/6
             container.style.transition = 'transform 0.3s'; // Smooth transition
         } else {
-            // Restore the size of the hovered container
+            // Restore the size of the clicked container
             container.style.transform = 'scale(2)'; // Original size
             container.style.transition = 'transform 0.3s'; // Smooth transition
         }
     });
 }
 
-// Function to reset all containers on mouse leave
-function handleMouseLeave() {
+// Function to reset all containers after a click
+function handleReset() {
     const containers = document.querySelectorAll('.instagram-container');
     
     containers.forEach(container => {
@@ -30,10 +30,16 @@ function handleMouseLeave() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed.');
 
-    // Attach the event listener to all Instagram containers
+    // Attach the event listener to all Instagram containers for click event
     document.querySelectorAll('.instagram-container').forEach(container => {
         console.log('Attaching event listener to container:', container);
-        container.addEventListener('mouseenter', handleMouseEnter); // Mouse enter event
-        container.addEventListener('mouseleave', handleMouseLeave); // Mouse leave event
+        container.addEventListener('click', handleClick); // Click event to trigger scale
+    });
+
+    // Optionally, you can reset on clicking anywhere else (if needed)
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.instagram-container')) {
+            handleReset();
+        }
     });
 });
