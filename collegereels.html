@@ -50,13 +50,8 @@
     <br>
     <script>
    backButton3.addEventListener('click', () => {
-    // Close the current tab and navigate to the page with tabs
-    if (window.opener) {
-        window.opener.location.href = 'pagewithtabs.html';  // Redirect the parent window
-        window.close();  // Close the current tab
-    } else {
-        window.location.href = 'pagewithtabs.html';  // Fallback if not opened by another window
-    }
+   // This will reload the current page
+    location.reload(); // Refresh the page   
 });
     </script>
     <div class="instagram-row">
