@@ -49,9 +49,9 @@
       <br>
     <br>
     <script>
-   backButton3.addEventListener('click', () => {
-   // This will reload the current page
-  window.location.reload(true); 
+  backButton3.addEventListener('click', () => {
+    // This will refresh the entire page (both the main page and all of its tabs)
+    window.location.href = window.location.href;
 });
     </script>
     <div class="instagram-row">
