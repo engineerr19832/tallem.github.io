@@ -220,7 +220,7 @@ function openVideoInNewWindow(videoUrl) {
     }
 }
 
-   function loadLectures(creatorEmail = null, stopRecordingDate = null) {
+  function loadLectures(creatorEmail = null, stopRecordingDate = null) {
     let query = db.collection('meetings_his_tbl');
 
     if (creatorEmail && creatorEmail !== 'null') {
@@ -236,7 +236,7 @@ function openVideoInNewWindow(videoUrl) {
                      .where('stopRecordingTime', '<', firebase.firestore.Timestamp.fromDate(endDate));
     }
 
-    lecturesTableBody.innerHTML = '';
+    lecturesTableBody.innerHTML = ''; // Clear the table
 
     query.get()
         .then(querySnapshot => {
@@ -264,10 +264,14 @@ function openVideoInNewWindow(videoUrl) {
                 // Add parent row for lecturer
                 const parentRow = document.createElement('tr');
                 const parentCell = document.createElement('td');
-                parentCell.colSpan = 1; // Spanning the whole width of the table
+                parentCell.colSpan = 1; // Span one column
                 parentCell.textContent = lecturerEmail;
                 parentCell.style.fontWeight = 'bold';
                 parentCell.style.backgroundColor = '#f0f8ff';
+
+                // Set width based on email length
+                parentCell.style.width = `${lecturerEmail.length * 9}px`; // Adjust multiplier as needed
+
                 parentRow.appendChild(parentCell);
                 lecturesTableBody.appendChild(parentRow);
 
@@ -278,7 +282,10 @@ function openVideoInNewWindow(videoUrl) {
                     // Last Updated
                     const updatedCell = document.createElement('td');
                     updatedCell.textContent = `${lecture.stopRecordingTime}`;
-                    updatedCell.style.paddingLeft = '10px'; // Indent for hierarchy
+                    
+                    // Adjust width dynamically based on content length
+                    updatedCell.style.width = `${lecture.stopRecordingTime.length * 8}px`; // Adjust multiplier as needed
+                    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
                     childRow.appendChild(updatedCell);
 
                     // Display the Lecture
@@ -292,17 +299,17 @@ function openVideoInNewWindow(videoUrl) {
                         openVideoInNewWindow(lecture.videoURL); // Open in custom player
                     };
                     lectureCell.appendChild(link);
-                    lectureCell.style.paddingLeft = '10px';
+                    lectureCell.style.paddingLeft = '20px';
                     childRow.appendChild(lectureCell);
 
                     // Notes
                     const notesCell = document.createElement('td');
                     const notesTextarea = document.createElement('textarea');
                     notesTextarea.textContent = lecture.notes;
-                    notesTextarea.style.width = '250px'; // Inline style for width
-                    notesTextarea.style.height = '40px'; // Inline style for height
+                    notesTextarea.style.width = '300px';
+                    notesTextarea.style.height = '50px';
                     notesCell.appendChild(notesTextarea);
-                    notesCell.style.paddingLeft = '10px';
+                    notesCell.style.paddingLeft = '20px';
                     childRow.appendChild(notesCell);
 
                     lecturesTableBody.appendChild(childRow);
