@@ -49,21 +49,17 @@
 
     <div class="container">
         <div>
-           <table id="lectures-table" border="1" cellpadding="10" cellspacing="0">
+       <table id="lectures-table" border="1" cellpadding="10" cellspacing="0">
     <thead>
         <tr>
             <th bgcolor="#ececec">Lecturer</th>
-            <th bgcolor="#ececec">Last Updated</th>
-        </tr>
-        <tr>
-            <th bgcolor="#ececec">Display the Lecture</th>
-            <th bgcolor="#ececec">Notes</th> <!-- Add Notes column header -->
         </tr>
     </thead>
     <tbody>
         <!-- Rows will be added here dynamically -->
     </tbody>
 </table>
+
         </div>
         <div class="combo-boxes">
             <label for="lecturer-email"><h3>Lecturer Email</h3></label>
@@ -224,7 +220,7 @@ function openVideoInNewWindow(videoUrl) {
     }
 }
 
-     function loadLectures(creatorEmail = null, stopRecordingDate = null) {
+   function loadLectures(creatorEmail = null, stopRecordingDate = null) {
     let query = db.collection('meetings_his_tbl');
 
     if (creatorEmail && creatorEmail !== 'null') {
@@ -244,94 +240,78 @@ function openVideoInNewWindow(videoUrl) {
 
     query.get()
         .then(querySnapshot => {
+            const groupedLectures = {};
+
+            // Group lectures by creatorEmail
             querySnapshot.forEach(doc => {
                 const lecture = doc.data();
-                console.log("Lecture data:", lecture); // Log the entire lecture object
+                const lecturerEmail = lecture.creatorEmail;
 
-                // First row for Lecturer and Last Updated
-                const row1 = document.createElement('tr');
-
-                const lecturerCell = document.createElement('td');
-                lecturerCell.textContent = lecture.creatorEmail;
-
-                const updatedCell = document.createElement('td');
-                updatedCell.textContent = new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString();
-
-                row1.appendChild(lecturerCell);
-                row1.appendChild(updatedCell);
-
-                // Second row for Display the Lecture and Notes
-                const row2 = document.createElement('tr');
-
-                const linkCell = document.createElement('td');
-                const link = document.createElement('a');
-                const fileExtension = getFileExtension(lecture.videoURL);
-                let displayText = '';
-                let displayURL = lecture.videoURL;
-
-                if (['mp4', 'webm', 'wmv', 'mov'].includes(fileExtension)) {
-                    displayText = 'Display the lecture';
-                    link.onclick = function(event) {
-                        event.preventDefault(); // Prevent default link behavior
-                        openVideoInNewWindow(lecture.videoURL); // Open video in new window
-                    };
-                } else if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'jpeg', 'png'].includes(fileExtension)) {
-                    displayText = `Display uploaded ${fileExtension.toUpperCase()} file`;
-
-                    if (['doc', 'docx', 'xls', 'xlsx'].includes(fileExtension)) {
-                        displayURL = `https://docs.google.com/gview?url=${encodeURIComponent(lecture.videoURL)}&embedded=true`;
-                    }
-                } else if (displayURL.trim().includes('youtube.com')) {
-                    console.log("YouTube URL detected."); // Log that it's a YouTube URL
-                    displayText = 'Display the lecture';
-                    link.onclick = function(event) {
-                        event.preventDefault(); // Prevent default link behavior
-                        openVideoInNewWindow(lecture.videoURL); // Open video in new window
-                    };
-                } else {
-                    displayText = 'Display file';
+                if (!groupedLectures[lecturerEmail]) {
+                    groupedLectures[lecturerEmail] = [];
                 }
 
-                link.textContent = displayText;
-                link.href = displayURL;
-                linkCell.appendChild(link);
-
-                const notesCell = document.createElement('td');
-                const notesTextarea = document.createElement('textarea');
-                notesTextarea.textContent = lecture.Notes || 'No notes';
-                notesTextarea.style.width = '300px'; // Inline style for width
-                notesTextarea.style.height = '50px'; // Inline style for height
-
-                notesCell.appendChild(notesTextarea);
-
-                row2.appendChild(linkCell);
-                row2.appendChild(notesCell);
-
-                // Attach document ID to the first row for reference
-                row1.setAttribute('data-document-id', doc.id);
-
-                // Add event listener for row selection
-                [row1, row2].forEach(row => {
-                    row.addEventListener('click', function() {
-                        const previouslySelected = document.querySelector('.selected-row');
-                        if (previouslySelected) {
-                            previouslySelected.classList.remove('selected-row');
-                            previouslySelected.style.backgroundColor = '';
-                        }
-
-                        row.classList.add('selected-row');
-                        row.style.backgroundColor = 'lightblue';
-                        selectedDocumentId = doc.id;
-                    });
+                groupedLectures[lecturerEmail].push({
+                    id: doc.id,
+                    stopRecordingTime: new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString(),
+                    videoURL: lecture.videoURL,
+                    notes: lecture.Notes || 'No notes',
                 });
-
-                lecturesTableBody.appendChild(row1);
-                lecturesTableBody.appendChild(row2);
             });
-        })
-        .catch(error => console.error("Error loading lectures:", error));
-}
 
+            // Render grouped lectures
+            for (const [lecturerEmail, lectures] of Object.entries(groupedLectures)) {
+                // Add parent row for lecturer
+                const parentRow = document.createElement('tr');
+                const parentCell = document.createElement('td');
+                parentCell.colSpan = 1; // Spanning the whole width of the table
+                parentCell.textContent = lecturerEmail;
+                parentCell.style.fontWeight = 'bold';
+                parentCell.style.backgroundColor = '#f0f8ff';
+                parentRow.appendChild(parentCell);
+                lecturesTableBody.appendChild(parentRow);
+
+                // Add child rows for lectures
+                lectures.forEach(lecture => {
+                    const childRow = document.createElement('tr');
+
+                    // Last Updated
+                    const updatedCell = document.createElement('td');
+                    updatedCell.textContent = `Last Updated: ${lecture.stopRecordingTime}`;
+                    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
+                    childRow.appendChild(updatedCell);
+
+                    // Display the Lecture
+                    const lectureCell = document.createElement('td');
+                    const link = document.createElement('a');
+                    link.href = lecture.videoURL;
+                    link.textContent = 'Display the Lecture';
+                    link.target = '_blank'; // Open in a new tab
+                    link.onclick = function (event) {
+                        event.preventDefault();
+                        openVideoInNewWindow(lecture.videoURL); // Open in custom player
+                    };
+                    lectureCell.appendChild(link);
+                    lectureCell.style.paddingLeft = '20px';
+                    childRow.appendChild(lectureCell);
+
+                    // Notes
+                    const notesCell = document.createElement('td');
+                    const notesTextarea = document.createElement('textarea');
+                    notesTextarea.textContent = lecture.notes;
+                    notesTextarea.style.width = '300px'; // Inline style for width
+                    notesTextarea.style.height = '50px'; // Inline style for height
+                    notesCell.appendChild(notesTextarea);
+                    notesCell.style.paddingLeft = '20px';
+                    childRow.appendChild(notesCell);
+
+                    lecturesTableBody.appendChild(childRow);
+                });
+            }
+        })
+        .catch(error => console.error('Error loading lectures:', error));
+}
+        
         function populateComboBoxes() {
             const uniqueEmails = new Set();
             const uniqueDates = new Set();
