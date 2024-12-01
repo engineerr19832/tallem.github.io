@@ -39,7 +39,11 @@
         cursor: pointer;
     }
          .second-button {
-        top: 40px; /* Lower the second button */
+        top: 38px; /* Lower the second button */
+             width : 105px;
+    }
+        .3rd-button   {
+        top: 77px; /* Lower the second button */
              width : 105px;
     }
         .delete-button:hover {
@@ -50,6 +54,7 @@
 <body bgcolor="#e0ffff">
       <button class="delete-button" id="deleteVideo">Delete Video</button>
      <button class="delete-button second-button" id="fileupload">Lect. upload</button>
+     <button class="delete-button 3rd-button" id="updatenotes">Upd. notes</button>
       <label for="lecturer-email" style="margin-bottom: 2px;"><h4 style="margin: 0;">Lecturer Email</h4></label>
             <select id="lecturer-email" style="width: 215px; height: 30px;"><option value="null"></option></select>
             <label for="lecture-time" style="margin-bottom: 2px;"><h4 style="margin: 0;">Lecture Time</h4></label>
@@ -90,9 +95,6 @@
                 });
             </script>
             <br>
-            <button id="updatenotes" style="height:30px;">
-                <h4 style="margin: 0;">Update lecture's notes</h4>
-            </button>
             <script>
                 document.getElementById('updatenotes').addEventListener('click', function() {
                     updatenotes();
