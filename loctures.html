@@ -42,6 +42,7 @@
             <select id="lecturer-email" style="width: 215px; height: 30px;"><option value="null"></option></select>
             <label for="lecture-time" style="margin-bottom: 2px;"><h4 style="margin: 0;">Lecture Time</h4></label>
             <select id="lecture-time" style="width: 215px; height: 30px;"><option value="null"></option></select>
+            <button class="delete-button" id="deleteVideo">Del. Video</button>
     <br>
     <br>  
   <div id="customAlert" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); color: white; text-align: center; z-index: 1000;">
@@ -68,9 +69,7 @@
         </div>
         <div class="combo-boxes">
           
-            <button class="delete-button" id="deleteVideo">Delete Selected Video</button>
-            <br>
-            <button id="fileupload" style="height:30px;"><h4 style="margin: 0;">Lecture manual upload</h4></button>
+           <button id="fileupload" style="height:30px;"><h4 style="margin: 0;">Lecture manual upload</h4></button>
             <script>
                 document.getElementById('fileupload').addEventListener('click', function() {
                     // Call the function defined in fileupload.js
