@@ -38,14 +38,17 @@
         border: none;
         cursor: pointer;
     }
+         .second-button {
+        top: 25px; /* Lower the second button */
+    }
         .delete-button:hover {
             background-color: darkgray;
         }
     </style>
 </head>
 <body bgcolor="#e0ffff">
-      <button class="delete-button" id="deleteVideo">Del. Video</button>
-     <button id="fileupload" style="height:30px;">Lecture manual upload</button>
+      <button class="delete-button" id="deleteVideo">Delete Video</button>
+     <button class="delete-button second-button" id="fileupload">Manual upload</button>
       <label for="lecturer-email" style="margin-bottom: 2px;"><h4 style="margin: 0;">Lecturer Email</h4></label>
             <select id="lecturer-email" style="width: 215px; height: 30px;"><option value="null"></option></select>
             <label for="lecture-time" style="margin-bottom: 2px;"><h4 style="margin: 0;">Lecture Time</h4></label>
