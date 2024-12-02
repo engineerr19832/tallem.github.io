@@ -64,29 +64,60 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-      function loadData() {
+     function loadData() {
     const tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = ''; // Clear existing table data
 
     db.collection('users_tbl').get().then((querySnapshot) => {
+        const groupedData = {};
+
+        // Group data by email
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            const loggedinStatus = data.loggedin === 1 ? 'Online' : 'Offline'; // Convert logged in status
+            const email = data.email;
+            const loggedinStatus = data.loggedin === 1 ? 'Online' : 'Offline';
 
-            // Set cell background color based on status
-            const cellColor = loggedinStatus === 'Online' ? '#B2FF66' : ''; // Light green for Online
+            if (!groupedData[email]) {
+                groupedData[email] = [];
+            }
 
-            const emailLink = `<a href="persondetails.html" style="text-decoration: none; color: black;" onclick="setEmail('${data.email}')">${data.email}</a>`;
-
-            // Create a new row for the table
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td style="background-color: ${cellColor}">${emailLink}</td>
-                <td style="background-color: ${cellColor}">${data.category}</td>
-                <td style="background-color: ${cellColor}">${loggedinStatus}</td>
-            `;
-            tableBody.appendChild(row); // Append the row to the table body
+            groupedData[email].push({
+                category: data.category,
+                loggedinStatus: loggedinStatus
+            });
         });
+
+        // Render grouped data into the table
+        for (const [email, records] of Object.entries(groupedData)) {
+            // Parent row for email
+            const parentRow = document.createElement('tr');
+            const parentCell = document.createElement('td');
+            parentCell.colSpan = 1; // Spanning a single column
+            parentCell.innerHTML = `<a href="persondetails.html" style="text-decoration: none; color: black;" onclick="setEmail('${email}')">${email}</a>`;
+            parentCell.style.fontWeight = 'bold';
+            parentCell.style.backgroundColor = '#f0f8ff';
+            parentRow.appendChild(parentCell);
+            tableBody.appendChild(parentRow);
+
+            // Child rows for category and logged-in status
+            records.forEach((record) => {
+                const childRow = document.createElement('tr');
+
+                // Category and logged-in status
+                const categoryCell = document.createElement('td');
+                categoryCell.textContent = record.category;
+                categoryCell.style.paddingLeft = '20px';
+
+                const statusCell = document.createElement('td');
+                statusCell.textContent = record.loggedinStatus;
+                statusCell.style.backgroundColor = record.loggedinStatus === 'Online' ? '#B2FF66' : '';
+
+                childRow.appendChild(categoryCell);
+                childRow.appendChild(statusCell);
+
+                tableBody.appendChild(childRow);
+            });
+        }
 
         // Call translation function after data is loaded
         if (localStorage.getItem('arpage') === 'ar') {
@@ -96,7 +127,6 @@
         console.error('Error getting documents:', error);
     });
 }
-
 
          // Function to set email in local storage
         function setEmail(email) {
@@ -110,18 +140,16 @@
 <body>
     <br>
     <br>
-    <table>
-        <thead>
-            <tr>
-                <th>User email</th>
-                <th>Category</th>
-                <th>Logged in?</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <!-- Data will be populated here -->
-        </tbody>
-    </table>
+   <table>
+    <thead>
+        <tr>
+            <th>User email</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        <!-- Data will be populated here -->
+    </tbody>
+</table>
 
 </body>
 </html>
