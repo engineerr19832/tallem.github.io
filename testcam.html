@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Recording to Google Drive</title>
+</head>
+<body>
+    <h1>Camera Recording</h1>
+    <button id="startRecording" style="background-color: green; color: white; padding: 10px 20px; font-size: 20px;">Start Recording</button>
+    <button id="stopRecording" style="background-color: red; color: white; padding: 10px 20px; font-size: 20px;" disabled>Stop Recording</button>
+
+    <script>
+        const startButton = document.getElementById('startRecording');
+        const stopButton = document.getElementById('stopRecording');
+
+        let mediaRecorder;
+        let stream;
+        let recordedChunks = [];
+
+        startButton.addEventListener('click', async () => {
+            try {
+                // Request camera and microphone access
+                stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+
+                // Collect video data chunks
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const accessToken = localStorage.getItem('accessToken');
+                    
+                    if (!accessToken) {
+                        alert("Access token is missing. Please log in again.");
+                        return;
+                    }
+
+                    // Prepare the file for upload
+                    const fileMetadata = {
+                        name: `Recording_${new Date().toISOString()}.webm`,
+                        parents: ["root"], // Save in the main folder
+                    };
+
+                    const formData = new FormData();
+                    formData.append('metadata', new Blob([JSON.stringify(fileMetadata)], { type: 'application/json' }));
+                    formData.append('file', blob);
+
+                    // Upload the video to Google Drive
+                    try {
+                        const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`,
+                            },
+                            body: formData,
+                        });
+
+                        if (response.ok) {
+                            const result = await response.json();
+                            alert(`Recording saved to Google Drive with ID: ${result.id}`);
+                        } else {
+                            console.error("Error uploading to Google Drive:", response.statusText);
+                            alert("Failed to upload the recording to Google Drive.");
+                        }
+                    } catch (error) {
+                        console.error("Upload error:", error);
+                        alert("An error occurred while uploading the recording.");
+                    }
+                };
+
+                // Start recording
+                mediaRecorder.start();
+                console.log("Recording started");
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            } catch (error) {
+                console.error("Error starting recording:", error);
+                alert("Could not access camera and microphone. Please check permissions.");
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                stream.getTracks().forEach(track => track.stop());
+                console.log("Recording stopped");
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
