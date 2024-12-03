@@ -301,6 +301,14 @@ window.onload = function() {
     }, 2000); // Show borders after 2 seconds
 }
 </script>
-    
+
+<button id="navigateButton">Test Cam</button>
+   
+     <script>
+        document.getElementById('navigateButton').addEventListener('click', function() {
+            window.location.href = 'testcam.html'; // Ensure testcam.html is in the same directory
+        });
+    </script>
+     
 </body>
 </html> 
