@@ -41,9 +41,11 @@ function loadMeetings() {
 }
         
             const checkNotificationTiming = setInterval(() => {
-                console.log("succeed");
+                console.log('Interval running for event:', event.id);
                 const now = new Date();
                 const timeBeforeStart = (eventStart - now) / 1000 / 60; // Convert to minutes
+                console.log('Time before event start (minutes):', timeBeforeStart);
+
 
                 // Check various conditions for notification timing
                  if (timeBeforeStart <= 15 && timeBeforeStart >= -5) {
@@ -77,6 +79,7 @@ function loadMeetings() {
                 }
                  else if (timeBeforeStart < 0 && Math.ceil(timeBeforeStart) === -5) {
                     showNotification(event);
+                     console.log('Clearing interval for event:', event.id);
                     clearInterval(checkNotificationTiming); // Stop the loop after the last notification
                 }
             }, 60000); // Check every minute
