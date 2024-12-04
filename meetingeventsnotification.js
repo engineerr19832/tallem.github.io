@@ -41,6 +41,7 @@ function loadMeetings() {
 }
         
             const checkNotificationTiming = setInterval(() => {
+                 console.log("Interval running for event:", event.id);
                 const now = new Date();
                 const timeBeforeStart = (eventStart - now) / 1000 / 60; // Convert to minutes
                 console.log("Time before event start (minutes):", timeBeforeStart);
