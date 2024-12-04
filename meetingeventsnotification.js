@@ -23,6 +23,7 @@ function loadMeetings() {
     })
     .then(response => response.json())
     .then(data => {
+        console.log("API Response Data:", data);
         const loggedInEmail = localStorage.getItem('loggedInEmail');
         const filteredEvents = data.items.filter(event =>
             event.attendees && event.attendees.some(attendee => attendee.email === loggedInEmail)
