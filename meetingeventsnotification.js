@@ -35,18 +35,12 @@ function loadMeetings() {
             console.log("Setting up notification for event:", event);
             const eventStart = new Date(event.start.dateTime);
             console.log("Event start dateTime:", event.start?.dateTime);
-           
-            if (!event.start || !event.start.dateTime) {
-    console.error("Invalid event start dateTime for event:", event);
-    return; // Skip this event
-}
-        
+               
             const checkNotificationTiming = setInterval(() => {
                  console.log("Interval running for event:", event.id);
                 const now = new Date();
                 const timeBeforeStart = (eventStart - now) / 1000 / 60; // Convert to minutes
                 console.log("Time before event start (minutes):", timeBeforeStart);
-
 
                 // Check various conditions for notification timing
                  if (timeBeforeStart <= 15 && timeBeforeStart >= -5) {
