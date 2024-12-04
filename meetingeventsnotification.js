@@ -2,6 +2,8 @@ function meetingeventnotification() {
     console.log("meetingeventnotification function called");
     const accessToken = localStorage.getItem('accessToken');
     const loggedInEmail = localStorage.getItem('loggedInEmail');
+    console.log("Access Token:", accessToken);
+    console.log("Logged In Email:", loggedInEmail);
 
     if (accessToken && loggedInEmail) {
         loadMeetings();
