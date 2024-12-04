@@ -104,17 +104,18 @@ function showNotification(event) {
     notificationContainer.classList.add('notification');
     notificationContainer.style.cssText = `
         position: fixed;
-        bottom: 10px;
-        right: 10px;
-        margin-bottom: 10px;
-        padding: 10px;
-        width: 350px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        z-index: 9999;
-        color: black;
-        display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    width: 350px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    color: black;
+    display: block;
+    text-align: center;
     `;
 
     document.querySelectorAll('.notification').forEach((n, i) => {
