@@ -1,4 +1,5 @@
 function meetingeventnotification() {
+    console.log("meetingeventnotification function called");
     const accessToken = localStorage.getItem('accessToken');
     const loggedInEmail = localStorage.getItem('loggedInEmail');
 
