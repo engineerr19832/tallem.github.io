@@ -6,6 +6,8 @@ function listFiles() {
         '1n7F6Dl6tGbw6lunDRDGYBNV-QThgJDer', // engineerr1983@gmail.com
         '1KpZz9gXTyoNONivjmjdhqpgWhh2WpX2O'  // translatingtobetter@gmail.com
     ];
+
+    const storage = firebase.storage();
     const firestore = firebase.firestore();
     const table = document.getElementById('fileTable');
     table.innerHTML = ''; // Clear existing rows
