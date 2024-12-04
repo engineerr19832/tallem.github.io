@@ -6,11 +6,9 @@ function listFiles() {
         '1n7F6Dl6tGbw6lunDRDGYBNV-QThgJDer', // engineerr1983@gmail.com
         '1KpZz9gXTyoNONivjmjdhqpgWhh2WpX2O'  // translatingtobetter@gmail.com
     ];
-    const firestore = firebase.firestore(); // Ensure Firestore is initialized
+    const firestore = firebase.firestore();
     const table = document.getElementById('fileTable');
-    table.innerHTML = '<tr><th>File Name</th><th>Owner Email</th><th>Date</th><th>Exists in Firestore</th></tr>';
-
-    let lastSelectedRow = null; // Keep track of the last selected row
+    table.innerHTML = ''; // Clear existing rows
 
     // Loop through each folder ID and fetch its contents
     folderIds.forEach(folderId => {
@@ -19,76 +17,53 @@ function listFiles() {
         })
         .then(response => response.json())
         .then(data => {
+            // Group files by owner
+            const ownerGroups = {};
             data.files.forEach(file => {
-                const createdTime = new Date(file.createdTime);
-                const createdTimeString = createdTime.toLocaleString(); // String for display
-                const row = document.createElement('tr');
-
-                // Apply selection styling to the row when clicked
-                row.addEventListener('click', (event) => {
-                    if (!event.target.closest('a, button')) {
-                        // Deselect the last selected row
-                        if (lastSelectedRow && lastSelectedRow !== row) {
-                            if (lastSelectedRow.dataset.existsInFirestore === 'true') {
-                                lastSelectedRow.style.backgroundColor = 'aqua'; // Exists in Firestore
-                            } else {
-                                lastSelectedRow.style.backgroundColor = 'yellow'; // Does not exist in Firestore
-                            }
-                            lastSelectedRow.classList.remove('selected');
-                        }
-
-                        // Set the background color of the current row to light gray
-                        row.style.backgroundColor = 'lightgray';
-                        row.classList.add('selected');
-                        
-                        // Update the last selected row reference
-                        lastSelectedRow = row;
-                    }
-                });
-
-                const emailAddress = file.owners[0].emailAddress || 'N/A';
-                row.innerHTML = `
-                    <td>${file.name}</td>
-                    <td>${emailAddress}</td>
-                    <td>${createdTimeString}</td>
-                    <td id="status-${file.name}">Checking...</td>
-                `;
-                table.appendChild(row);
-
-                // Firestore check using the email address
-                if (emailAddress !== 'N/A') {
-                    const statusCell = document.getElementById(`status-${file.name}`);
-                    
-                    setTimeout(() => {
-                        const createdTimeFromTable = new Date(createdTimeString);
-                        const createdTimestamp = firebase.firestore.Timestamp.fromDate(createdTimeFromTable);
-
-                        firestore.collection('meetings_his_tbl')
-                            .where('creatorEmail', '==', emailAddress)
-                            .where('stopRecordingTime', '==', createdTimestamp)
-                            .get()
-                            .then(querySnapshot => {
-                                if (!querySnapshot.empty) {
-                                    statusCell.textContent = 'Yes';
-                                    row.style.backgroundColor = 'aqua';
-                                    row.dataset.existsInFirestore = 'true';
-                                } else {
-                                    statusCell.textContent = 'No';
-                                    row.dataset.existsInFirestore = 'false';
-                                    row.style.backgroundColor = 'yellow';
-                                }
-
-                                // Check and remove rows with 'Yes' status after checking Firestore
-                                if (statusCell.textContent === 'Yes') {
-                                    row.remove();
-                                }
-                            })
-                            .catch(error => console.error('Error checking Firestore:', error));
-                    }, 0);
-                } else {
-                    console.warn(`No email address found for file owner of ${file.name}`);
+                const ownerEmail = file.owners[0].emailAddress || 'N/A';
+                if (!ownerGroups[ownerEmail]) {
+                    ownerGroups[ownerEmail] = [];
                 }
+                ownerGroups[ownerEmail].push(file);
             });
+
+            // Render each group
+            for (const owner in ownerGroups) {
+                // Add the owner row
+                const ownerRow = document.createElement('tr');
+                ownerRow.className = 'owner-row';
+                ownerRow.innerHTML = `<td colspan="3">Owner: ${owner}</td>`;
+                table.appendChild(ownerRow);
+
+                // Add file rows for the owner
+                ownerGroups[owner].forEach(file => {
+                    const createdTime = new Date(file.createdTime).toLocaleString();
+                    const row = document.createElement('tr');
+                    row.className = 'file-row';
+                    row.innerHTML = `
+                        <td>${file.name}</td>
+                        <td id="status-${file.name}">Checking...</td>
+                        <td>${createdTime}</td>
+                    `;
+                    table.appendChild(row);
+
+                    // Check Firestore for existence
+                    const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
+                    firestore.collection('meetings_his_tbl')
+                        .where('creatorEmail', '==', owner)
+                        .where('stopRecordingTime', '==', createdTimestamp)
+                        .get()
+                        .then(querySnapshot => {
+                            const statusCell = document.getElementById(`status-${file.name}`);
+                            if (!querySnapshot.empty) {
+                                statusCell.textContent = 'Exists in Firestore';
+                            } else {
+                                statusCell.textContent = 'Not in Firestore';
+                            }
+                        })
+                        .catch(error => console.error('Error checking Firestore:', error));
+                });
+            }
         })
         .catch(error => console.error('Error fetching files:', error));
     });
