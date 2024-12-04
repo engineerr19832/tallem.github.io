@@ -525,6 +525,11 @@ recordButton.addEventListener('click', function () {
 
                     newWindow.document.body.appendChild(stopSaveToGDriveButton);
 
+                    // Hide the buttons immediately
+recordButton.style.display = 'none';
+stopButton.style.display = 'none';
+stopSaveToGDriveButton.style.display = 'none';
+
  const backButton = newWindow.document.createElement('button');
                     backButton.id = 'backbutton';
                     backButton.textContent = 'Back';
