@@ -32,9 +32,9 @@ function loadMeetings() {
 
         // Check each event and schedule notifications
         filteredEvents.forEach(event => {
+            console.log("Setting up notification for event:", event);
             const eventStart = new Date(event.start.dateTime);
-            console.log(eventStart);
-
+        
             const checkNotificationTiming = setInterval(() => {
                 console.log("succeed");
                 const now = new Date();
