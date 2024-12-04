@@ -13,6 +13,7 @@ function meetingeventnotification() {
 }
 
 function loadMeetings() {
+    console.log("load meetings called");
     const accessToken = localStorage.getItem('accessToken');
 
     fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
