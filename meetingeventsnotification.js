@@ -37,6 +37,7 @@ function loadMeetings() {
             const checkNotificationTiming = setInterval(() => {
                 const now = new Date();
                 const timeBeforeStart = (eventStart - now) / 1000 / 60; // Convert to minutes
+                console.log(timeBeforeStart);
 
                 // Check various conditions for notification timing
                  if (timeBeforeStart <= 15 && timeBeforeStart >= -5) {
