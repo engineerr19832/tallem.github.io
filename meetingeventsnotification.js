@@ -34,6 +34,7 @@ function loadMeetings() {
         filteredEvents.forEach(event => {
             console.log("Setting up notification for event:", event);
             const eventStart = new Date(event.start.dateTime);
+            console.log("Event start dateTime:", event.start?.dateTime);
            
             if (!event.start || !event.start.dateTime) {
     console.error("Invalid event start dateTime for event:", event);
