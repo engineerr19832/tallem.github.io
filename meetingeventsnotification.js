@@ -156,7 +156,9 @@ function showNotification(event) {
     meetingLink.addEventListener('click', function (e) {
         e.preventDefault();
         const hangoutLink = this.getAttribute('data-hangout-link');
-        openRecordingWindow(hangoutLink); // Open the recording controls window
+      
+        //openRecordingWindow(hangoutLink); // Open the recording controls window
+       
         window.open(hangoutLink, '_blank'); // Open the meeting link in a new tab
     });
 }
