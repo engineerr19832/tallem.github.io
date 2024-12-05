@@ -58,6 +58,21 @@
     </tbody>
 </table>
     
+      <script>
+        // Add click event listener to table rows
+        document.querySelectorAll('.second-table tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Remove the 'selected' class from any currently selected row
+                document.querySelectorAll('.second-table tr.selected').forEach(selectedRow => {
+                    selectedRow.classList.remove('selected');
+                });
+
+                // Add the 'selected' class to the clicked row
+                row.classList.add('selected');
+            });
+        });
+    </script>
+    
 </body>
 </html>
 
