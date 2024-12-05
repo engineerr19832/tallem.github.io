@@ -114,19 +114,24 @@ function closeCustomAlert() {
 }
      </script>
              <script>
-               document.getElementById('gdrivefilesrepl').addEventListener('click', function() {
+              document.getElementById('gdrivefilesrepl').addEventListener('click', function() {
     // Check if loggedInEmail matches the administrator's email
     if (localStorage.getItem('loggedInEmail') === 'tallemchannel@gmail.com') {
-         // Clear the content of the main page
-        document.body.innerHTML = '';  // This removes everything in the body
-        // Continue to the specified page
+        // Hide the tab container or any other navigation elements on the current page
+        // This will hide it before navigating to the new page
+        var tabContainer = document.getElementById('tab-container');
+        if (tabContainer) {
+            tabContainer.style.display = 'none'; // Hide the tab navigation
+        }
+        
+        // Now navigate to the new page
         window.location.href = 'gdrivefilerepl.html';
     } else {
         // Show an alert if the user is not the administrator
         document.getElementById('customAlert').style.display = 'block';
     }
 });
-            </script>
+     </script>
         </div>
     </div>
     
