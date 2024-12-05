@@ -46,35 +46,32 @@
             margin-left: 5%;
             margin-top: 20px;
         }
-        .mergetofirestore {
-            padding: 8px 15px;
-            background-color: #007bff; /* Button background color */
-            color: white; /* Button text color */
-            border: none; /* No border */
-            border-radius: 5px; /* Rounded corners */
-            cursor: pointer; /* Pointer cursor on hover */
-            font-size: 14px; /* Font size */
-            margin-left: auto; /* Push button to the right */
-            margin-right: 530px; /* Fixed distance from the right edge */
-        }
-        .mergetofirestore:hover {
-            background-color: #0056b3; /* Darker shade on hover */
-        }
-      .backtolectures {
-    padding: 8px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    top: 1px; /* Adjust manually */
-   right: 30%; /* Adjust manually */
+     
+
+.button-container {
+    display: flex; /* Align buttons in a row */
+    justify-content: flex-start; /* Align buttons to the left */
+    align-items: center; /* Vertically align buttons */
+    margin-left: auto;
+    margin-right: 530px; /* Adjust the distance of the buttons from the right edge */
 }
 
-.backtolectures:hover {
-    background-color: #0056b3;
+.mergetofirestore, .backtolectures {
+    padding: 8px 15px;
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Font size */
+    margin-right: 10px; /* Add some space between the buttons */
 }
+
+.mergetofirestore:hover, .backtolectures:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+        
         .selected {
     background-color: #d3d3d3; /* Highlight selected rows */
 }
@@ -85,8 +82,13 @@
 
 </head>
 <body>
-     <button class="mergetofirestore" onclick="mergeToFirestore()">mergetofirestore</button>
-     <button class="backtolectures" onclick="window.location.href='loctures.html'" title="Back to lectures">back to loctures</button>
+
+<div class="button-container">
+    <button class="mergetofirestore">Merge to Firestore</button>
+    <button class="backtolectures">Back to Lectures</button>
+</div>
+
+    
     <div class="header-container">
     <table id="fileTable">
         <tr>
