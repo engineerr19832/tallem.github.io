@@ -58,20 +58,38 @@
     </tbody>
 </table>
     
-      <script>
-        // Add click event listener to table rows
-        document.querySelectorAll('.second-table tbody tr').forEach(row => {
-            row.addEventListener('click', () => {
-                // Remove the 'selected' class from any currently selected row
-                document.querySelectorAll('.second-table tr.selected').forEach(selectedRow => {
-                    selectedRow.classList.remove('selected');
-                });
+   <script>
+    // Select the table
+    const table = document.querySelector('.second-table');
 
-                // Add the 'selected' class to the clicked row
-                row.classList.add('selected');
+    // Add click event listener to table rows
+    document.querySelectorAll('.second-table tbody tr').forEach(row => {
+        row.addEventListener('click', (event) => {
+            // Prevent the document click listener from running
+            event.stopPropagation();
+
+            // Remove the 'selected' class from any currently selected row
+            document.querySelectorAll('.second-table tr.selected').forEach(selectedRow => {
+                selectedRow.classList.remove('selected');
             });
+
+            // Add the 'selected' class to the clicked row
+            row.classList.add('selected');
         });
-    </script>
+    });
+
+    // Add a click event listener to the document
+    document.addEventListener('click', (event) => {
+        // Check if the click happened outside the table
+        if (!table.contains(event.target)) {
+            // Remove the 'selected' class from all rows
+            document.querySelectorAll('.second-table tr.selected').forEach(selectedRow => {
+                selectedRow.classList.remove('selected');
+            });
+        }
+    });
+</script>
+
     
 </body>
 </html>
