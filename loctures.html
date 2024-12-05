@@ -117,13 +117,8 @@ function closeCustomAlert() {
               document.getElementById('gdrivefilesrepl').addEventListener('click', function() {
     // Check if loggedInEmail matches the administrator's email
     if (localStorage.getItem('loggedInEmail') === 'tallemchannel@gmail.com') {
-        // Hide the tab container or any other navigation elements on the current page
-        // This will hide it before navigating to the new page
-        var tabContainer = document.getElementById('tab-container');
-        console.log(tabContainer);
-        if (tabContainer) {
-            tabContainer.style.display = 'none'; // Hide the tab navigation
-        }
+       
+        window.parent.document.getElementById('tab-container').style.display = 'none';
         
         // Now navigate to the new page
         window.location.href = 'gdrivefilerepl.html';
