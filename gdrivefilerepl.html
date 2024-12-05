@@ -7,6 +7,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <script src="loadattendeailfromfirestore.js"></script>
+    <script src="gdrivefilerepl.js"></script>
+    <script src="mergetofirestore.js"></script>
     <title>Google Drive Files</title>
         <style>
                .header-container {
@@ -16,20 +19,20 @@
             margin-left: 5%;
             margin-top: 20px;
         }
-      .table {
+      .header-container table {
             width: 55%;
             border-collapse: collapse; /* Merge borders for a cleaner look */
             margin-left: 5%; 
             margin-top: 35px;
         }
-        .th {
+        .header-container th {
             border: 1px solid black; /* Border for table headers */
             padding: 8px; /* Space around header content */
             text-align: center; /* Align text to the left */
             width: 150px; /* Static width for headers */
             background-color: #f2f2f2 !important; /* Light background for headers */
         }
-        .td {
+        .header-container td {
             border: 1px solid #ddd; /* Border for table cells */
             padding: 8px; /* Space around cell content */
             text-align: center; /* Align text to the left */
@@ -68,9 +71,6 @@
     background-color: #d3d3d3; /* Highlight selected rows */
 }
     </style>
-    <script src="loadattendeailfromfirestore.js"></script>
-    <script src="gdrivefilerepl.js"></script>
-    <script src="mergetofirestore.js"></script>
 
 </head>
 <body>
