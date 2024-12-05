@@ -75,6 +75,30 @@
         .selected {
     background-color: #d3d3d3; /* Highlight selected rows */
 }
+
+             .second-table {
+            width: 50%;
+            margin: 20px auto;
+            border: 2px solid #007BFF; /* Blue border for the second table */
+        }
+
+        .second-table th, .second-table td {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #007BFF;
+        }
+
+        .second-table th {
+            background-color: #d9eaff; /* Light blue background for the headers */
+        }
+
+        .second-table tr:nth-child(even) {
+            background-color: #f0f8ff; /* Light blue background for even rows */
+        }
+
+        .second-table tr:hover {
+            background-color: #e0f3ff; /* Slightly darker blue on hover */
+        }
     </style>
 
 </head>
@@ -102,6 +126,22 @@
     </div>
 </div>
 
+ <!-- Second Table with specific class 'second-table' -->
+    <table class="second-table">
+        <thead>
+            <tr>
+                <th>f1</th>
+                <th>f2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+    
 </body>
 </html>
 
