@@ -117,11 +117,7 @@ function closeCustomAlert() {
               document.getElementById('gdrivefilesrepl').addEventListener('click', function() {
     // Check if loggedInEmail matches the administrator's email
     if (localStorage.getItem('loggedInEmail') === 'tallemchannel@gmail.com') {
-       
-        window.parent.document.getElementById('tab-container').style.display = 'none';
-        
-        // Now navigate to the new page
-        window.location.href = 'gdrivefilerepl.html';
+        window.location.href = 'gdrivefilerepl.html';  // Navigate to a separate page
     } else {
         // Show an alert if the user is not the administrator
         document.getElementById('customAlert').style.display = 'block';
