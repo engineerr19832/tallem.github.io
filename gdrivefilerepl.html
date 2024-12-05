@@ -9,43 +9,81 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
     <title>Google Drive Files</title>
     <style>
-        body {
+        <style>
+           body {
             background-image: url('gdrivefilerepl_bg.jfif');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center 0%;
+            background-size: cover; /* Cover the entire page */
+            background-repeat: no-repeat; /* Prevent repeating */
+            background-position: center 0%; /* Push the image down by 20% */
         }
-        table {
-            width: 60%;
-            border-collapse: collapse;
-            margin: 35px auto;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      table {
+            width: 55%;
+            border-collapse: collapse; /* Merge borders for a cleaner look */
+            margin-left: 5%; 
+            margin-top: 35px;
         }
         th {
-            padding: 8px;
-            text-align: left;
-            font-size: 14px;
-            background-color: #f4f4f4;
-            font-weight: bold;
-            color: #333;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid black; /* Border for table headers */
+            padding: 8px; /* Space around header content */
+            text-align: center; /* Align text to the left */
+            width: 150px; /* Static width for headers */
+            background-color: #f2f2f2; /* Light background for headers */
         }
         td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            font-size: 14px;
-            color: #333;
+            border: 1px solid #ddd; /* Border for table cells */
+            padding: 8px; /* Space around cell content */
+            text-align: center; /* Align text to the left */
+            width: 150px; /* Static width for cells */
+            background-color: rgba(0, 255, 255, 0.2); /* Light aqua background with transparency */
+            overflow: hidden; /* Hide overflow text */
+            text-overflow: ellipsis; /* Show ellipsis for truncated text */
+            white-space: nowrap; /* Prevent line breaks within cells */
         }
-        tr.file-row td {
-            background-color: rgba(0, 255, 255, 0.2);
+        .header-container {
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Center align items vertically */
+            justify-content: space-between; /* Space out items */
+            margin-left: 5%;
+            margin-top: 20px;
         }
+        .mergetofirestore {
+            padding: 10px 20px;
+            background-color: #007bff; /* Button background color */
+            color: white; /* Button text color */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 16px; /* Font size */
+            margin-left: auto; /* Push button to the right */
+            margin-right: 530px; /* Fixed distance from the right edge */
+        }
+        .mergetofirestore:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+      .backtolectures {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    position: fixed; /* Fix position on the page */
+    top: 281px; /* Adjust manually */
+   right: 28%; /* Adjust manually */
+}
+
+.backtolectures:hover {
+    background-color: #0056b3;
+}
+        .selected {
+    background-color: #d3d3d3; /* Highlight selected rows */
+}
     </style>
     <script src="loadattendeailfromfirestore.js"></script>
     <script src="gdrivefilerepl.js"></script>
+    <script src="mergetofirestore.js"></script>
+
 </head>
 <body>
     <h1 style="text-align: center;">Google Drive Files</h1>
