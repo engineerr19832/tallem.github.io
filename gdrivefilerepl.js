@@ -35,7 +35,7 @@ function listFiles() {
                 // Add the owner row
                 const ownerRow = document.createElement('tr');
                 ownerRow.className = 'owner-row';
-                ownerRow.innerHTML = `<td colspan="3">Owner: ${owner}</td>`;
+                ownerRow.innerHTML = `<td colspan="3" class="owner-cell">Owner: ${owner}</td>`;
                 tbody.appendChild(ownerRow);
 
                 // Add file rows for the owner
@@ -84,6 +84,11 @@ function addRowClickListener() {
         if (event.target && event.target.nodeName === 'TD') {
             const row = event.target.parentNode;
 
+            // Prevent selecting the "Owner:" row
+            if (row.classList.contains('owner-row')) {
+                return; // Exit if it's an owner row
+            }
+
             // Remove 'selected' class from other rows
             document.querySelectorAll('.second-table tbody tr').forEach(r => r.classList.remove('selected'));
 
@@ -92,7 +97,6 @@ function addRowClickListener() {
         }
     });
 }
-
 
 // Call listFiles when the DOM is ready
 document.addEventListener('DOMContentLoaded', listFiles);
