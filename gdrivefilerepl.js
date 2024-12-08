@@ -10,7 +10,11 @@ function listFiles() {
     const storage = firebase.storage();
     const firestore = firebase.firestore();
     const table = document.querySelector('.second-table');
-    table.innerHTML = ''; // Clear existing rows
+    //table.innerHTML = ''; // Clear existing rows
+
+    const tbody = table.querySelector('tbody');
+    tbody.innerHTML = ''; // Clear only table body, keeping the <thead> intact
+
 
     // Loop through each folder ID and fetch its contents
     folderIds.forEach(folderId => {
