@@ -67,23 +67,31 @@ function listFiles() {
                         .catch(error => console.error('Error checking Firestore:', error));
                 });
             }
+
+            // Add event delegation for table row selection after rendering
+            addRowClickListener();
         })
         .catch(error => console.error('Error fetching files:', error));
     });
 }
 
-// Add event delegation for row selection
-document.querySelector('.second-table tbody tr').addEventListener('click', (event) => {
-    if (event.target && event.target.nodeName === 'TD') {
-        const row = event.target.parentNode;
+// Function to add event delegation for row selection
+function addRowClickListener() {
+    const tbody = document.querySelector('.second-table tbody');
+    if (!tbody) return; // Safety check in case tbody is still null
 
-        // Remove 'selected' class from other rows
-        document.querySelectorAll('.second-table tbody tr').forEach(r => r.classList.remove('selected'));
+    tbody.addEventListener('click', (event) => {
+        if (event.target && event.target.nodeName === 'TD') {
+            const row = event.target.parentNode;
 
-        // Add 'selected' class to the clicked row
-        row.classList.add('selected');
-    }
-});
+            // Remove 'selected' class from other rows
+            document.querySelectorAll('.second-table tbody').forEach(r => r.classList.remove('selected'));
+
+            // Add 'selected' class to the clicked row
+            row.classList.add('selected');
+        }
+    });
+}
 
 // Call listFiles when the DOM is ready
 document.addEventListener('DOMContentLoaded', listFiles);
