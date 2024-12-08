@@ -51,7 +51,7 @@ function listFiles() {
                         <td id="status-${file.name}">Checking...</td>
                         <td>${createdTime}</td>
                     `;
-                    table.appendChild(row);
+                    tbody.appendChild(row);
 
                     // Check Firestore for existence
                     const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
