@@ -1,17 +1,3 @@
-// Inject the CSS dynamically into the page
-const style = document.createElement('style');
-style.innerHTML = `
-    .owner-cell {
-        white-space: nowrap;
-        width: auto;
-        background-color: #ff8da1; /* Set background color */
-    }
-    .owner-cell td {
-        text-align: left; /* Ensure text inside td is aligned to the left */
-    }
-`;
-document.head.appendChild(style);
-
 // Function to populate table and check existence in Firestore
 function listFiles() {
     const accessToken = localStorage.getItem('accessToken');
@@ -49,7 +35,7 @@ function listFiles() {
                 // Add the owner row
                 const ownerRow = document.createElement('tr');
                 ownerRow.className = 'owner-row';
-                ownerRow.innerHTML = `<td colspan="3" class="owner-cell">Owner: ${owner}</td>`;
+                <td colspan="3" class="owner-cell" style="white-space: nowrap; width: auto; background-color: #ff8da1; text-align: left;">Owner: ${owner}</td>`;
                 tbody.appendChild(ownerRow);
 
                 // Add file rows for the owner
