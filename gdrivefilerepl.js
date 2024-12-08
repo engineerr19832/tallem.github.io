@@ -6,6 +6,8 @@ style.innerHTML = `
         width: auto;
     }
 `;
+document.head.appendChild(style);
+
 // Function to populate table and check existence in Firestore
 function listFiles() {
     const accessToken = localStorage.getItem('accessToken');
