@@ -73,7 +73,7 @@ function listFiles() {
 }
 
 // Add event delegation for row selection
-document.querySelector('.second-table tbody').addEventListener('click', (event) => {
+document.querySelector('.second-table tbody tr').addEventListener('click', (event) => {
     if (event.target && event.target.nodeName === 'TD') {
         const row = event.target.parentNode;
 
