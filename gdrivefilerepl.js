@@ -51,6 +51,7 @@ function listFiles() {
                         <td id="status-${file.name}">Checking...</td>
                         <td>${createdTime}</td>
                     `;
+                    row.style.backgroundColor = '#50d78b'; // Optional inline styling as a fallback
                     tbody.appendChild(row);
 
                     // Check Firestore for existence
