@@ -85,13 +85,14 @@ function addRowClickListener() {
             const row = event.target.parentNode;
 
             // Remove 'selected' class from other rows
-            document.querySelectorAll('.second-table tbody').forEach(r => r.classList.remove('selected'));
+            document.querySelectorAll('.second-table tbody tr').forEach(r => r.classList.remove('selected'));
 
             // Add 'selected' class to the clicked row
             row.classList.add('selected');
         }
     });
 }
+
 
 // Call listFiles when the DOM is ready
 document.addEventListener('DOMContentLoaded', listFiles);
