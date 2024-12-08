@@ -4,6 +4,8 @@ style.innerHTML = `
     .owner-cell {
         white-space: nowrap;
         width: auto;
+        background-color: #ff8da1; /* Set background color */
+        text-align: left; /* Align text to the left */
     }
 `;
 document.head.appendChild(style);
