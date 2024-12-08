@@ -9,7 +9,7 @@ function listFiles() {
 
     const storage = firebase.storage();
     const firestore = firebase.firestore();
-    const table = document.getElementById('fileTable');
+    const table = document.getElementById('second-table');
     table.innerHTML = ''; // Clear existing rows
 
     // Loop through each folder ID and fetch its contents
