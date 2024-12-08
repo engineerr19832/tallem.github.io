@@ -35,7 +35,7 @@ function listFiles() {
                 // Add the owner row
                 const ownerRow = document.createElement('tr');
                 ownerRow.className = 'owner-row';
-                <td colspan="3" class="owner-cell" style="white-space: nowrap; width: auto; background-color: #ff8da1; text-align: left;">Owner: ${owner}</td>`;
+                ownerRow.innerHTML = `<td colspan="3" class="owner-cell" style="white-space: nowrap; width: auto; background-color: #ff8da1; text-align: left;">Owner: ${owner}</td>`;
                 tbody.appendChild(ownerRow);
 
                 // Add file rows for the owner
