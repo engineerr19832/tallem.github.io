@@ -10,11 +10,8 @@ function listFiles() {
     const storage = firebase.storage();
     const firestore = firebase.firestore();
     const table = document.querySelector('.second-table');
-    //table.innerHTML = ''; // Clear existing rows
-
     const tbody = table.querySelector('tbody');
     tbody.innerHTML = ''; // Clear only table body, keeping the <thead> intact
-
 
     // Loop through each folder ID and fetch its contents
     folderIds.forEach(folderId => {
@@ -39,7 +36,7 @@ function listFiles() {
                 const ownerRow = document.createElement('tr');
                 ownerRow.className = 'owner-row';
                 ownerRow.innerHTML = `<td colspan="3">Owner: ${owner}</td>`;
-                table.appendChild(ownerRow);
+                tbody.appendChild(ownerRow);
 
                 // Add file rows for the owner
                 ownerGroups[owner].forEach(file => {
@@ -75,4 +72,18 @@ function listFiles() {
     });
 }
 
+// Add event delegation for row selection
+document.querySelector('.second-table tbody').addEventListener('click', (event) => {
+    if (event.target && event.target.nodeName === 'TD') {
+        const row = event.target.parentNode;
+
+        // Remove 'selected' class from other rows
+        document.querySelectorAll('.second-table tbody tr').forEach(r => r.classList.remove('selected'));
+
+        // Add 'selected' class to the clicked row
+        row.classList.add('selected');
+    }
+});
+
+// Call listFiles when the DOM is ready
 document.addEventListener('DOMContentLoaded', listFiles);
