@@ -1,3 +1,11 @@
+// Inject the CSS dynamically into the page
+const style = document.createElement('style');
+style.innerHTML = `
+    .owner-cell {
+        white-space: nowrap;
+        width: auto;
+    }
+`;
 // Function to populate table and check existence in Firestore
 function listFiles() {
     const accessToken = localStorage.getItem('accessToken');
