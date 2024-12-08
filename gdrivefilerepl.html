@@ -55,10 +55,14 @@
     cursor: pointer; /* Pointer cursor on hover */
     font-size: 14px; /* Font size */
     margin-right: 8px; /* Add some space between the buttons */
+    outline: none; /* Remove default outline */
 }
 
-.mergetofirestore:hover, .backtolectures:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+
+ /* Prevent shadow or outline from showing on button focus or active state */
+.mergetofirestore:focus, .backtolectures:focus, .mergetofirestore:active, .backtolectures:active {
+    outline: none; /* Remove focus outline */
+    box-shadow: none; /* Remove any shadow on active state */
 }
 
     </style>
