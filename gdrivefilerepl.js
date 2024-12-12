@@ -52,22 +52,26 @@ function listFiles() {
                     tbody.appendChild(row);
 
                     // Check Firestore for existence
-                    const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
-                    firestore.collection('meetings_his_tbl')
-                        .where('creatorEmail', '==', owner)
-                        .where('stopRecordingTime', '==', createdTimestamp)
-                        .get()
-                        .then(querySnapshot => {
-                            const statusCell = document.getElementById(`status-${file.name}`);
-                            if (!querySnapshot.empty) {
-                                statusCell.textContent = 'Exists in Firestore';
-                            } else {
-                                statusCell.textContent = 'Not in Firestore';
-                                console.log('Firestore creatorEmail:', doc.data().creatorEmail);
-                                console.log(ownerEmail); 
-                            }
-                        })
-                        .catch(error => console.error('Error checking Firestore:', error));
+                   // Check Firestore for existence
+const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
+firestore.collection('meetings_his_tbl')
+    .where('creatorEmail', '==', owner)
+    .where('stopRecordingTime', '==', createdTimestamp)
+    .get()
+    .then(querySnapshot => {
+        const statusCell = document.getElementById(`status-${file.name}`);
+        if (!querySnapshot.empty) {
+            statusCell.textContent = 'Exists in Firestore';
+            querySnapshot.forEach(doc => {
+                console.log('Firestore creatorEmail:', doc.data().creatorEmail); // Inside the loop
+            });
+        } else {
+            statusCell.textContent = 'Not in Firestore';
+            console.log('Owner from Google Drive:', owner); // Debugging ownerEmail
+        }
+    })
+    .catch(error => console.error('Error checking Firestore:', error));
+
                 });
             }
 
