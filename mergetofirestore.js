@@ -1,116 +1,195 @@
-// Function to populate table and check existence in Firestore
-function listFiles() {
-    const accessToken = localStorage.getItem('accessToken');
-    const folderIds = [
+function showCustomAlert() {
+    document.getElementById('customAlert').style.display = 'block';
+}
+
+function hideCustomAlert() {
+    document.getElementById('customAlert').style.display = 'none';
+}
+function mergeToFirestore() {
+    const firestore = firebase.firestore(); // Ensure Firestore is initialized
+    const table = document.getElementById('fileTable');
+    const rows = table.getElementsByTagName('tr');
+    const accessToken = localStorage.getItem('accessToken'); // Ensure correct access token is used for Google Drive
+
+      const folderIds = [
         '13Z8vqg6TPeeP4nbvaI1nDUmY8tRfuF6a', // engineerr19832@gmail.com
         '1n7F6Dl6tGbw6lunDRDGYBNV-QThgJDer', // engineerr1983@gmail.com
         '1KpZz9gXTyoNONivjmjdhqpgWhh2WpX2O'  // translatingtobetter@gmail.com
     ];
 
-    const storage = firebase.storage();
-    const firestore = firebase.firestore();
-    const table = document.querySelector('.second-table');
-    const tbody = table.querySelector('tbody');
-    tbody.innerHTML = ''; // Clear only table body, keeping the <thead> intact
+    let selectedRowsExist = false;
 
-    showCustomAlert(); // Show custom alert while loading
+    Array.from(rows).forEach((row, index) => {
+        if (index === 0) return; // Skip header row
 
-    const fetchPromises = folderIds.map(folderId =>
-        fetch(`https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&fields=files(name, owners(displayName, emailAddress), createdTime)`, {
-            headers: { Authorization: `Bearer ${accessToken}` }
-        }).then(response => response.json())
-    );
+        if (row.classList.contains('selected')) {
+            selectedRowsExist = true;
+            const cells = row.getElementsByTagName('td');
+            const creatorEmail = cells[1].innerText.trim();
+            const createdTime = new Date(cells[2].innerText);
+            const fileName = cells[0].innerText.trim();
 
-    Promise.all(fetchPromises)
-        .then(folderDataArray => {
-            // Process all files across folders
-            const allFiles = folderDataArray.flatMap(folderData => folderData.files || []);
+            const collectionRef = firestore.collection('meetings_his_tbl');
 
-            // Group files by owner email
-            const ownerGroups = {};
-            allFiles.forEach(file => {
-                const ownerEmail = file.owners[0]?.emailAddress || 'N/A';
-                if (!ownerGroups[ownerEmail]) {
-                    ownerGroups[ownerEmail] = [];
-                }
-                ownerGroups[ownerEmail].push(file);
-            });
+            collectionRef.where('creatorEmail', '==', creatorEmail)
+                .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(createdTime))
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        // Add record to Firestore and retrieve its ID immediately
+                        collectionRef.add({
+                            creatorEmail: creatorEmail,
+                            stopRecordingTime: firebase.firestore.Timestamp.fromDate(createdTime),
+                            Notes: null,
+                            videoURL: ""
+                        })
+                        .then(docRef => {
+                            console.log(`Record added for creatorEmail: ${creatorEmail}`);
+                            alert(`Record for ${creatorEmail} added to Firestore.`);
+                             showCustomAlert(); // Show the custom alert before starting the upload
 
-            // Render each group
-            for (const owner in ownerGroups) {
-                // Add the owner row
-                const ownerRow = document.createElement('tr');
-                ownerRow.className = 'owner-row';
-                ownerRow.innerHTML = `<td colspan="3" class="owner-cell" style="white-space: nowrap; width: auto; background-color: #ff8da1; text-align: left;">Owner: ${owner}</td>`;
-                tbody.appendChild(ownerRow);
-
-                // Add file rows for the owner
-                ownerGroups[owner].forEach(file => {
-                    const createdTime = new Date(file.createdTime).toLocaleString();
-                    const row = document.createElement('tr');
-                    row.className = 'file-row';
-                    row.innerHTML = `
-                        <td>${file.name}</td>
-                        <td id="status-${file.name}">Checking...</td>
-                        <td>${createdTime}</td>
-                    `;
-                    tbody.appendChild(row);
-
-                    // Check Firestore for existence
-                    const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
-                    firestore.collection('meetings_his_tbl')
-                        .where('creatorEmail', '==', owner)
-                        .where('stopRecordingTime', '==', createdTimestamp)
-                        .limit(1) // Use limit(1) for efficiency
-                        .get()
-                        .then(querySnapshot => {
-                            const statusCell = document.getElementById(`status-${file.name}`);
-                            if (!querySnapshot.empty) {
-                                statusCell.textContent = 'Exists in Firestore';
-                            } else {
-                                statusCell.textContent = 'Not in Firestore';
-                            }
+                            // Now, upload to YouTube
+                            uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds)
+                                .then(youtubeVideoId => {
+                                     hideCustomAlert(); // Hide the custom alert when upload finishes (success or failure)
+                                    if (youtubeVideoId) {
+                                        const videoURL = `https://www.youtube.com/watch?v=${youtubeVideoId}`;
+                                        
+                                        // Use the newly created document's ID to update the videoURL field
+                                        docRef.update({ videoURL })
+                                            .then(() => {
+                                                alert(`Video uploaded to YouTube successfully for ${creatorEmail} and record updated in Firestore.`);
+                                               setTimeout(() => {
+                                               listFiles();
+                                                }, 2000); // 2000 milliseconds = 2 seconds
+                                            })
+                                            .catch(error => {
+                                                hideCustomAlert(); // Hide on error
+                                                console.error('Error updating Firestore record:', error);
+                                                alert('Error updating Firestore. See console for details.');
+                                            });
+                                    }
+                                })
+                                .catch(error => {
+                                     hideCustomAlert(); // Hide on error
+                                    console.error('Error uploading to YouTube:', error);
+                                    alert('Error uploading video to YouTube. See console for details.');
+                                });
                         })
                         .catch(error => {
-                            console.error('Error checking Firestore:', error);
-                            const statusCell = document.getElementById(`status-${file.name}`);
-                            statusCell.textContent = 'Error';
+                             hideCustomAlert(); // Hide on error
+                            console.error('Error adding record to Firestore:', error);
+                            alert('Error adding record to Firestore. See console for details.');
                         });
+                    } else {
+                        console.log(`Record already exists for creatorEmail: ${creatorEmail}`);
+                        alert(`Record for ${creatorEmail} with time ${createdTime.toLocaleString()} already exists in Firestore.`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking Firestore:', error);
                 });
-            }
-
-            hideCustomAlert(); // Hide custom alert once rendering is done
-            addRowClickListener(); // Add event delegation for row selection
-        })
-        .catch(error => {
-            console.error('Error fetching files:', error);
-            hideCustomAlert(); // Ensure the alert is hidden in case of error
-            alert('Error fetching files. See console for details.');
-        });
-}
-
-// Function to add event delegation for row selection
-function addRowClickListener() {
-    const tbody = document.querySelector('.second-table tbody');
-    if (!tbody) return; // Safety check in case tbody is still null
-
-    tbody.addEventListener('click', (event) => {
-        if (event.target && event.target.nodeName === 'TD') {
-            const row = event.target.parentNode;
-
-            // Prevent selecting the "Owner:" row
-            if (row.classList.contains('owner-row')) {
-                return; // Exit if it's an owner row
-            }
-
-            // Remove 'selected' class from other rows
-            document.querySelectorAll('.second-table tbody tr').forEach(r => r.classList.remove('selected'));
-
-            // Add 'selected' class to the clicked row
-            row.classList.add('selected');
         }
     });
+
+    if (!selectedRowsExist) {
+        alert("No records selected. Please select a record to merge to Firestore.");
+    }
 }
 
-// Call listFiles when the DOM is ready
-document.addEventListener('DOMContentLoaded', listFiles);
+// Function to upload video from Google Drive to YouTube without async syntax
+function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
+    // Function to search within each folder ID
+    const searchPromises = folderIds.map(folderId => 
+        fetch(`https://www.googleapis.com/drive/v3/files?q=name='${fileName}' and '${folderId}' in parents&fields=files(id, name, owners, modifiedTime)`, {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        .then(response => response.json())
+    );
+
+    // Run all search requests and process results
+    return Promise.all(searchPromises)
+        .then(results => {
+            // Flatten results and filter non-empty file arrays
+            const allFiles = results.flatMap(result => result.files || []);
+            
+            if (allFiles.length === 0) {
+                alert(`Video file not found in any of the specified folders: ${fileName}`);
+                return null;
+            }
+
+            // Find a file that matches the creator's email
+            const fileFound = allFiles.find(file => 
+                file.owners && file.owners.some(owner => owner.emailAddress === creatorEmail)
+            );
+
+            if (!fileFound) {
+                alert(`No matching file found for creatorEmail: ${creatorEmail}`);
+                return null;
+            }
+
+            const driveFileId = fileFound.id;
+            const modifiedTime = new Date(fileFound.modifiedTime);
+            console.log("Drive File ID:", driveFileId); // Debugging log
+
+            const uploadUrl = `https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status`;
+
+            // Formatting modified time for the title
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+                timeZone: 'Asia/Baghdad' // Using Baghdad timezone
+            };
+
+            const formattedModifiedTime = modifiedTime.toLocaleString('en-US', options).replace(',', ''); // Format as desired
+
+            const metadata = {
+                snippet: {
+                    title: `${creatorEmail} - ${formattedModifiedTime}`, // Title includes email and modified time
+                    description: `Video uploaded on behalf of ${creatorEmail}`,
+                    publishedAt: modifiedTime.toISOString() // Keep publishedAt as UTC
+                },
+                status: {
+                    privacyStatus: "public"
+                }
+            };
+
+            // Fetch the video file as a blob
+            return fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            })
+            .then(response => response.blob())
+            .then(fileBlob => {
+                const formData = new FormData();
+                formData.append('data', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+                formData.append('file', fileBlob);
+
+                return fetch(uploadUrl, {
+                    method: 'POST',
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                    body: formData
+                });
+            })
+            .then(youtubeResponse => youtubeResponse.json())
+            .then(youtubeResponse => {
+                if (youtubeResponse.id) {
+                    console.log("YouTube Video ID:", youtubeResponse.id); // Debugging log
+                    return youtubeResponse.id; // Return YouTube video ID
+                } else {
+                    console.error('YouTube upload failed:', youtubeResponse); // Log entire response
+                    alert('Failed to upload to YouTube. See console for details.');
+                    return null; // Return null to indicate failure
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error during YouTube upload:', error);
+            alert('YouTube upload encountered an error. Check console for details.');
+            return null; // Return null to prevent further errors
+        });
+}
