@@ -23,7 +23,8 @@ function listFiles() {
             // Group files by owner
             const ownerGroups = {};
             data.files.forEach(file => {
-                const ownerEmail = file.owners[0].emailAddress || 'N/A';
+               // const ownerEmail = file.owners[0].emailAddress || 'N/A';
+                const ownerEmail = (file.owners[0].emailAddress || 'N/A').replace(/^Owner:\s*/, '').trim();
                 if (!ownerGroups[ownerEmail]) {
                     ownerGroups[ownerEmail] = [];
                 }
