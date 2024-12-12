@@ -53,8 +53,8 @@ function mergeToFirestore() {
                         videoURL: ""
                     })
                     .then(docRef => {
-                        console.log(Record added for creatorEmail: ${creatorEmail});
-                        alert(Record for ${creatorEmail} added to Firestore.);
+                        console.log("Record added for creatorEmail:",${creatorEmail});
+                        alert("Record for ${creatorEmail} added to Firestore.");
                         showCustomAlert(); // Show the custom alert before starting the upload
 
                         // Now, upload to YouTube
