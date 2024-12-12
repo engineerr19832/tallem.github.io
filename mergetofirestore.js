@@ -20,77 +20,86 @@ function mergeToFirestore() {
     let selectedRowsExist = false;
 
     Array.from(rows).forEach((row, index) => {
-        if (index === 0) return; // Skip header row
+    if (index === 0) return; // Skip header row
 
-        if (row.classList.contains('selected')) {
-            selectedRowsExist = true;
-            const cells = row.getElementsByTagName('td');
-            const creatorEmail = cells[1].innerText.trim();
-            const createdTime = new Date(cells[2].innerText);
-            const fileName = cells[0].innerText.trim();
+    if (row.classList.contains('selected')) {
+        selectedRowsExist = true;
+        const cells = row.getElementsByTagName('td');
+        const fileName = cells[0].innerText.trim();
+        const createdTime = new Date(cells[2].innerText);
 
-            const collectionRef = firestore.collection('meetings_his_tbl');
+        // Locate the owner email cell and trim "Owner: " prefix
+        const ownerCell = row.previousElementSibling.querySelector('.owner-cell');
+        const creatorEmail = ownerCell ? ownerCell.innerText.replace('Owner: ', '').trim() : null;
 
-            collectionRef.where('creatorEmail', '==', creatorEmail)
-                .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(createdTime))
-                .get()
-                .then(querySnapshot => {
-                    if (querySnapshot.empty) {
-                        // Add record to Firestore and retrieve its ID immediately
-                        collectionRef.add({
-                            creatorEmail: creatorEmail,
-                            stopRecordingTime: firebase.firestore.Timestamp.fromDate(createdTime),
-                            Notes: null,
-                            videoURL: ""
-                        })
-                        .then(docRef => {
-                            console.log(`Record added for creatorEmail: ${creatorEmail}`);
-                            alert(`Record for ${creatorEmail} added to Firestore.`);
-                             showCustomAlert(); // Show the custom alert before starting the upload
-
-                            // Now, upload to YouTube
-                            uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds)
-                                .then(youtubeVideoId => {
-                                     hideCustomAlert(); // Hide the custom alert when upload finishes (success or failure)
-                                    if (youtubeVideoId) {
-                                        const videoURL = `https://www.youtube.com/watch?v=${youtubeVideoId}`;
-                                        
-                                        // Use the newly created document's ID to update the videoURL field
-                                        docRef.update({ videoURL })
-                                            .then(() => {
-                                                alert(`Video uploaded to YouTube successfully for ${creatorEmail} and record updated in Firestore.`);
-                                               setTimeout(() => {
-                                               listFiles();
-                                                }, 2000); // 2000 milliseconds = 2 seconds
-                                            })
-                                            .catch(error => {
-                                                hideCustomAlert(); // Hide on error
-                                                console.error('Error updating Firestore record:', error);
-                                                alert('Error updating Firestore. See console for details.');
-                                            });
-                                    }
-                                })
-                                .catch(error => {
-                                     hideCustomAlert(); // Hide on error
-                                    console.error('Error uploading to YouTube:', error);
-                                    alert('Error uploading video to YouTube. See console for details.');
-                                });
-                        })
-                        .catch(error => {
-                             hideCustomAlert(); // Hide on error
-                            console.error('Error adding record to Firestore:', error);
-                            alert('Error adding record to Firestore. See console for details.');
-                        });
-                    } else {
-                        console.log(`Record already exists for creatorEmail: ${creatorEmail}`);
-                        alert(`Record for ${creatorEmail} with time ${createdTime.toLocaleString()} already exists in Firestore.`);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error checking Firestore:', error);
-                });
+        if (!creatorEmail) {
+            console.error("Owner email not found for selected row.");
+            alert("Failed to identify the owner email. Please check the table structure.");
+            return;
         }
-    });
+
+        const collectionRef = firestore.collection('meetings_his_tbl');
+
+        collectionRef.where('creatorEmail', '==', creatorEmail)
+            .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(createdTime))
+            .get()
+            .then(querySnapshot => {
+                if (querySnapshot.empty) {
+                    // Add record to Firestore and retrieve its ID immediately
+                    collectionRef.add({
+                        creatorEmail: creatorEmail,
+                        stopRecordingTime: firebase.firestore.Timestamp.fromDate(createdTime),
+                        Notes: null,
+                        videoURL: ""
+                    })
+                    .then(docRef => {
+                        console.log(`Record added for creatorEmail: ${creatorEmail}`);
+                        alert(`Record for ${creatorEmail} added to Firestore.`);
+                        showCustomAlert(); // Show the custom alert before starting the upload
+
+                        // Now, upload to YouTube
+                        uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds)
+                            .then(youtubeVideoId => {
+                                hideCustomAlert(); // Hide the custom alert when upload finishes (success or failure)
+                                if (youtubeVideoId) {
+                                    const videoURL = `https://www.youtube.com/watch?v=${youtubeVideoId}`;
+                                    
+                                    // Use the newly created document's ID to update the videoURL field
+                                    docRef.update({ videoURL })
+                                        .then(() => {
+                                            alert(`Video uploaded to YouTube successfully for ${creatorEmail} and record updated in Firestore.`);
+                                            setTimeout(() => {
+                                                listFiles();
+                                            }, 2000); // 2000 milliseconds = 2 seconds
+                                        })
+                                        .catch(error => {
+                                            hideCustomAlert(); // Hide on error
+                                            console.error('Error updating Firestore record:', error);
+                                            alert('Error updating Firestore. See console for details.');
+                                        });
+                                }
+                            })
+                            .catch(error => {
+                                hideCustomAlert(); // Hide on error
+                                console.error('Error uploading to YouTube:', error);
+                                alert('Error uploading video to YouTube. See console for details.');
+                            });
+                    })
+                    .catch(error => {
+                        hideCustomAlert(); // Hide on error
+                        console.error('Error adding record to Firestore:', error);
+                        alert('Error adding record to Firestore. See console for details.');
+                    });
+                } else {
+                    console.log(`Record already exists for creatorEmail: ${creatorEmail}`);
+                    alert(`Record for ${creatorEmail} with time ${createdTime.toLocaleString()} already exists in Firestore.`);
+                }
+            })
+            .catch(error => {
+                console.error('Error checking Firestore:', error);
+            });
+    }
+});
 
     if (!selectedRowsExist) {
         alert("No records selected. Please select a record to merge to Firestore.");
