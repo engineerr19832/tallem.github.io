@@ -23,8 +23,7 @@ function listFiles() {
             // Group files by owner
             const ownerGroups = {};
             data.files.forEach(file => {
-               // const ownerEmail = file.owners[0].emailAddress || 'N/A';
-                const ownerEmail = (file.owners[0].emailAddress || 'N/A').replace(/^Owner:\s*/, '').trim();
+                const ownerEmail = file.owners[0].emailAddress || 'N/A';
                 if (!ownerGroups[ownerEmail]) {
                     ownerGroups[ownerEmail] = [];
                 }
@@ -52,31 +51,20 @@ function listFiles() {
                     tbody.appendChild(row);
 
                     // Check Firestore for existence
-               // const createdTime = new Date(file.createdTime); // Ensure this is a valid Date object
-const bufferEndTime = new Date(createdTime.getTime() + 1000); // Add 1-second buffer
-
-const createdTimestamp = firebase.firestore.Timestamp.fromDate(createdTime);
-const bufferEndTimestamp = firebase.firestore.Timestamp.fromDate(bufferEndTime);
-
-firestore.collection('meetings_his_tbl')
-    .where('creatorEmail', '==', owner)
-    .where('stopRecordingTime', '>=', createdTimestamp)
-    .where('stopRecordingTime', '<', bufferEndTimestamp) // Use the calculated end timestamp
-    .get()
-    .then(querySnapshot => {
-        const statusCell = document.getElementById(`status-${file.name}`);
-        if (!querySnapshot.empty) {
-            statusCell.textContent = 'Exists in Firestore';
-            querySnapshot.forEach(doc => {
-                console.log('Firestore creatorEmail:', doc.data().creatorEmail);
-            });
-        } else {
-            statusCell.textContent = 'Not in Firestore';
-            console.log('Owner from Google Drive:', owner);
-        }
-    })
-    .catch(error => console.error('Error checking Firestore:', error));
-
+                    const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
+                    firestore.collection('meetings_his_tbl')
+                        .where('creatorEmail', '==', owner)
+                        .where('stopRecordingTime', '==', createdTimestamp)
+                        .get()
+                        .then(querySnapshot => {
+                            const statusCell = document.getElementById(`status-${file.name}`);
+                            if (!querySnapshot.empty) {
+                                statusCell.textContent = 'Exists in Firestore';
+                            } else {
+                                statusCell.textContent = 'Not in Firestore';
+                            }
+                        })
+                        .catch(error => console.error('Error checking Firestore:', error));
                 });
             }
 
