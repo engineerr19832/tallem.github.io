@@ -1,4 +1,3 @@
-// Function to populate table and show only files not found in Firestore
 function listFiles() {
     const accessToken = localStorage.getItem('accessToken');
     const folderIds = [
@@ -40,23 +39,27 @@ function listFiles() {
 
                 // Add file rows for the owner
                 ownerGroups[owner].forEach(file => {
+                    const createdTime = new Date(file.createdTime).toLocaleString();
+                    const row = document.createElement('tr');
+                    row.className = 'file-row';
+                    row.innerHTML = 
+                        `<td>${file.name}</td>
+                        <td id="status-${file.name}">Checking...</td>
+                        <td>${createdTime}</td>`;
+                    tbody.appendChild(row);
+
+                    // Check Firestore for existence
                     const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
                     firestore.collection('meetings_his_tbl')
                         .where('creatorEmail', '==', owner)
                         .where('stopRecordingTime', '==', createdTimestamp)
                         .get()
                         .then(querySnapshot => {
-                            if (querySnapshot.empty) {
-                                // Only append files that are not in Firestore
-                                const createdTime = new Date(file.createdTime).toLocaleString();
-                                const row = document.createElement('tr');
-                                row.className = 'file-row';
-                                row.innerHTML = `
-                                    <td>${file.name}</td>
-                                    <td>Not in Firestore</td>
-                                    <td>${createdTime}</td>
-                                `;
-                                tbody.appendChild(row);
+                            const statusCell = document.getElementById(`status-${file.name}`);
+                            if (!querySnapshot.empty) {
+                                statusCell.textContent = 'Exists in Firestore';
+                            } else {
+                                statusCell.textContent = 'Not in Firestore';
                             }
                         })
                         .catch(error => console.error('Error checking Firestore:', error));
