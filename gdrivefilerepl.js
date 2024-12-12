@@ -25,7 +25,6 @@ function listFiles() {
             data.files.forEach(file => {
                // const ownerEmail = file.owners[0].emailAddress || 'N/A';
                 const ownerEmail = (file.owners[0].emailAddress || 'N/A').replace(/^Owner:\s*/, '').trim();
-                console.log(ownerEmail);
                 if (!ownerGroups[ownerEmail]) {
                     ownerGroups[ownerEmail] = [];
                 }
@@ -64,6 +63,8 @@ function listFiles() {
                                 statusCell.textContent = 'Exists in Firestore';
                             } else {
                                 statusCell.textContent = 'Not in Firestore';
+                                console.log('Firestore creatorEmail:', doc.data().creatorEmail);
+                                console.log(ownerEmail); 
                             }
                         })
                         .catch(error => console.error('Error checking Firestore:', error));
