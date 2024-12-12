@@ -7,7 +7,7 @@ function hideCustomAlert() {
 }
 function mergeToFirestore() {
     const firestore = firebase.firestore(); // Ensure Firestore is initialized
-    const table = document.getElementById('fileTable');
+    const table = document.querySelector('.second-table');
     const rows = table.getElementsByTagName('tr');
     const accessToken = localStorage.getItem('accessToken'); // Ensure correct access token is used for Google Drive
 
