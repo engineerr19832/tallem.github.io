@@ -11,7 +11,7 @@ function listFiles() {
     const firestore = firebase.firestore();
     const table = document.querySelector('.second-table');
     const tbody = table.querySelector('tbody');
-    tbody.innerHTML = ''; // Clear only table body, keeping the <thead> intact
+    tbody.innerHTML = ''; // Clear only table body, keeping the <thead> intact.
 
     // Loop through each folder ID and fetch its contents
     folderIds.forEach(folderId => {
