@@ -56,7 +56,8 @@ function listFiles() {
 const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
 firestore.collection('meetings_his_tbl')
     .where('creatorEmail', '==', owner)
-    .where('stopRecordingTime', '==', createdTimestamp)
+    .where('stopRecordingTime', '>=', createdTimestamp)
+    .where('stopRecordingTime', '<', firebase.firestore.Timestamp.fromDate(new Date(file.createdTime + 1000))) // Add 1 second buffer
     .get()
     .then(querySnapshot => {
         const statusCell = document.getElementById(`status-${file.name}`);
