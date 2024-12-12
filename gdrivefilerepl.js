@@ -68,7 +68,6 @@ firestore.collection('meetings_his_tbl')
         } else {
             statusCell.textContent = 'Not in Firestore';
             console.log('Owner from Google Drive:', owner); // Debugging ownerEmail
-              console.log('Firestore creatorEmail:', doc.data().creatorEmail); // Inside the loop
         }
     })
     .catch(error => console.error('Error checking Firestore:', error));
