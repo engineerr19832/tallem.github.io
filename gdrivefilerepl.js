@@ -52,7 +52,7 @@ function listFiles() {
                     tbody.appendChild(row);
 
                     // Check Firestore for existence
-                const createdTime = new Date(file.createdTime); // Ensure this is a valid Date object
+               // const createdTime = new Date(file.createdTime); // Ensure this is a valid Date object
 const bufferEndTime = new Date(createdTime.getTime() + 1000); // Add 1-second buffer
 
 const createdTimestamp = firebase.firestore.Timestamp.fromDate(createdTime);
