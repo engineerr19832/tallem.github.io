@@ -244,25 +244,26 @@ function openVideoInNewWindow(videoUrl) {
     }
 }
 
-         // Add selectable functionality to the dynamically created rows
-        function makeRowsSelectable() {
-            const rows = lecturesTableBody.querySelectorAll('tr');
-            rows.forEach(row => {
-                // Ensure owner rows are not selectable
-                if (!row.classList.contains('owner-row')) {
-                    row.addEventListener('click', function () {
-                        // Toggle selection state
-                        if (row.classList.contains('selected')) {
-                            row.classList.remove('selected');
-                        } else {
-                            // Remove 'selected' class from other rows before selecting the current one
-                            lecturesTableBody.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
-                            row.classList.add('selected');
-                        }
-                    });
+  function makeRowsSelectable() {
+    const rows = lecturesTableBody.querySelectorAll('tr');
+    rows.forEach(row => {
+        // Ensure owner rows are not selectable
+        if (!row.classList.contains('owner-row')) {
+            row.addEventListener('click', function () {
+                // Toggle selection state
+                if (row.classList.contains('selected')) {
+                    row.classList.remove('selected');
+                    selectedDocumentId = null; // Deselect
+                } else {
+                    // Remove 'selected' class from other rows before selecting the current one
+                    lecturesTableBody.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+                    row.classList.add('selected');
+                    selectedDocumentId = row.getAttribute('data-id'); // Set Firestore document ID
                 }
             });
         }
+    });
+}
         
 
     // Modified loadLectures function
@@ -318,44 +319,46 @@ function openVideoInNewWindow(videoUrl) {
                                 parentRow.appendChild(parentCell);
                                 lecturesTableBody.appendChild(parentRow);
 
-                                // Add child rows for lectures
-                                lectures.forEach(lecture => {
-                                    const childRow = document.createElement('tr');
-                                    childRow.classList.add('child-row'); // Mark child rows as selectable
+                               
+                              // Add child rows for lectures
+lectures.forEach(lecture => {
+    const childRow = document.createElement('tr');
+    childRow.classList.add('child-row'); // Mark child rows as selectable
+    childRow.setAttribute('data-id', lecture.id); // Store Firestore document ID
 
-                                    // Last Updated
-                                    const updatedCell = document.createElement('td');
-                                    updatedCell.textContent = `${lecture.stopRecordingTime}`;
-                                    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
-                                    childRow.appendChild(updatedCell);
+    // Last Updated
+    const updatedCell = document.createElement('td');
+    updatedCell.textContent = `${lecture.stopRecordingTime}`;
+    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
+    childRow.appendChild(updatedCell);
 
-                                    // Display the Lecture
-                                    const lectureCell = document.createElement('td');
-                                    const link = document.createElement('a');
-                                    link.href = lecture.videoURL;
-                                    link.textContent = 'Display Lecture';
-                                    link.target = '_blank'; // Open in a new tab
-                                    link.onclick = function (event) {
-                                        event.preventDefault();
-                                        openVideoInNewWindow(lecture.videoURL); // Open in custom player
-                                    };
-                                    lectureCell.appendChild(link);
-                                    lectureCell.style.paddingLeft = '20px';
-                                    childRow.appendChild(lectureCell);
+    // Display the Lecture
+    const lectureCell = document.createElement('td');
+    const link = document.createElement('a');
+    link.href = lecture.videoURL;
+    link.textContent = 'Display Lecture';
+    link.target = '_blank'; // Open in a new tab
+    link.onclick = function (event) {
+        event.preventDefault();
+        openVideoInNewWindow(lecture.videoURL); // Open in custom player
+    };
+    lectureCell.appendChild(link);
+    lectureCell.style.paddingLeft = '20px';
+    childRow.appendChild(lectureCell);
 
-                                    // Notes
-                                    const notesCell = document.createElement('td');
-                                    const notesTextarea = document.createElement('textarea');
-                                    notesTextarea.textContent = lecture.notes;
-                                    notesTextarea.style.width = '230px';
-                                    notesTextarea.style.height = '30px';
-                                    notesCell.appendChild(notesTextarea);
-                                    notesCell.style.paddingLeft = '10px';
-                                    childRow.appendChild(notesCell);
+    // Notes
+    const notesCell = document.createElement('td');
+    const notesTextarea = document.createElement('textarea');
+    notesTextarea.textContent = lecture.notes;
+    notesTextarea.style.width = '230px';
+    notesTextarea.style.height = '30px';
+    notesCell.appendChild(notesTextarea);
+    notesCell.style.paddingLeft = '10px';
+    childRow.appendChild(notesCell);
 
-                                    lecturesTableBody.appendChild(childRow);
-                                });
-                            }
+    lecturesTableBody.appendChild(childRow);
+});
+
 
                             // Make rows selectable
                             makeRowsSelectable();
