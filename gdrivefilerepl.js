@@ -47,11 +47,14 @@ function listFiles() {
                         <td id="status-${file.name}">Checking...</td>
                         <td>${createdTime}</td>`;
                     tbody.appendChild(row);
+                });
+            }
 
             // Add event delegation for table row selection after rendering
             addRowClickListener();
         })
         .catch(error => console.error('Error fetching files:', error));
+    });
 }
 
 // Function to add event delegation for row selection
