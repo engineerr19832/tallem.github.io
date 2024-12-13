@@ -87,6 +87,10 @@ function checkAgainstFirebase() {
                     // No matching record
                     statusCell.textContent = `${ownerEmail} - ${createdTime} - no`;
                 }
+                 // Filter out rows with "yes" status
+                if (statusCell.textContent.includes('yes')) {
+                    row.style.display = 'none'; // Hide the row
+                }
             })
             .catch(error => console.error('Error querying Firebase:', error));
     });
