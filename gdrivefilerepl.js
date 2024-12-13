@@ -44,47 +44,32 @@ function listFiles() {
                     row.className = 'file-row';
                     row.innerHTML = 
                         `<td>${file.name}</td>
-                        <td id="status-${file.name}">${owner} - ${createdTime}</td>
+                        <td id="status-${file.name}">Checking...</td>
                         <td>${createdTime}</td>`;
                     tbody.appendChild(row);
+
+                    // Check Firestore for existence
+                    const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
+                    firestore.collection('meetings_his_tbl')
+                        .where('creatorEmail', '==', owneremail)
+                        .where('stopRecordingTime', '==', createdTimestamp)
+                        .get()
+                        .then(querySnapshot => {
+                            const statusCell = document.getElementById(`status-${file.name}`);
+                            if (!querySnapshot.empty) {
+                                statusCell.textContent = 'Exists in Firestore';
+                            } else {
+                                statusCell.textContent = 'Not in Firestore';
+                            }
+                        })
+                        .catch(error => console.error('Error checking Firestore:', error));
                 });
             }
 
             // Add event delegation for table row selection after rendering
             addRowClickListener();
-
-            // Check against Firebase records
-            checkAgainstFirebase();
         })
         .catch(error => console.error('Error fetching files:', error));
-    });
-}
-
-// Function to check cells against Firebase
-function checkAgainstFirebase() {
-    const firestore = firebase.firestore();
-    const rows = document.querySelectorAll('.second-table tbody .file-row');
-
-    rows.forEach(row => {
-        const statusCell = row.querySelector('td:nth-child(2)'); // Cell with "owner - create time"
-        const statusText = statusCell.textContent.trim();
-        const [ownerEmail, createdTime] = statusText.split(' - '); // Split into owner email and created time
-
-        // Query the Firebase table, matching both owner and stopRecordingTime
-        firestore.collection('meetings_his_tbl')
-            .where('creatorEmail', '==', ownerEmail)
-            //.where('stopRecordingTime', '==', new Date(createdTime).toISOString()) // Match timestamps
-            .get()
-            .then(snapshot => {
-                if (!snapshot.empty) {
-                    // Record found
-                    statusCell.textContent = `${ownerEmail} - ${createdTime} - yes`;
-                } else {
-                    // No matching record
-                    statusCell.textContent = `${ownerEmail} - ${createdTime} - no`;
-                }
-            })
-            .catch(error => console.error('Error querying Firebase:', error));
     });
 }
 
