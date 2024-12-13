@@ -48,24 +48,6 @@ function listFiles() {
                         <td>${createdTime}</td>`;
                     tbody.appendChild(row);
 
-                    // Check Firestore for existence
-                    const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
-                    firestore.collection('meetings_his_tbl')
-                        .where('creatorEmail', '==', owner)
-                        .where('stopRecordingTime', '==', createdTimestamp)
-                        .get()
-                        .then(querySnapshot => {
-                            const statusCell = document.getElementById(`status-${file.name}`);
-                            if (!querySnapshot.empty) {
-                                statusCell.textContent = 'Exists in Firestore';
-                            } else {
-                                statusCell.textContent = 'Not in Firestore';
-                            }
-                        })
-                        .catch(error => console.error('Error checking Firestore:', error));
-                });
-            }
-
             // Add event delegation for table row selection after rendering
             addRowClickListener();
         })
