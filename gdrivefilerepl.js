@@ -85,7 +85,7 @@ function checkAgainstFirebase() {
                     statusCell.textContent = `${ownerEmail} - ${createdTime} - yes`;
                 } else {
                     // No matching record
-                    statusCell.textContent = `${ownerEmail} - ${createdTime} - no`;
+                    statusCell.textContent = `Not in Firestore`;
                 }
                  // Filter out rows with "yes" status
                 if (statusCell.textContent.includes('yes')) {
