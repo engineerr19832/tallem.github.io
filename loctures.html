@@ -54,6 +54,14 @@
         .delete-button:hover {
             background-color: darkgray;
         }
+          /* Highlight selected rows */
+    .selected {
+        background-color: #d3f9d8; /* Light green for selected rows */
+    }
+    .non-selectable {
+        pointer-events: none; /* Disable clicking on owner rows */
+        background-color: #f0f8ff; /* Keep owner rows styled distinctly */
+    }
     </style>
 </head>
 <body bgcolor="#e0ffff">
@@ -236,104 +244,124 @@ function openVideoInNewWindow(videoUrl) {
     }
 }
 
-  function loadLectures(creatorEmail = null, stopRecordingDate = null) {
-    let query = db.collection('meetings_his_tbl');
-
-    if (creatorEmail && creatorEmail !== 'null') {
-        query = query.where('creatorEmail', '==', creatorEmail);
-    }
-
-    if (stopRecordingDate && stopRecordingDate !== 'null') {
-        const startDate = new Date(stopRecordingDate);
-        const endDate = new Date(startDate);
-        endDate.setDate(endDate.getDate() + 1);
-
-        query = query.where('stopRecordingTime', '>=', firebase.firestore.Timestamp.fromDate(startDate))
-                     .where('stopRecordingTime', '<', firebase.firestore.Timestamp.fromDate(endDate));
-    }
-
-    lecturesTableBody.innerHTML = ''; // Clear the table
-
-    query.get()
-        .then(querySnapshot => {
-            const groupedLectures = {};
-
-            // Group lectures by creatorEmail
-            querySnapshot.forEach(doc => {
-                const lecture = doc.data();
-                const lecturerEmail = lecture.creatorEmail;
-
-                if (!groupedLectures[lecturerEmail]) {
-                    groupedLectures[lecturerEmail] = [];
+         // Add selectable functionality to the dynamically created rows
+        function makeRowsSelectable() {
+            const rows = lecturesTableBody.querySelectorAll('tr');
+            rows.forEach(row => {
+                // Ensure owner rows are not selectable
+                if (!row.classList.contains('owner-row')) {
+                    row.addEventListener('click', function () {
+                        // Toggle selection state
+                        if (row.classList.contains('selected')) {
+                            row.classList.remove('selected');
+                        } else {
+                            // Remove 'selected' class from other rows before selecting the current one
+                            lecturesTableBody.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+                            row.classList.add('selected');
+                        }
+                    });
                 }
-
-                groupedLectures[lecturerEmail].push({
-                    id: doc.id,
-                    stopRecordingTime: new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString(),
-                    videoURL: lecture.videoURL,
-                    notes: lecture.Notes || 'No notes',
-                });
             });
+        }
+        
 
-            // Render grouped lectures
-            for (const [lecturerEmail, lectures] of Object.entries(groupedLectures)) {
-                // Add parent row for lecturer
-                const parentRow = document.createElement('tr');
-                const parentCell = document.createElement('td');
-                parentCell.colSpan = 1; // Span one column
-                parentCell.textContent = lecturerEmail;
-                parentCell.style.fontWeight = 'bold';
-                parentCell.style.backgroundColor = '#f0f8ff';
+    // Modified loadLectures function
+                function loadLectures(creatorEmail = null, stopRecordingDate = null) {
+                    let query = db.collection('meetings_his_tbl');
 
-                // Set width based on email length
-                parentCell.style.width = `${lecturerEmail.length * 9}px`; // Adjust multiplier as needed
+                    if (creatorEmail && creatorEmail !== 'null') {
+                        query = query.where('creatorEmail', '==', creatorEmail);
+                    }
 
-                parentRow.appendChild(parentCell);
-                lecturesTableBody.appendChild(parentRow);
+                    if (stopRecordingDate && stopRecordingDate !== 'null') {
+                        const startDate = new Date(stopRecordingDate);
+                        const endDate = new Date(startDate);
+                        endDate.setDate(endDate.getDate() + 1);
 
-                // Add child rows for lectures
-                lectures.forEach(lecture => {
-                    const childRow = document.createElement('tr');
+                        query = query.where('stopRecordingTime', '>=', firebase.firestore.Timestamp.fromDate(startDate))
+                                     .where('stopRecordingTime', '<', firebase.firestore.Timestamp.fromDate(endDate));
+                    }
 
-                    // Last Updated
-                    const updatedCell = document.createElement('td');
-                    updatedCell.textContent = `${lecture.stopRecordingTime}`;
-                    
-                    // Adjust width dynamically based on content length
-                    updatedCell.style.width = `${lecture.stopRecordingTime.length * 8}px`; // Adjust multiplier as needed
-                    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
-                    childRow.appendChild(updatedCell);
+                    lecturesTableBody.innerHTML = ''; // Clear the table
 
-                    // Display the Lecture
-                    const lectureCell = document.createElement('td');
-                    const link = document.createElement('a');
-                    link.href = lecture.videoURL;
-                    link.textContent = 'Display Lecture';
-                    link.target = '_blank'; // Open in a new tab
-                    link.onclick = function (event) {
-                        event.preventDefault();
-                        openVideoInNewWindow(lecture.videoURL); // Open in custom player
-                    };
-                    lectureCell.appendChild(link);
-                    lectureCell.style.paddingLeft = '20px';
-                    childRow.appendChild(lectureCell);
+                    query.get()
+                        .then(querySnapshot => {
+                            const groupedLectures = {};
 
-                    // Notes
-                    const notesCell = document.createElement('td');
-                    const notesTextarea = document.createElement('textarea');
-                    notesTextarea.textContent = lecture.notes;
-                    notesTextarea.style.width = '230px';
-                    notesTextarea.style.height = '30px';
-                    notesCell.appendChild(notesTextarea);
-                    notesCell.style.paddingLeft = '10px';
-                    childRow.appendChild(notesCell);
+                            // Group lectures by creatorEmail
+                            querySnapshot.forEach(doc => {
+                                const lecture = doc.data();
+                                const lecturerEmail = lecture.creatorEmail;
 
-                    lecturesTableBody.appendChild(childRow);
-                });
-            }
-        })
-        .catch(error => console.error('Error loading lectures:', error));
-}
+                                if (!groupedLectures[lecturerEmail]) {
+                                    groupedLectures[lecturerEmail] = [];
+                                }
+
+                                groupedLectures[lecturerEmail].push({
+                                    id: doc.id,
+                                    stopRecordingTime: new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString(),
+                                    videoURL: lecture.videoURL,
+                                    notes: lecture.Notes || 'No notes',
+                                });
+                            });
+
+                            // Render grouped lectures
+                            for (const [lecturerEmail, lectures] of Object.entries(groupedLectures)) {
+                                // Add parent row for lecturer (owner row)
+                                const parentRow = document.createElement('tr');
+                                parentRow.classList.add('owner-row', 'non-selectable'); // Mark owner rows as non-selectable
+                                const parentCell = document.createElement('td');
+                                parentCell.colSpan = 3; // Span all columns
+                                parentCell.textContent = lecturerEmail;
+                                parentCell.style.fontWeight = 'bold';
+                                parentCell.style.backgroundColor = '#f0f8ff';
+                                parentRow.appendChild(parentCell);
+                                lecturesTableBody.appendChild(parentRow);
+
+                                // Add child rows for lectures
+                                lectures.forEach(lecture => {
+                                    const childRow = document.createElement('tr');
+                                    childRow.classList.add('child-row'); // Mark child rows as selectable
+
+                                    // Last Updated
+                                    const updatedCell = document.createElement('td');
+                                    updatedCell.textContent = `${lecture.stopRecordingTime}`;
+                                    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
+                                    childRow.appendChild(updatedCell);
+
+                                    // Display the Lecture
+                                    const lectureCell = document.createElement('td');
+                                    const link = document.createElement('a');
+                                    link.href = lecture.videoURL;
+                                    link.textContent = 'Display Lecture';
+                                    link.target = '_blank'; // Open in a new tab
+                                    link.onclick = function (event) {
+                                        event.preventDefault();
+                                        openVideoInNewWindow(lecture.videoURL); // Open in custom player
+                                    };
+                                    lectureCell.appendChild(link);
+                                    lectureCell.style.paddingLeft = '20px';
+                                    childRow.appendChild(lectureCell);
+
+                                    // Notes
+                                    const notesCell = document.createElement('td');
+                                    const notesTextarea = document.createElement('textarea');
+                                    notesTextarea.textContent = lecture.notes;
+                                    notesTextarea.style.width = '230px';
+                                    notesTextarea.style.height = '30px';
+                                    notesCell.appendChild(notesTextarea);
+                                    notesCell.style.paddingLeft = '10px';
+                                    childRow.appendChild(notesCell);
+
+                                    lecturesTableBody.appendChild(childRow);
+                                });
+                            }
+
+                            // Make rows selectable
+                            makeRowsSelectable();
+                        })
+                        .catch(error => console.error('Error loading lectures:', error));
+                }
         
         function populateComboBoxes() {
             const uniqueEmails = new Set();
