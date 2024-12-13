@@ -44,7 +44,7 @@ function listFiles() {
                     row.className = 'file-row';
                     row.innerHTML = 
                         `<td>${file.name}</td>
-                        <td id="status-${file.name}">Checking...</td>
+                        <td id="status-${file.name}">${owner} - ${createdTime}</td>
                         <td>${createdTime}</td>`;
                     tbody.appendChild(row);
                 });
