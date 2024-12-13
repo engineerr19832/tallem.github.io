@@ -51,7 +51,7 @@ function listFiles() {
                     // Check Firestore for existence
                     const createdTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
                     firestore.collection('meetings_his_tbl')
-                        .where('creatorEmail', '==', owneremail)
+                        .where('creatorEmail', '==', ownerEmail)
                         .where('stopRecordingTime', '==', createdTimestamp)
                         .get()
                         .then(querySnapshot => {
