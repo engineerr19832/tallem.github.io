@@ -1,3 +1,4 @@
+// Function to list files from Google Drive and check them against Firebase records
 function listFiles() {
     const accessToken = localStorage.getItem('accessToken');
     const folderIds = [
@@ -60,7 +61,7 @@ function listFiles() {
     });
 }
 
-// Function to check cells against Firebase
+// Function to check cells against Firebase and log results
 function checkAgainstFirebase() {
     const firestore = firebase.firestore();
     const rows = document.querySelectorAll('.second-table tbody .file-row');
@@ -79,9 +80,11 @@ function checkAgainstFirebase() {
                 if (!snapshot.empty) {
                     // Record found
                     statusCell.textContent = `${ownerEmail} - ${createdTime} - yes`;
+                    console.log(`Match Found: Owner = ${ownerEmail}, Created Time = ${createdTime}`);
                 } else {
                     // No matching record
                     statusCell.textContent = `${ownerEmail} - ${createdTime} - no`;
+                    console.log(`No Match: Owner = ${ownerEmail}, Created Time = ${createdTime}`);
                 }
             })
             .catch(error => console.error('Error querying Firebase:', error));
