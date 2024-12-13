@@ -72,7 +72,7 @@ function checkAgainstFirebase() {
 
         // Query the Firebase table based only on the owner email
         firestore.collection('meetings_his_tbl')
-            .where('owner', '==', ownerEmail)
+            .where('creatorEmail', '==', ownerEmail)
             .get()
             .then(snapshot => {
                 if (!snapshot.empty) {
