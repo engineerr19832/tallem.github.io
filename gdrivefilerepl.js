@@ -1,4 +1,3 @@
-// Function to list files from Google Drive and check them against Firebase records
 function listFiles() {
     const accessToken = localStorage.getItem('accessToken');
     const folderIds = [
@@ -61,7 +60,7 @@ function listFiles() {
     });
 }
 
-// Function to check cells against Firebase and log results
+// Function to check cells against Firebase
 function checkAgainstFirebase() {
     const firestore = firebase.firestore();
     const rows = document.querySelectorAll('.second-table tbody .file-row');
@@ -71,20 +70,21 @@ function checkAgainstFirebase() {
         const statusText = statusCell.textContent.trim();
         const [ownerEmail, createdTime] = statusText.split(' - '); // Split into owner email and created time
 
+        // Convert createdTime to Firestore Timestamp format
+        const firestoreTimestamp = firebase.firestore.Timestamp.fromDate(new Date(createdTime));
+
         // Query the Firebase table
         firestore.collection('meetings_his_tbl')
             .where('owner', '==', ownerEmail)
-            .where('createdTimestamp', '==', new Date(createdTime).toISOString()) // Match timestamps
+            .where('createdTimestamp', '==', firestoreTimestamp) // Match timestamps as Firestore Timestamps
             .get()
             .then(snapshot => {
                 if (!snapshot.empty) {
                     // Record found
                     statusCell.textContent = `${ownerEmail} - ${createdTime} - yes`;
-                    console.log(`Match Found: Owner = ${ownerEmail}, Created Time = ${createdTime}`);
                 } else {
                     // No matching record
                     statusCell.textContent = `${ownerEmail} - ${createdTime} - no`;
-                    console.log(`No Match: Owner = ${ownerEmail}, Created Time = ${createdTime}`);
                 }
             })
             .catch(error => console.error('Error querying Firebase:', error));
@@ -114,24 +114,5 @@ function addRowClickListener() {
     });
 }
 
-// Function to log specific owner and created time with Firestore rows
-function logFirstOwnerAndTime() {
-    const firstOwner = "engineerr1983@gmail.com";
-    const firstCreatedTime = "11/8/2024, 9:43:59 PM";
-    const firestore = firebase.firestore();
-
-    firestore.collection('meetings_his_tbl').get()
-        .then(snapshot => {
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                console.log(`Log: ${firstOwner} - ${firstCreatedTime} with Firestore Entry: ${data.creatorEmail} - ${data.stopRecordingTime}`);
-            });
-        })
-        .catch(error => console.error('Error reading Firestore:', error));
-}
-
 // Call listFiles when the DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    listFiles();
-    logFirstOwnerAndTime();
-});
+document.addEventListener('DOMContentLoaded', listFiles);
