@@ -266,105 +266,104 @@ function openVideoInNewWindow(videoUrl) {
 }
         
 
-    // Modified loadLectures function
-                function loadLectures(creatorEmail = null, stopRecordingDate = null) {
-                    let query = db.collection('meetings_his_tbl');
+    function loadLectures(creatorEmail = null, stopRecordingDate = null) {
+    let query = db.collection('meetings_his_tbl');
 
-                    if (creatorEmail && creatorEmail !== 'null') {
-                        query = query.where('creatorEmail', '==', creatorEmail);
-                    }
+    if (creatorEmail && creatorEmail !== 'null') {
+        query = query.where('creatorEmail', '==', creatorEmail);
+    }
 
-                    if (stopRecordingDate && stopRecordingDate !== 'null') {
-                        const startDate = new Date(stopRecordingDate);
-                        const endDate = new Date(startDate);
-                        endDate.setDate(endDate.getDate() + 1);
+    if (stopRecordingDate && stopRecordingDate !== 'null') {
+        const startDate = new Date(stopRecordingDate);
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1);
 
-                        query = query.where('stopRecordingTime', '>=', firebase.firestore.Timestamp.fromDate(startDate))
-                                     .where('stopRecordingTime', '<', firebase.firestore.Timestamp.fromDate(endDate));
-                    }
+        query = query.where('stopRecordingTime', '>=', firebase.firestore.Timestamp.fromDate(startDate))
+                     .where('stopRecordingTime', '<', firebase.firestore.Timestamp.fromDate(endDate));
+    }
 
-                    lecturesTableBody.innerHTML = ''; // Clear the table
+    lecturesTableBody.innerHTML = ''; // Clear the table
 
-                    query.get()
-                        .then(querySnapshot => {
-                            const groupedLectures = {};
+    query.get()
+        .then(querySnapshot => {
+            const groupedLectures = {};
 
-                            // Group lectures by creatorEmail
-                            querySnapshot.forEach(doc => {
-                                const lecture = doc.data();
-                                const lecturerEmail = lecture.creatorEmail;
+            // Group lectures by creatorEmail
+            querySnapshot.forEach(doc => {
+                const lecture = doc.data();
+                const lecturerEmail = lecture.creatorEmail;
 
-                                if (!groupedLectures[lecturerEmail]) {
-                                    groupedLectures[lecturerEmail] = [];
-                                }
-
-                                groupedLectures[lecturerEmail].push({
-                                    id: doc.id,
-                                    stopRecordingTime: new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString(),
-                                    videoURL: lecture.videoURL,
-                                    notes: lecture.Notes || 'No notes',
-                                });
-                            });
-
-                            // Render grouped lectures
-                            for (const [lecturerEmail, lectures] of Object.entries(groupedLectures)) {
-                                // Add parent row for lecturer (owner row)
-                                const parentRow = document.createElement('tr');
-                                parentRow.classList.add('owner-row', 'non-selectable'); // Mark owner rows as non-selectable
-                                const parentCell = document.createElement('td');
-                                parentCell.colSpan = 3; // Span all columns
-                                parentCell.textContent = lecturerEmail;
-                                parentCell.style.fontWeight = 'bold';
-                                parentCell.style.backgroundColor = '#f0f8ff';
-                                parentRow.appendChild(parentCell);
-                                lecturesTableBody.appendChild(parentRow);
-
-                               
-                              // Add child rows for lectures
-lectures.forEach(lecture => {
-    const childRow = document.createElement('tr');
-    childRow.classList.add('child-row'); // Mark child rows as selectable
-    childRow.setAttribute('data-id', lecture.id); // Store Firestore document ID
-
-    // Last Updated
-    const updatedCell = document.createElement('td');
-    updatedCell.textContent = `${lecture.stopRecordingTime}`;
-    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
-    childRow.appendChild(updatedCell);
-
-    // Display the Lecture
-    const lectureCell = document.createElement('td');
-    const link = document.createElement('a');
-    link.href = lecture.videoURL;
-    link.textContent = 'Display Lecture';
-    link.target = '_blank'; // Open in a new tab
-    link.onclick = function (event) {
-        event.preventDefault();
-        openVideoInNewWindow(lecture.videoURL); // Open in custom player
-    };
-    lectureCell.appendChild(link);
-    lectureCell.style.paddingLeft = '20px';
-    childRow.appendChild(lectureCell);
-
-    // Notes
-    const notesCell = document.createElement('td');
-    const notesTextarea = document.createElement('textarea');
-    notesTextarea.textContent = lecture.notes;
-    notesTextarea.style.width = '230px';
-    notesTextarea.style.height = '30px';
-    notesCell.appendChild(notesTextarea);
-    notesCell.style.paddingLeft = '10px';
-    childRow.appendChild(notesCell);
-
-    lecturesTableBody.appendChild(childRow);
-});
-
-
-                            // Make rows selectable
-                            makeRowsSelectable();
-                        })
-                        .catch(error => console.error('Error loading lectures:', error));
+                if (!groupedLectures[lecturerEmail]) {
+                    groupedLectures[lecturerEmail] = [];
                 }
+
+                groupedLectures[lecturerEmail].push({
+                    id: doc.id,
+                    stopRecordingTime: new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString(),
+                    videoURL: lecture.videoURL,
+                    notes: lecture.Notes || 'No notes',
+                });
+            });
+
+            // Render grouped lectures
+            for (const [lecturerEmail, lectures] of Object.entries(groupedLectures)) {
+                // Add parent row for lecturer (owner row)
+                const parentRow = document.createElement('tr');
+                parentRow.classList.add('owner-row', 'non-selectable'); // Mark owner rows as non-selectable
+                const parentCell = document.createElement('td');
+                parentCell.colSpan = 3; // Span all columns
+                parentCell.textContent = lecturerEmail;
+                parentCell.style.fontWeight = 'bold';
+                parentCell.style.backgroundColor = '#f0f8ff';
+                parentRow.appendChild(parentCell);
+                lecturesTableBody.appendChild(parentRow);
+
+                // Add child rows for lectures
+                lectures.forEach(lecture => {
+                    const childRow = document.createElement('tr');
+                    childRow.classList.add('child-row'); // Mark child rows as selectable
+                    childRow.setAttribute('data-id', lecture.id); // Store Firestore document ID
+
+                    // Last Updated
+                    const updatedCell = document.createElement('td');
+                    updatedCell.textContent = `${lecture.stopRecordingTime}`;
+                    updatedCell.style.paddingLeft = '20px'; // Indent for hierarchy
+                    childRow.appendChild(updatedCell);
+
+                    // Display the Lecture
+                    const lectureCell = document.createElement('td');
+                    const link = document.createElement('a');
+                    link.href = lecture.videoURL;
+                    link.textContent = 'Display Lecture';
+                    link.target = '_blank'; // Open in a new tab
+                    link.onclick = function (event) {
+                        event.preventDefault();
+                        openVideoInNewWindow(lecture.videoURL); // Open in custom player
+                    };
+                    lectureCell.appendChild(link);
+                    lectureCell.style.paddingLeft = '20px';
+                    childRow.appendChild(lectureCell);
+
+                    // Notes
+                    const notesCell = document.createElement('td');
+                    const notesTextarea = document.createElement('textarea');
+                    notesTextarea.textContent = lecture.notes;
+                    notesTextarea.style.width = '230px';
+                    notesTextarea.style.height = '30px';
+                    notesCell.appendChild(notesTextarea);
+                    notesCell.style.paddingLeft = '10px';
+                    childRow.appendChild(notesCell);
+
+                    lecturesTableBody.appendChild(childRow);
+                });
+            }
+
+            // Make rows selectable
+            makeRowsSelectable();
+        })
+        .catch(error => console.error('Error loading lectures:', error));
+}
+
         
         function populateComboBoxes() {
             const uniqueEmails = new Set();
