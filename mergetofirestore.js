@@ -45,8 +45,6 @@ while (ownerRow) {
 }
             
             
-            const ownerCell = ownerRow.querySelector('.owner-cell');
-            const creatorEmail = ownerCell ? ownerCell.innerText.replace('Owner: ', '').trim() : null;
             console.log(creatorEmail);
 
             if (!creatorEmail) {
