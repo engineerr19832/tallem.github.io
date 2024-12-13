@@ -114,5 +114,24 @@ function addRowClickListener() {
     });
 }
 
+// Function to log specific owner and created time with Firestore rows
+function logFirstOwnerAndTime() {
+    const firstOwner = "engineerr1983@gmail.com";
+    const firstCreatedTime = "11/8/2024, 9:43:59 PM";
+    const firestore = firebase.firestore();
+
+    firestore.collection('meetings_his_tbl').get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                console.log(`Log: ${firstOwner} - ${firstCreatedTime} with Firestore Entry: ${data.creatorEmail} - ${data.stopRecordingTime}`);
+            });
+        })
+        .catch(error => console.error('Error reading Firestore:', error));
+}
+
 // Call listFiles when the DOM is ready
-document.addEventListener('DOMContentLoaded', listFiles);
+document.addEventListener('DOMContentLoaded', () => {
+    listFiles();
+    logFirstOwnerAndTime();
+});
