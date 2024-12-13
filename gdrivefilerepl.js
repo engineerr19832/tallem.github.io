@@ -73,7 +73,7 @@ function checkAgainstFirebase() {
         // Query the Firebase table, matching both owner and stopRecordingTime
         firestore.collection('meetings_his_tbl')
             .where('creatorEmail', '==', ownerEmail)
-            .where('stopRecordingTime', '==', new Date(createdTime).toISOString()) // Match timestamps
+            //.where('stopRecordingTime', '==', new Date(createdTime).toISOString()) // Match timestamps
             .get()
             .then(snapshot => {
                 if (!snapshot.empty) {
