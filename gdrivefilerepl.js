@@ -52,7 +52,6 @@ function listFiles() {
             addRowClickListener();
         })
         .catch(error => console.error('Error fetching files:', error));
-    });
 }
 
 // Function to add event delegation for row selection
