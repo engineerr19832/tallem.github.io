@@ -70,13 +70,9 @@ function checkAgainstFirebase() {
         const statusText = statusCell.textContent.trim();
         const [ownerEmail, createdTime] = statusText.split(' - '); // Split into owner email and created time
 
-        // Convert createdTime to Firestore Timestamp format
-        const firestoreTimestamp = firebase.firestore.Timestamp.fromDate(new Date(createdTime));
-
-        // Query the Firebase table
+        // Query the Firebase table based only on the owner email
         firestore.collection('meetings_his_tbl')
             .where('owner', '==', ownerEmail)
-            .where('createdTimestamp', '==', firestoreTimestamp) // Match timestamps as Firestore Timestamps
             .get()
             .then(snapshot => {
                 if (!snapshot.empty) {
