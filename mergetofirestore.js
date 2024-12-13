@@ -29,7 +29,9 @@ function mergeToFirestore() {
             const fileName = cells[0].innerText.trim();
             const createdTime = new Date(cells[2].innerText);
 
-            const ownerCell = row.previousElementSibling.querySelector('.owner-cell');
+            // Find the owner row (first row with the same owner email)
+            const ownerRow = row.previousElementSibling; // The previous row will be the owner row
+            const ownerCell = ownerRow.querySelector('.owner-cell');
             const creatorEmail = ownerCell ? ownerCell.innerText.replace('Owner: ', '').trim() : null;
             console.log(creatorEmail);
 
