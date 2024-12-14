@@ -59,7 +59,7 @@ function mergeToFirestore() {
                     if (querySnapshot.empty) {
                         collectionRef.add({
                             creatorEmail: creatorEmail,
-                            stopRecordingTime: firebase.firestore.Timestamp.fromDate(createdTime),
+                            stopRecordingTime: firebase.firestore.Timestamp.fromDate(createdTime), // Updated time here
                             Notes: null,
                             videoURL: ""
                         })
@@ -74,7 +74,9 @@ function mergeToFirestore() {
                                     if (youtubeVideoId) {
                                         const videoURL = `https://www.youtube.com/watch?v=${youtubeVideoId}`;
 
-                                        docRef.update({ videoURL })
+                                        // Use the modified time from the YouTube video title for Firestore
+                                        const modifiedTime = new Date(); // Use current timestamp or the specific time for YouTube title
+                                        docRef.update({ videoURL, stopRecordingTime: firebase.firestore.Timestamp.fromDate(modifiedTime) })
                                             .then(() => {
                                                 alert(`Video uploaded to YouTube successfully for ${creatorEmail} and record updated in Firestore.`);
                                                 setTimeout(() => {
