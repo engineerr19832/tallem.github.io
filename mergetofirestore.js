@@ -120,18 +120,20 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
 
             const uploadUrl = `https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status`;
 
+            const formattedTime = new Date(modifiedTime).toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true, // Ensure 12-hour format (AM/PM)
+                timeZone: 'Asia/Baghdad'
+            });
+
             const metadata = {
                 snippet: {
-                    title: `${creatorEmail} - ${new Date(modifiedTime).toLocaleString('en-US', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false,
-                        timeZone: 'Asia/Baghdad'
-                    })}`,
+                    title: `${creatorEmail} - ${formattedTime}`,
                     description: `Video uploaded on behalf of ${creatorEmail}`,
                     publishedAt: new Date(modifiedTime).toISOString()
                 },
