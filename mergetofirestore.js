@@ -7,6 +7,7 @@ function hideCustomAlert() {
 }
 
 function mergeToFirestore() {
+    showCustomAlert();
     const firestore = firebase.firestore(); // Ensure Firestore is initialized
     const table = document.querySelector('.second-table');
     const rows = table.getElementsByTagName('tr');
@@ -45,6 +46,7 @@ function mergeToFirestore() {
 
             if (!creatorEmail) {
                 console.error("Owner email not found for selected row.");
+                hideCustomAlert();
                 alert("Failed to identify the owner email. Please check the table structure.");
                 return;
             }
@@ -55,6 +57,7 @@ function mergeToFirestore() {
             uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds)
                 .then(({ youtubeVideoId, modifiedTime }) => {
                     if (!youtubeVideoId || !modifiedTime) {
+                        hideCustomAlert();
                         alert('Failed to upload video or retrieve modified time.');
                         return;
                     }
@@ -69,14 +72,17 @@ function mergeToFirestore() {
                         videoURL: `https://www.youtube.com/watch?v=${youtubeVideoId}`
                     })
                     .then(() => {
-                        alert(`Record for ${creatorEmail} added to Firestore with time ${driveTimestamp.toLocaleString()}`);
+                        hideCustomAlert();
+                        alert(`Record for ${creatorEmail} added to Firestore / Yt channel with time ${driveTimestamp.toLocaleString()}`);
                     })
                     .catch(error => {
+                        hideCustomAlert();
                         console.error('Error adding record to Firestore:', error);
                         alert('Error adding record to Firestore. See console for details.');
                     });
                 })
                 .catch(error => {
+                    hideCustomAlert();
                     console.error('Error during video upload:', error);
                     alert('Error uploading video. See console for details.');
                 });
@@ -101,6 +107,7 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
             const allFiles = results.flatMap(result => result.files || []);
 
             if (allFiles.length === 0) {
+                hideCustomAlert();
                 alert(`Video file not found in any of the specified folders: ${fileName}`);
                 return null;
             }
@@ -110,6 +117,7 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
             );
 
             if (!fileFound) {
+                hideCustomAlert();
                 alert(`No matching file found for creatorEmail: ${creatorEmail}`);
                 return null;
             }
@@ -163,6 +171,7 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
                     console.log("YouTube Video ID:", youtubeResponse.id);
                     return { youtubeVideoId: youtubeResponse.id, modifiedTime };
                 } else {
+                    hideCustomAlert();
                     console.error('YouTube upload failed:', youtubeResponse);
                     alert('Failed to upload to YouTube. See console for details.');
                     return null;
@@ -170,6 +179,7 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
             });
         })
         .catch(error => {
+            hideCustomAlert();
             console.error('Error during YouTube upload:', error);
             alert('YouTube upload encountered an error. Check console for details.');
             return null;
