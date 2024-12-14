@@ -27,6 +27,7 @@ function mergeToFirestore() {
             selectedRowsExist = true;
             const cells = row.getElementsByTagName('td');
             const fileName = cells[0].innerText.trim();
+            const createdTime = new Date(cells[2].innerText);
 
             // Find the owner row (first row with the same owner email)
             let ownerRow = row.previousElementSibling;
@@ -51,34 +52,60 @@ function mergeToFirestore() {
 
             const collectionRef = firestore.collection('meetings_his_tbl');
 
-            // Fetch Google Drive metadata and process video
-            uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds)
-                .then(({ youtubeVideoId, modifiedTime }) => {
-                    if (!youtubeVideoId || !modifiedTime) {
-                        alert('Failed to upload video or retrieve modified time.');
-                        return;
+            collectionRef.where('creatorEmail', '==', creatorEmail)
+                .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(createdTime))
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        collectionRef.add({
+                            creatorEmail: creatorEmail,
+                            stopRecordingTime: firebase.firestore.Timestamp.fromDate(createdTime),
+                            Notes: null,
+                            videoURL: ""
+                        })
+                        .then(docRef => {
+                            console.log(`Record added for creatorEmail: ${creatorEmail}`);
+                            alert(`Record for ${creatorEmail} added to Firestore.`);
+                            showCustomAlert();
+
+                            uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds)
+                                .then(youtubeVideoId => {
+                                    hideCustomAlert();
+                                    if (youtubeVideoId) {
+                                        const videoURL = `https://www.youtube.com/watch?v=${youtubeVideoId}`;
+
+                                        docRef.update({ videoURL })
+                                            .then(() => {
+                                                alert(`Video uploaded to YouTube successfully for ${creatorEmail} and record updated in Firestore.`);
+                                                setTimeout(() => {
+                                                    listFiles();
+                                                }, 2000);
+                                            })
+                                            .catch(error => {
+                                                hideCustomAlert();
+                                                console.error('Error updating Firestore record:', error);
+                                                alert('Error updating Firestore. See console for details.');
+                                            });
+                                    }
+                                })
+                                .catch(error => {
+                                    hideCustomAlert();
+                                    console.error('Error uploading to YouTube:', error);
+                                    alert('Error uploading video to YouTube. See console for details.');
+                                });
+                        })
+                        .catch(error => {
+                            hideCustomAlert();
+                            console.error('Error adding record to Firestore:', error);
+                            alert('Error adding record to Firestore. See console for details.');
+                        });
+                    } else {
+                        console.log(`Record already exists for creatorEmail: ${creatorEmail}`);
+                        alert(`Record for ${creatorEmail} with time ${createdTime.toLocaleString()} already exists in Firestore.`);
                     }
-
-                    const driveTimestamp = new Date(modifiedTime);
-
-                    // Add Firestore record with Google Drive modifiedTime
-                    collectionRef.add({
-                        creatorEmail: creatorEmail,
-                        stopRecordingTime: firebase.firestore.Timestamp.fromDate(driveTimestamp),
-                        Notes: null,
-                        videoURL: `https://www.youtube.com/watch?v=${youtubeVideoId}`
-                    })
-                    .then(() => {
-                        alert(`Record for ${creatorEmail} added to Firestore with time ${driveTimestamp.toLocaleString()}`);
-                    })
-                    .catch(error => {
-                        console.error('Error adding record to Firestore:', error);
-                        alert('Error adding record to Firestore. See console for details.');
-                    });
                 })
                 .catch(error => {
-                    console.error('Error during video upload:', error);
-                    alert('Error uploading video. See console for details.');
+                    console.error('Error checking Firestore:', error);
                 });
         }
     });
@@ -89,7 +116,7 @@ function mergeToFirestore() {
 }
 
 function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
-    const searchPromises = folderIds.map(folderId =>
+    const searchPromises = folderIds.map(folderId => 
         fetch(`https://www.googleapis.com/drive/v3/files?q=name='${fileName}' and '${folderId}' in parents&fields=files(id, name, owners, modifiedTime)`, {
             headers: { Authorization: `Bearer ${accessToken}` }
         })
@@ -105,7 +132,7 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
                 return null;
             }
 
-            const fileFound = allFiles.find(file =>
+            const fileFound = allFiles.find(file => 
                 file.owners && file.owners.some(owner => owner.emailAddress === creatorEmail)
             );
 
@@ -115,25 +142,29 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
             }
 
             const driveFileId = fileFound.id;
-            const modifiedTime = fileFound.modifiedTime; // Fetch Google Drive modifiedTime
-            console.log("Drive File ID:", driveFileId, "Modified Time:", modifiedTime);
+            const modifiedTime = new Date(fileFound.modifiedTime);
+            console.log("Drive File ID:", driveFileId);
 
             const uploadUrl = `https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status`;
 
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+                timeZone: 'Asia/Baghdad'
+            };
+
+            const formattedModifiedTime = modifiedTime.toLocaleString('en-US', options).replace(',', '');
+
             const metadata = {
                 snippet: {
-                    title: `${creatorEmail} - ${new Date(modifiedTime).toLocaleString('en-US', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false,
-                        timeZone: 'Asia/Baghdad'
-                    })}`,
+                    title: `${creatorEmail} - ${formattedModifiedTime}`,
                     description: `Video uploaded on behalf of ${creatorEmail}`,
-                    publishedAt: new Date(modifiedTime).toISOString()
+                    publishedAt: modifiedTime.toISOString()
                 },
                 status: {
                     privacyStatus: "public"
@@ -159,7 +190,7 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
             .then(youtubeResponse => {
                 if (youtubeResponse.id) {
                     console.log("YouTube Video ID:", youtubeResponse.id);
-                    return { youtubeVideoId: youtubeResponse.id, modifiedTime };
+                    return youtubeResponse.id;
                 } else {
                     console.error('YouTube upload failed:', youtubeResponse);
                     alert('Failed to upload to YouTube. See console for details.');
