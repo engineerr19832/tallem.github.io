@@ -1,4 +1,4 @@
-function updateNotes() {
+function updatenotes() {
     const selectedRow = document.querySelector('.selected');
 
     if (!selectedRow) {
