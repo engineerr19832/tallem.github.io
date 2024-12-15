@@ -73,53 +73,23 @@ function mergeToFirestore() {
                                driveTimestamp.getUTCMinutes(), 
                                driveTimestamp.getUTCSeconds());
 
-                    // Check for existing Firestore record
-                    collectionRef.where('creatorEmail', '==', creatorEmail)
-                        .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(utcTimestamp))
-                        .get()
-                        .then(querySnapshot => {
-                            if (!querySnapshot.empty) {
-                                // Update the existing record with videoUrl and fileName
-                                querySnapshot.forEach(doc => {
-                                    doc.ref.update({
-                                        videoURL: videoUrl,
-                                        fileName: fileName // Add fileName here
-                                    })
-                                    .then(() => {
-                                        hideCustomAlert();
-                                        alert(`Record for ${creatorEmail} updated with video URL and file name.`);
-                                    })
-                                    .catch(error => {
-                                        hideCustomAlert();
-                                        console.error('Error updating Firestore record:', error);
-                                        alert('Error updating Firestore record. See console for details.');
-                                    });
-                                });
-                            } else {
-                                // Add a new record if none exists, with videoUrl and fileName
-                                collectionRef.add({
-                                    creatorEmail: creatorEmail,
-                                    stopRecordingTime: firebase.firestore.Timestamp.fromDate(driveTimestamp),
-                                    Notes: null,
-                                    videoURL: videoUrl, // Add videoUrl here
-                                    fileName: fileName // Add fileName here
-                                })
-                                .then(() => {
-                                    hideCustomAlert();
-                                    alert(`Record for ${creatorEmail} added to Firestore with time ${driveTimestamp.toLocaleString()}`);
-                                })
-                                .catch(error => {
-                                    hideCustomAlert();
-                                    console.error('Error adding record to Firestore:', error);
-                                    alert('Error adding record to Firestore. See console for details.');
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            hideCustomAlert();
-                            console.error('Error querying Firestore:', error);
-                            alert('Error querying Firestore. See console for details.');
-                        });
+                    // Directly add a new record without checking for existing ones
+                    collectionRef.add({
+                        creatorEmail: creatorEmail,
+                        stopRecordingTime: firebase.firestore.Timestamp.fromDate(driveTimestamp),
+                        Notes: null,
+                        videoURL: videoUrl, // Add videoUrl here
+                        fileName: fileName // Add fileName here
+                    })
+                    .then(() => {
+                        hideCustomAlert();
+                        alert(`Record for ${creatorEmail} added to Firestore with time ${driveTimestamp.toLocaleString()}`);
+                    })
+                    .catch(error => {
+                        hideCustomAlert();
+                        console.error('Error adding record to Firestore:', error);
+                        alert('Error adding record to Firestore. See console for details.');
+                    });
                 })
                 .catch(error => {
                     hideCustomAlert();
