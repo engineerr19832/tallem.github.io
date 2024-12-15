@@ -26,7 +26,7 @@ function updatenotes() {
             currentRow = currentRow.previousElementSibling;
         }
     }
-
+    console.log("Group by email: ",selectedLecturerEmail);
     const loggedInEmail = localStorage.getItem('loggedInEmail');
 
     // Authorization check: if logged-in user is not the creator
