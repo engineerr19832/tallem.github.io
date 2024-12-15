@@ -84,6 +84,7 @@ function mergeToFirestore() {
                     .then(() => {
                         hideCustomAlert();
                         alert(`Record for ${creatorEmail} added to Firestore with time ${driveTimestamp.toLocaleString()}`);
+                        listFiles();
                     })
                     .catch(error => {
                         hideCustomAlert();
