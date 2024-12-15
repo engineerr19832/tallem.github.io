@@ -6,16 +6,16 @@ function updatenotes() {
         return;
     }
 
-    // Get the Notes field (textarea) and the lecturer email (in the group-by row)
+    // Get the Notes field (textarea) and the lecturer email
     const notesTextarea = selectedRow.querySelector('textarea');
     const newNotes = notesTextarea ? notesTextarea.value.trim() : '';
 
     // Navigate to the group-by row (i.e., the first record that contains the group-by email)
     let groupRow = selectedRow;
 
-    // Traverse upwards to find the row that contains the group-by email
-    while (groupRow && !groupRow.cells[0].textContent.trim()) {
-        groupRow = groupRow.parentElement.closest('tr');
+    // Traverse upwards to find the row that contains the group-by email (email validation logic added)
+    while (groupRow && !isEmail(groupRow.cells[0].textContent.trim())) {
+        groupRow = groupRow.previousElementSibling; // Move to the previous row
     }
 
     // Ensure that we have a valid group row and that it contains an email
@@ -79,4 +79,10 @@ function updatenotes() {
     }).catch(error => {
         console.error('Error fetching document:', error);
     });
+}
+
+// Helper function to check if a string is a valid email
+function isEmail(text) {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(text);
 }
