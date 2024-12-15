@@ -57,9 +57,9 @@ function mergeToFirestore() {
             // Fetch Google Drive metadata and process video
             uploadVideoToFirebase(accessToken, creatorEmail, fileName, folderIds, storage)
                 .then(({ videoUrl, modifiedTime }) => {
-                    if (!modifiedTime) {
+                    if (!videoUrl || !modifiedTime) {
                         hideCustomAlert();
-                        alert('Failed to retrieve modified time.');
+                        alert('Failed to upload video or retrieve modified time.');
                         return;
                     }
 
@@ -79,30 +79,34 @@ function mergeToFirestore() {
                         .get()
                         .then(querySnapshot => {
                             if (!querySnapshot.empty) {
-                                // Update the existing record with file name
+                                // Update the existing record with videoUrl and fileName
                                 querySnapshot.forEach(doc => {
-                                    doc.ref.update({ fileName: fileName })
-                                        .then(() => {
-                                            hideCustomAlert();
-                                            alert(`Record for ${creatorEmail} updated with file name.`);
-                                        })
-                                        .catch(error => {
-                                            hideCustomAlert();
-                                            console.error('Error updating Firestore record:', error);
-                                            alert('Error updating Firestore record. See console for details.');
-                                        });
+                                    doc.ref.update({
+                                        videoURL: videoUrl,
+                                        fileName: fileName // Add fileName here
+                                    })
+                                    .then(() => {
+                                        hideCustomAlert();
+                                        alert(`Record for ${creatorEmail} updated with video URL and file name.`);
+                                    })
+                                    .catch(error => {
+                                        hideCustomAlert();
+                                        console.error('Error updating Firestore record:', error);
+                                        alert('Error updating Firestore record. See console for details.');
+                                    });
                                 });
                             } else {
-                                // Add a new record with file name
+                                // Add a new record if none exists, with videoUrl and fileName
                                 collectionRef.add({
                                     creatorEmail: creatorEmail,
                                     stopRecordingTime: firebase.firestore.Timestamp.fromDate(driveTimestamp),
-                                    fileName: fileName, // Only add fileName
-                                    Notes: null
+                                    Notes: null,
+                                    videoURL: videoUrl, // Add videoUrl here
+                                    fileName: fileName // Add fileName here
                                 })
                                 .then(() => {
                                     hideCustomAlert();
-                                    alert(`Record for ${creatorEmail} added to Firestore with file name: ${fileName}`);
+                                    alert(`Record for ${creatorEmail} added to Firestore with time ${driveTimestamp.toLocaleString()}`);
                                 })
                                 .catch(error => {
                                     hideCustomAlert();
