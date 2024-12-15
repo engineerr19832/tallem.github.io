@@ -65,9 +65,17 @@ function mergeToFirestore() {
 
                     const driveTimestamp = new Date(modifiedTime);
 
+                    // Convert to UTC by manually setting the time in UTC format if necessary
+                    const utcTimestamp = new Date(driveTimestamp.getUTCFullYear(), 
+                               driveTimestamp.getUTCMonth(), 
+                               driveTimestamp.getUTCDate(), 
+                               driveTimestamp.getUTCHours(), 
+                               driveTimestamp.getUTCMinutes(), 
+                               driveTimestamp.getUTCSeconds());
+
                     // Check for existing Firestore record
                     collectionRef.where('creatorEmail', '==', creatorEmail)
-                        .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(driveTimestamp))
+                        .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(utcTimestamp))
                         .get()
                         .then(querySnapshot => {
                             if (!querySnapshot.empty) {
