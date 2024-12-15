@@ -6,27 +6,28 @@ function updatenotes() {
         return;
     }
 
-    // Get the Notes field (textarea) and lecturer email
+    // Get the Notes field (textarea) and the lecturer email (in the group-by row)
     const notesTextarea = selectedRow.querySelector('textarea');
     const newNotes = notesTextarea ? notesTextarea.value.trim() : '';
-    let selectedLecturerEmail = selectedRow.cells[0].textContent.trim(); // First cell is lecturer email
 
-    // If the current row's lecturer email is null, traverse to find it
-    if (!selectedLecturerEmail) {
-        let currentRow = selectedRow.previousElementSibling;
+    // Navigate to the group-by row (i.e., the first record that contains the group-by email)
+    let groupRow = selectedRow;
 
-        while (currentRow) {
-            const ownerEmail = currentRow.cells[0]?.textContent.trim();
-
-            if (ownerEmail) {
-                selectedLecturerEmail = ownerEmail;
-                break;
-            }
-
-            currentRow = currentRow.previousElementSibling;
-        }
+    // Traverse upwards to find the row that contains the group-by email
+    while (groupRow && !groupRow.cells[0].textContent.trim()) {
+        groupRow = groupRow.parentElement.closest('tr');
     }
-    console.log("Group by email: ",selectedLecturerEmail);
+
+    // Ensure that we have a valid group row and that it contains an email
+    if (!groupRow || !groupRow.cells[0]) {
+        console.error('Group row with lecturer email not found.');
+        alert('Error: Lecturer email group not found.');
+        return;
+    }
+
+    const selectedLecturerEmail = groupRow.cells[0].textContent.trim();
+    console.log("Group by email: ", selectedLecturerEmail);
+
     const loggedInEmail = localStorage.getItem('loggedInEmail');
 
     // Authorization check: if logged-in user is not the creator
