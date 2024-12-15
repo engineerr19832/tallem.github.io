@@ -23,6 +23,7 @@ function listFiles() {
             const ownerGroups = {};
             data.files.forEach(file => {
                 const ownerEmail = file.owners[0].emailAddress || 'N/A';
+                console.log(file.modifiedTime);
                 if (!ownerGroups[ownerEmail]) {
                     ownerGroups[ownerEmail] = [];
                 }
