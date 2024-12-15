@@ -40,7 +40,9 @@ function listFiles() {
                 // Add file rows for the owner
                 ownerGroups[owner].forEach(file => {
                     //const createdTime = new Date(file.createdTime).toLocaleString();
-                    const createdTime = new Date(file.createdTime).toLocaleString('en-US', { timeZone: 'UTC' }); // Display in UTC
+                    const firestoreTimestamp = firebase.firestore.Timestamp.fromDate(new Date(file.createdTime));
+                    const createdTime = firestoreTimestamp.toDate().toLocaleString();
+                  //  const createdTime = new Date(file.createdTime).toLocaleString('en-US', { timeZone: 'UTC' }); // Display in UTC
 
                     const row = document.createElement('tr');
                     row.className = 'file-row';
