@@ -9,6 +9,7 @@ function hideCustomAlert() {
 function mergeToFirestore() {
     showCustomAlert();
     const firestore = firebase.firestore(); // Ensure Firestore is initialized
+    const storage = firebase.storage(); // Ensure Firebase Storage is initialized
     const table = document.querySelector('.second-table');
     const rows = table.getElementsByTagName('tr');
     const accessToken = localStorage.getItem('accessToken'); // Ensure correct access token is used for Google Drive
@@ -54,9 +55,9 @@ function mergeToFirestore() {
             const collectionRef = firestore.collection('meetings_his_tbl');
 
             // Fetch Google Drive metadata and process video
-            uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds)
-                .then(({ youtubeVideoId, modifiedTime }) => {
-                    if (!youtubeVideoId || !modifiedTime) {
+            uploadVideoToFirebase(accessToken, creatorEmail, fileName, folderIds, storage)
+                .then(({ videoUrl, modifiedTime }) => {
+                    if (!videoUrl || !modifiedTime) {
                         hideCustomAlert();
                         alert('Failed to upload video or retrieve modified time.');
                         return;
@@ -64,22 +65,49 @@ function mergeToFirestore() {
 
                     const driveTimestamp = new Date(modifiedTime);
 
-                    // Add Firestore record with Google Drive modifiedTime
-                    collectionRef.add({
-                        creatorEmail: creatorEmail,
-                        stopRecordingTime: firebase.firestore.Timestamp.fromDate(driveTimestamp),
-                        Notes: null,
-                        videoURL: `https://www.youtube.com/watch?v=${youtubeVideoId}`
-                    })
-                    .then(() => {
-                        hideCustomAlert();
-                        alert(`Record for ${creatorEmail} added to Firestore / Yt channel with time ${driveTimestamp.toLocaleString()}`);
-                    })
-                    .catch(error => {
-                        hideCustomAlert();
-                        console.error('Error adding record to Firestore:', error);
-                        alert('Error adding record to Firestore. See console for details.');
-                    });
+                    // Check for existing Firestore record
+                    collectionRef.where('creatorEmail', '==', creatorEmail)
+                        .where('stopRecordingTime', '==', firebase.firestore.Timestamp.fromDate(driveTimestamp))
+                        .get()
+                        .then(querySnapshot => {
+                            if (!querySnapshot.empty) {
+                                // Update the existing record
+                                querySnapshot.forEach(doc => {
+                                    doc.ref.update({ videoURL: videoUrl })
+                                        .then(() => {
+                                            hideCustomAlert();
+                                            alert(`Record for ${creatorEmail} updated with video URL.`);
+                                        })
+                                        .catch(error => {
+                                            hideCustomAlert();
+                                            console.error('Error updating Firestore record:', error);
+                                            alert('Error updating Firestore record. See console for details.');
+                                        });
+                                });
+                            } else {
+                                // Add a new record if none exists
+                                collectionRef.add({
+                                    creatorEmail: creatorEmail,
+                                    stopRecordingTime: firebase.firestore.Timestamp.fromDate(driveTimestamp),
+                                    Notes: null,
+                                    videoURL: videoUrl
+                                })
+                                .then(() => {
+                                    hideCustomAlert();
+                                    alert(`Record for ${creatorEmail} added to Firestore with time ${driveTimestamp.toLocaleString()}`);
+                                })
+                                .catch(error => {
+                                    hideCustomAlert();
+                                    console.error('Error adding record to Firestore:', error);
+                                    alert('Error adding record to Firestore. See console for details.');
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            hideCustomAlert();
+                            console.error('Error querying Firestore:', error);
+                            alert('Error querying Firestore. See console for details.');
+                        });
                 })
                 .catch(error => {
                     hideCustomAlert();
@@ -94,7 +122,7 @@ function mergeToFirestore() {
     }
 }
 
-function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
+function uploadVideoToFirebase(accessToken, creatorEmail, fileName, folderIds, storage) {
     const searchPromises = folderIds.map(folderId =>
         fetch(`https://www.googleapis.com/drive/v3/files?q=name='${fileName}' and '${folderId}' in parents&fields=files(id, name, owners, modifiedTime)`, {
             headers: { Authorization: `Bearer ${accessToken}` }
@@ -126,62 +154,24 @@ function uploadVideoToYouTube(accessToken, creatorEmail, fileName, folderIds) {
             const modifiedTime = fileFound.modifiedTime; // Fetch Google Drive modifiedTime
             console.log("Drive File ID:", driveFileId, "Modified Time:", modifiedTime);
 
-            const uploadUrl = `https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status`;
-
-            const formattedTime = new Date(modifiedTime).toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true, // Ensure 12-hour format (AM/PM)
-                timeZone: 'Asia/Baghdad'
-            });
-
-            const metadata = {
-                snippet: {
-                    title: `${creatorEmail} - ${formattedTime}`,
-                    description: `Video uploaded on behalf of ${creatorEmail}`,
-                    publishedAt: new Date(modifiedTime).toISOString()
-                },
-                status: {
-                    privacyStatus: "public"
-                }
-            };
-
             return fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             })
             .then(response => response.blob())
             .then(fileBlob => {
-                const formData = new FormData();
-                formData.append('data', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-                formData.append('file', fileBlob);
-
-                return fetch(uploadUrl, {
-                    method: 'POST',
-                    headers: { Authorization: `Bearer ${accessToken}` },
-                    body: formData
-                });
-            })
-            .then(youtubeResponse => youtubeResponse.json())
-            .then(youtubeResponse => {
-                if (youtubeResponse.id) {
-                    console.log("YouTube Video ID:", youtubeResponse.id);
-                    return { youtubeVideoId: youtubeResponse.id, modifiedTime };
-                } else {
-                    hideCustomAlert();
-                    console.error('YouTube upload failed:', youtubeResponse);
-                    alert('Failed to upload to YouTube. See console for details.');
-                    return null;
-                }
+                const storageRef = storage.ref(`meetings_videos/${fileName}`);
+                return storageRef.put(fileBlob)
+                    .then(snapshot => snapshot.ref.getDownloadURL())
+                    .then(downloadURL => {
+                        console.log("Firebase Storage Video URL:", downloadURL);
+                        return { videoUrl: downloadURL, modifiedTime };
+                    });
             });
         })
         .catch(error => {
             hideCustomAlert();
-            console.error('Error during YouTube upload:', error);
-            alert('YouTube upload encountered an error. Check console for details.');
+            console.error('Error during Firebase Storage upload:', error);
+            alert('Firebase Storage upload encountered an error. Check console for details.');
             return null;
         });
 }
