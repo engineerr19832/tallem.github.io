@@ -1,5 +1,5 @@
 function updatenotes() {
-    const selectedRow = document.querySelector('.selected-row');
+    const selectedRow = document.querySelector('.selected');
     
     if (!selectedRow) {
         alert('Please select a row to update the notes.');
