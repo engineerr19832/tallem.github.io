@@ -75,14 +75,13 @@ function checkAgainstFirebase() {
         const statusText = statusCell.textContent.trim();
         const [ownerEmail, createdTime] = statusText.split(' - '); // Split into owner email and created time
 
-         // Convert createdTime to Firestore Timestamp
-        const firestoreTimestamp = firebase.firestore.Timestamp.fromDate(new Date(createdTime));
-        
-        // Query the Firebase table, matching both owner and stopRecordingTime
+        // Get the file name from the first column
+        const fileName = row.querySelector('td:nth-child(1)').textContent.trim();
+
+        // Query the Firebase table, matching both creatorEmail and fileName
         firestore.collection('meetings_his_tbl')
             .where('creatorEmail', '==', ownerEmail)
-           // .where('stopRecordingTime', '==', new Date(createdTime).toISOString()) // Match timestamps
-              .where('stopRecordingTime', '==', firestoreTimestamp) // Use Firestore Timestamp for comparison
+            .where('fileName', '==', fileName) // Use fileName for matching
             .get()
             .then(snapshot => {
                 if (!snapshot.empty) {
@@ -92,7 +91,8 @@ function checkAgainstFirebase() {
                     // No matching record
                     statusCell.textContent = `Not in Firestore`;
                 }
-                 // Filter out rows with "yes" status
+
+                // Filter out rows with "yes" status
                 if (statusCell.textContent.includes('yes')) {
                     row.style.display = 'none'; // Hide the row
                 }
