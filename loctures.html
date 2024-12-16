@@ -265,8 +265,7 @@ function openVideoInNewWindow(videoUrl) {
     });
 }
         
-
-    function loadLectures(creatorEmail = null, stopRecordingDate = null) {
+   function loadLectures(creatorEmail = null, stopRecordingDate = null) {
     let query = db.collection('meetings_his_tbl');
 
     if (creatorEmail && creatorEmail !== 'null') {
@@ -298,7 +297,7 @@ function openVideoInNewWindow(videoUrl) {
                 }
 
                 groupedLectures[lecturerEmail].push({
-                    id: doc.id,
+                    id: doc.id, // Firestore document ID
                     stopRecordingTime: new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString(),
                     videoURL: lecture.videoURL,
                     notes: lecture.Notes || 'No notes',
@@ -322,7 +321,9 @@ function openVideoInNewWindow(videoUrl) {
                 lectures.forEach(lecture => {
                     const childRow = document.createElement('tr');
                     childRow.classList.add('child-row'); // Mark child rows as selectable
-                    childRow.setAttribute('data-id', lecture.id); // Store Firestore document ID
+
+                    // Add Firestore document ID to the row as a data attribute
+                    childRow.setAttribute('data-document-id', lecture.id); // Store Firestore document ID
 
                     // Last Updated
                     const updatedCell = document.createElement('td');
@@ -363,7 +364,6 @@ function openVideoInNewWindow(videoUrl) {
         })
         .catch(error => console.error('Error loading lectures:', error));
 }
-
         
         function populateComboBoxes() {
             const uniqueEmails = new Set();
