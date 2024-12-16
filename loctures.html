@@ -258,7 +258,7 @@ function openVideoInNewWindow(videoUrl) {
                     // Remove 'selected' class from other rows before selecting the current one
                     lecturesTableBody.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
                     row.classList.add('selected');
-                    selectedDocumentId = row.getAttribute('data-id'); // Set Firestore document ID
+                    selectedDocumentId = row.getAttribute('data-document-id'); // Set Firestore document ID
                 }
             });
         }
