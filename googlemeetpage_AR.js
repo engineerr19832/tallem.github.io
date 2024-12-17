@@ -93,7 +93,7 @@ function translateGoogleMeetPage() {
         endTimeInput.placeholder = 'أدخل وقت نهاية الاجتماع هنا';
     }
 
-    // Translate the two specific texts based on their content
+    // Translate specific texts while preserving list elements
     const allElements = document.querySelectorAll('*'); // Select all elements
     allElements.forEach(element => {
         if (element.textContent.trim() === 'Enter:Google Meet list of attendees emails with the') {
@@ -104,11 +104,19 @@ function translateGoogleMeetPage() {
             element.textContent = 'مع البريد المسجل باللون الأزرق الغامق (مطلوب)';
             element.style.fontSize = '14px';  // Adjust font size
             element.style.fontWeight = 'bold';
-        } 
-        else if (element.textContent.trim() === 'Attendee Emails') {
-    element.textContent = 'بريد المدعوين';
-    element.style.fontSize = '14px';
-    element.style.fontWeight = 'bold';
-}
+        }
+    });
+
+    // Specific translation for "Attendee Emails" without affecting list elements
+    allElements.forEach(element => {
+        if (element.childNodes.length > 0) {
+            element.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === 'Attendee Emails') {
+                    node.textContent = 'بريد المدعوين';
+                    element.style.fontSize = '14px';
+                    element.style.fontWeight = 'bold';
+                }
+            });
+        }
     });
 }
