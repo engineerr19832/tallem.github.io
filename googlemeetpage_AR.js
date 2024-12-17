@@ -97,7 +97,7 @@ function translateGoogleMeetPage() {
     const allElements = document.querySelectorAll('*'); // Select all elements
     allElements.forEach(element => {
         if (element.textContent.trim() === 'Enter:Google Meet list of attendees emails with the') {
-            element.textContent = 'أدخل قائمة بريد الكتروني لمستخدمي غوغل ميت';
+            element.textContent = 'أدخل قائمة بريد الكتروني لمستخدمي اجتماعات غوغل';
         } else if (element.textContent.trim() === 'logged email in blue bold font (REQUIRED)') {
             element.textContent = 'مع البريد المسجل باللون الأزرق الغامق (مطلوب)';
         }
