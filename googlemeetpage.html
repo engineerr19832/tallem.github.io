@@ -369,6 +369,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     recordButton.style.cursor = 'pointer';
                     recordButton.style.boxShadow = '0 4px #999';
 
+                    // Initially hide the button when the page loads
+                    recordButton.style.display = 'none';
+
                     recordButton.addEventListener('mousedown', function() {
                         this.style.backgroundColor = '#3e8e41';
                         this.style.boxShadow = '0 2px #666';
@@ -397,6 +400,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     stopButton.style.cursor = 'pointer';
                     stopButton.style.boxShadow = '0 4px #999';
                     stopButton.disabled = true;
+                    // Initially hide the button when the page loads
+                    stopButton.style.display = 'none';
 
                     let mediaRecorder;
                     let stream;
@@ -500,6 +505,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     stopSaveToGDriveButton.style.borderRadius = '5px';
                     stopSaveToGDriveButton.style.cursor = 'pointer';
                     stopSaveToGDriveButton.style.boxShadow = '0 4px #999';
+                    // Initially hide the button when the page loads
+                    stopSaveToGDriveButton.style.display = 'none';
 
                     stopSaveToGDriveButton.addEventListener('click', function() {
                         alert("Video saved to Google Drive.");
