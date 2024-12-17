@@ -379,13 +379,17 @@ backButton.style.top = '40px';
 backButton.style.right = '10px';
 backButton.style.padding = '30px 60px'; // Increase padding for larger button
 backButton.style.fontWeight = 'bold';
-backButton.style.fontSize = '40px'; // Larger font size
+backButton.style.fontSize = '45px'; // Larger font size
 backButton.style.width = '160px'; // Explicit width for consistency
 backButton.style.height = '90px'; // Explicit height
 backButton.style.border = 'none';
 backButton.style.borderRadius = '5px';
 backButton.style.cursor = 'pointer';
 backButton.style.boxShadow = '0 4px #999';
+                    // Center the text horizontally and vertically
+backButton.style.display = 'flex';
+backButton.style.alignItems = 'center'; // Vertically center
+backButton.style.justifyContent = 'center'; // Horizontally center
                     
 // Add event listener to the back button to close the window
 backButton.addEventListener('click', function() {
