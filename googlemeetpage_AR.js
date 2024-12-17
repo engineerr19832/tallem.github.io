@@ -98,11 +98,11 @@ function translateGoogleMeetPage() {
     allElements.forEach(element => {
         if (element.textContent.trim() === 'Enter:Google Meet list of attendees emails with the') {
             element.textContent = 'أدخل قائمة بريد الكتروني لمستخدمي غرف اجتماعات غوغل';
-            element.style.fontSize = '18px';  // Set the font size to 18px
+            element.style.fontSize = '14px';  // Set the font size to 18px
         element.style.fontWeight = 'bold'; // Optional: Make it bold
         } else if (element.textContent.trim() === 'logged email in blue bold font (REQUIRED)') {
             element.textContent = 'مع البريد المسجل باللون الأزرق الغامق (مطلوب)';
-            element.style.fontSize = '18px';  // Set the font size to 18px
+            element.style.fontSize = '14px';  // Set the font size to 18px
             element.style.fontWeight = 'bold'; // Optional: Make it bold
         }
     });
