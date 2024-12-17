@@ -34,10 +34,13 @@ function translateToArabic_up(updateWindow) {
             // Normalize the label's text for matching
             const normalizedLabelText = label.textContent.trim().replace(/[:\s]+$/, ''); // trim spaces and remove colons
             const normalizedKey = text.trim();
-            console.log(label.textContent);
+
+            // Log the original label text
+            console.log(`Original label text: "${label.textContent}"`);
 
             if (normalizedLabelText === normalizedKey) {
                 // Only update the label's text
+                console.log(`Label translated: "${label.textContent}" -> "${fieldTranslations[text]}"`);
                 label.textContent = fieldTranslations[text];
             }
         });
@@ -47,6 +50,7 @@ function translateToArabic_up(updateWindow) {
     const headings = updateWindow.document.querySelectorAll('h1, h2');
     headings.forEach(function(heading) {
         if (heading.textContent.includes('Update Meetings')) {
+            console.log(`Heading translation: "${heading.textContent}" -> "${fieldTranslations['Update Meetings']}"`);
             heading.textContent = fieldTranslations['Update Meetings'];
         }
     });
