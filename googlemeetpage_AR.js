@@ -105,7 +105,7 @@ function translateGoogleMeetPage() {
             element.style.fontSize = '14px';  // Adjust font size
             element.style.fontWeight = 'bold';
         } 
-        if (element.textContent.trim() === 'Attendee Emails') {
+        else if (element.textContent.trim() === 'Attendee Emails') {
     element.textContent = 'بريد المدعوين';
     element.style.fontSize = '14px';
     element.style.fontWeight = 'bold';
