@@ -1,5 +1,5 @@
 function translateToArabic_up(updateWindow) {
-    // Translate field labels
+    // Translations
     const fieldTranslations = {
         'Description': 'ملاحظات',
         'Start Time': 'وقت البدء',
@@ -10,7 +10,6 @@ function translateToArabic_up(updateWindow) {
         'Update Meetings': 'تحديث الاجتماعات'
     };
 
-    // Translate buttons
     const buttonTranslations = {
         'addAttendee': 'أضف مشارك',
         'deleteAttendee': 'احذف مشارك',
@@ -20,7 +19,7 @@ function translateToArabic_up(updateWindow) {
         'deleteMeeting': 'احذف الاجتماع'
     };
 
-    // Translate button texts by ID
+    // Translate buttons by ID
     Object.keys(buttonTranslations).forEach(function(id) {
         const button = updateWindow.document.getElementById(id);
         if (button) {
@@ -28,19 +27,26 @@ function translateToArabic_up(updateWindow) {
         }
     });
 
-    // Translate fields and headings by looking for matching textContent
+    // Translate labels based on their text content, but only affect labels
     Object.keys(fieldTranslations).forEach(function(text) {
-        const elements = updateWindow.document.querySelectorAll('strong');
-        elements.forEach(function(element) {
-            if (element.textContent.includes(text)) {
-                element.textContent = fieldTranslations[text];
+        const labels = updateWindow.document.querySelectorAll('label');
+        labels.forEach(function(label) {
+            // Normalize the label's text for matching
+            const normalizedLabelText = label.textContent.trim().replace(/[:\s]+$/, ''); // trim spaces and remove colons
+            const normalizedKey = text.trim();
+
+            if (normalizedLabelText === normalizedKey) {
+                // Only update the label's text
+                label.textContent = fieldTranslations[text];
             }
         });
     });
 
-    // Translate heading
-    const heading = updateWindow.document.querySelector('h2');
-    if (heading) {
-        heading.textContent = fieldTranslations['Update Meetings'];
-    }
+    // Translate heading for "Update Meetings" (if applicable)
+    const headings = updateWindow.document.querySelectorAll('h1, h2');
+    headings.forEach(function(heading) {
+        if (heading.textContent.includes('Update Meetings')) {
+            heading.textContent = fieldTranslations['Update Meetings'];
+        }
+    });
 }
