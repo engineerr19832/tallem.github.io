@@ -17,7 +17,7 @@ function translateToArabic_up(updateWindow) {
         'next': 'تالي',
         'updateMeeting': 'عدل المعلومات',
         'deleteMeeting': 'احذف الاجتماع',
-        'Back': 'عودة'
+        'backbutton2': 'عودة'
     };
 
     // Translate buttons by ID
