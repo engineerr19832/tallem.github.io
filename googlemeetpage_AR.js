@@ -21,13 +21,13 @@ function translateGoogleMeetPage() {
     const sendInvitButton = document.getElementById('sendinvit');
     if (sendInvitButton) {
         sendInvitButton.textContent = 'أضف مشارك';
-        sendInvitButton.style.fontWeight = 'bold';  // Make bold
+        sendInvitButton.style.fontWeight = 'bold';
     }
 
     const deleteAttendeeButton = document.getElementById('deleteattendee1');
     if (deleteAttendeeButton) {
         deleteAttendeeButton.textContent = 'احذف مشارك';
-        deleteAttendeeButton.style.fontWeight = 'bold';  // Make bold
+        deleteAttendeeButton.style.fontWeight = 'bold';
     }
 
     const loadInvitButton = document.getElementById('loadinvit');
@@ -44,7 +44,8 @@ function translateGoogleMeetPage() {
     if (createInvitButton) {
         createInvitButton.textContent = 'انشئ الاجتماع';
     }
-     // Translate "Repeat Every:" and "No of Occurs:" titles using exact text search
+
+    // Translate "Repeat Every:" and "No of Occurs:" titles using exact text search
     const labels = document.querySelectorAll('span');
     labels.forEach(label => {
         if (label.textContent.includes('Repeat Every:')) {
@@ -53,6 +54,7 @@ function translateGoogleMeetPage() {
             label.textContent = 'عدد مرات التكرار:';
         }
     });
+
     // Translate the "Repeat Frequency" dropdown options
     const repeatFrequencySelect = document.getElementById('repeatFrequency');
     if (repeatFrequencySelect) {
@@ -69,6 +71,7 @@ function translateGoogleMeetPage() {
             }
         }
     }
+
     // Translate input placeholders
     const attendeeEmailInput = document.getElementById('attendeeEmail');
     if (attendeeEmailInput) {
@@ -89,4 +92,14 @@ function translateGoogleMeetPage() {
     if (endTimeInput) {
         endTimeInput.placeholder = 'أدخل وقت نهاية الاجتماع هنا';
     }
+
+    // Translate the two specific texts based on their content
+    const allElements = document.querySelectorAll('*'); // Select all elements
+    allElements.forEach(element => {
+        if (element.textContent.trim() === 'Enter:Google Meet list of attendees emails with the') {
+            element.textContent = 'أدخل قائمة بريد الكتروني لمستخدمي غوغل ميت';
+        } else if (element.textContent.trim() === 'logged email in blue bold font (REQUIRED)') {
+            element.textContent = 'مع البريد المسجل باللون الأزرق الغامق (مطلوب)';
+        }
+    });
 }
