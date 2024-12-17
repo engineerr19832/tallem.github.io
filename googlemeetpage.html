@@ -369,6 +369,30 @@ document.addEventListener('DOMContentLoaded', function() {
                     recordButton.style.cursor = 'pointer';
                     recordButton.style.boxShadow = '0 4px #999';
 
+ const backButton = newWindow.document.createElement('button');
+                    backButton .id = 'recordmeet';
+                    backButton .textContent = 'Back';
+                    backButton .style.backgroundColor = 'green';
+                    backButton .style.color = 'white';
+                    backButton .style.position = 'fixed';
+                    backButton .style.top = '10px';
+                    backButton .style.right = '10px';
+                    backButton .style.padding = '15px 30px';
+                    backButton .style.fontWeight = 'bold';
+                    backButton .style.fontSize = '40px';
+                    backButton .style.border = 'none';
+                    backButton .style.borderRadius = '5px';
+                    backButton .style.cursor = 'pointer';
+                    backButton .style.boxShadow = '0 4px #999';
+                    
+// Add event listener to the back button to close the window
+backButton.addEventListener('click', function() {
+    newWindow.close(); // Close the newly opened window
+});
+
+                    // Add the back button to the body
+newWindow.document.body.appendChild(backButton);
+                    
                     // Initially hide the button when the page loads
                     recordButton.style.display = 'none';
 
