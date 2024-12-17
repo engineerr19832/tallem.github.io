@@ -4,9 +4,9 @@ function translateToArabic_up(updateWindow) {
         'Description': 'ملاحظات',
         'Start Time': 'وقت البدء',
         'End Time': 'وقت الانتهاء',
-        'Repeat Every': 'كرر الاجتماع كل',
-        'Repeat Frequency': 'يوم / شهر / سنة',
-        'Number of Occurrences': 'عدد مرات التكرار',
+        'Rep. Every': 'كرر الاجتماع كل',
+        'Freq': 'يوم / شهر / سنة',
+        'Occur': 'عدد مرات التكرار',
         'Update Meetings': 'تحديث الاجتماعات'
     };
 
