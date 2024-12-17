@@ -104,10 +104,6 @@ function translateGoogleMeetPage() {
             element.textContent = 'مع البريد المسجل باللون الأزرق الغامق (مطلوب)';
             element.style.fontSize = '14px';  // Adjust font size
             element.style.fontWeight = 'bold';
-        } else if (element.textContent.trim() === 'Attendee Emails') {
-            element.textContent = 'البريد الالكتروني للمدعوين';
-            element.style.fontSize = '14px';  // Adjust font size
-            element.style.fontWeight = 'bold'; // Optional: Bold
-        }
+        } 
     });
 }
