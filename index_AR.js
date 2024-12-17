@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const h3Elements = document.querySelectorAll("h1, h2, h3, h4");
             h3Elements.forEach(el => {
                 if (el.textContent.includes("The college application contains Conference meet room powered by Google Meet")) {
-                    el.innerHTML = "<b>تطبيق المعهد يحتوي على غرفة شات اجتماعات مدعوم من غوغل / منشورات المعهد ومحاضرات وسير ذاتية للمدرسين / صفحة محتوى المعهد تحتوي على المحاضرات وأية ملفات أخرى</b>";
+                    el.innerHTML = "<b>تطبيق المعهد يحتوي على غرفة شات اجتماعات مدعوم من غوغل / منشورات المعهد ومحاضرات وسير ذاتية للمدرسين / صفحة محتوى المعهد تحتوي على المحاضرات و ملفات أخرى</b>";
                     el.classList.add("arabic");
                 }
             });
