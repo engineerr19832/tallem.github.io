@@ -27,21 +27,15 @@ function translateToArabic_up(updateWindow) {
         }
     });
 
-    // Translate labels based on their text content, but only affect labels
-    Object.keys(fieldTranslations).forEach(function(text) {
-        const labels = updateWindow.document.querySelectorAll('label');
-        labels.forEach(function(label) {
-            // Normalize the label's text for matching
-            const normalizedLabelText = label.textContent.trim().replace(/[:\s]+$/, ''); // trim spaces and remove colons
-            const normalizedKey = text.trim();
-
-            // Log the original label text
-            console.log(`Original label text: "${label.textContent}"`);
-
-            if (normalizedLabelText === normalizedKey) {
-                // Only update the label's text
-                console.log(`Label translated: "${label.textContent}" -> "${fieldTranslations[text]}"`);
-                label.textContent = fieldTranslations[text];
+    // Translate labels in <h1>, <h2>, and other text elements (e.g., description, start time, etc.)
+    const textElements = updateWindow.document.querySelectorAll('h1, h2, p');
+    textElements.forEach(function(element) {
+        const normalizedText = element.textContent.trim().replace(/[:\s]+$/, ''); // trim spaces and remove colons
+        
+        Object.keys(fieldTranslations).forEach(function(key) {
+            const normalizedKey = key.trim();
+            if (normalizedText === normalizedKey) {
+                element.textContent = fieldTranslations[key];
             }
         });
     });
@@ -50,7 +44,6 @@ function translateToArabic_up(updateWindow) {
     const headings = updateWindow.document.querySelectorAll('h1, h2');
     headings.forEach(function(heading) {
         if (heading.textContent.includes('Update Meetings')) {
-            console.log(`Heading translation: "${heading.textContent}" -> "${fieldTranslations['Update Meetings']}"`);
             heading.textContent = fieldTranslations['Update Meetings'];
         }
     });
