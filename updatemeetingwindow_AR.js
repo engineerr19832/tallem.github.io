@@ -34,7 +34,7 @@ function translateToArabic_up(updateWindow) {
             // Normalize the label's text for matching
             const normalizedLabelText = label.textContent.trim().replace(/[:\s]+$/, ''); // trim spaces and remove colons
             const normalizedKey = text.trim();
-            console.log(label);
+            console.log(label.textContent);
 
             if (normalizedLabelText === normalizedKey) {
                 // Only update the label's text
