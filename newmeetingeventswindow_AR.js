@@ -2,6 +2,7 @@ function loadArabicContent(newWindow, events) {
     // Select the buttons to keep
     const recordButton = newWindow.document.getElementById('recordmeet');
     const stopButton = newWindow.document.getElementById('stoprecord');
+    const stopButton = newWindow.document.getElementById('backButton');
 
     // Clear the content of the body while keeping the buttons
     const bodyContent = newWindow.document.body.innerHTML;
