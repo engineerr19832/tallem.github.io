@@ -2,13 +2,13 @@ function loadArabicContent(newWindow, events) {
     // Select the buttons to keep
     const recordButton = newWindow.document.getElementById('recordmeet');
     const stopButton = newWindow.document.getElementById('stoprecord');
-    const backButton2 = newWindow.document.getElementById('backButton2');
+    const backButton = newWindow.document.getElementById('backback');
 
      // Create a temporary container for the buttons
     const buttonContainer = document.createDocumentFragment();
     if (recordButton) buttonContainer.appendChild(recordButton);
     if (stopButton) buttonContainer.appendChild(stopButton);
-    if (backButton2) buttonContainer.appendChild(backButton2);
+    if (backButton) buttonContainer.appendChild(backButton);
 
     // Clear the content of the body while keeping the buttons
     const bodyContent = newWindow.document.body.innerHTML;
@@ -77,8 +77,8 @@ function loadArabicContent(newWindow, events) {
         stopButton.textContent = 'انهاء التسجيل'; // Translate to Arabic
         stopButton.style.fontSize = '16px'; // Minimized font size for button
     }
-     if (backButton2) {
-        backButton2.textContent = 'عودة'; // Translate to Arabic
-        backButton2.style.fontSize = '16px'; // Minimized font size for button
+     if (backButton) {
+        backButton.textContent = 'عودة'; // Translate to Arabic
+        backButton.style.fontSize = '16px'; // Minimized font size for button
     }
 }
