@@ -78,7 +78,7 @@ function loadArabicContent(newWindow, events) {
         stopButton.style.fontSize = '16px'; // Minimized font size for button
     }
      if (backButton2) {
-        backButton.textContent = 'عودة'; // Translate to Arabic
-        backButton.style.fontSize = '16px'; // Minimized font size for button
+        backButton2.textContent = 'عودة'; // Translate to Arabic
+        backButton2.style.fontSize = '16px'; // Minimized font size for button
     }
 }
