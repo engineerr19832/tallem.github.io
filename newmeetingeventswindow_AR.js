@@ -63,7 +63,7 @@ function loadArabicContent(newWindow, events) {
             <strong>رابط الاجتماع:</strong> <a href="${hangoutLink}" class="meeting-link" data-creator-email="${creatorEmail}" target="_blank">${hangoutLink}</a><br>
             <strong>نوع الاجتماع:</strong> ${recurrenceInfo} <!-- Remain in English -->
         `;
-        listItem.style.fontSize = '12px'; // Minimized font size for event list items
+        listItem.style.fontSize = '13px'; // Minimized font size for event list items
         eventList.appendChild(listItem);
     });
 
