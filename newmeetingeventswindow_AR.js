@@ -81,5 +81,6 @@ function loadArabicContent(newWindow, events) {
         backButton.textContent = 'عودة'; // Translate to Arabic
         backButton.style.fontSize = '48px'; // Minimized font size for button
         backButton.style.textAlign = 'center'; // Horizontally center
+        backButton.style.lineHeight = '50px'; // Match the button's height
     }
 }
