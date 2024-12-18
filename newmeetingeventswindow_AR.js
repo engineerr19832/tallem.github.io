@@ -17,6 +17,10 @@ function loadArabicContent(newWindow, events) {
         newWindow.document.body.appendChild(stopButton);
     }
 
+     if (backButton) {
+        newWindow.document.body.appendChild(backButton);
+    }
+
     // Set the title and create the heading in Arabic
     newWindow.document.title = 'غرفة الاجتماعات';
     const heading = newWindow.document.createElement('h2');
