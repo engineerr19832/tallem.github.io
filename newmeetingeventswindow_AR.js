@@ -23,7 +23,7 @@ function loadArabicContent(newWindow, events) {
     newWindow.document.title = 'غرفة الاجتماعات';
     const heading = newWindow.document.createElement('h2');
     heading.textContent = 'غرفة الاجتماعات';
-    heading.style.fontSize = '30px'; // Minimized font size for heading
+    heading.style.fontSize = '60px'; // Minimized font size for heading
     newWindow.document.body.appendChild(heading);
 
     // Create a list for events
