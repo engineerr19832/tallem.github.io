@@ -2,7 +2,7 @@ function loadArabicContent(newWindow, events) {
     // Select the buttons to keep
     const recordButton = newWindow.document.getElementById('recordmeet');
     const stopButton = newWindow.document.getElementById('stoprecord');
-    const backButton = newWindow.document.getElementById('backButton');
+    const backButton2 = newWindow.document.getElementById('backButton');
 
     // Clear the content of the body while keeping the buttons
     const bodyContent = newWindow.document.body.innerHTML;
@@ -18,8 +18,8 @@ function loadArabicContent(newWindow, events) {
         newWindow.document.body.appendChild(stopButton);
     }
 
-     if (backButton) {
-        newWindow.document.body.appendChild(backButton);
+     if (backButton2) {
+        newWindow.document.body.appendChild(backButton2);
     }
 
     // Set the title and create the heading in Arabic
