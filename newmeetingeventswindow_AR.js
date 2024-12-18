@@ -4,23 +4,20 @@ function loadArabicContent(newWindow, events) {
     const stopButton = newWindow.document.getElementById('stoprecord');
     const backButton2 = newWindow.document.getElementById('backButton');
 
+     // Create a temporary container for the buttons
+    const buttonContainer = document.createDocumentFragment();
+    if (recordButton) buttonContainer.appendChild(recordButton);
+    if (stopButton) buttonContainer.appendChild(stopButton);
+    if (backButton) buttonContainer.appendChild(backButton);
+
     // Clear the content of the body while keeping the buttons
     const bodyContent = newWindow.document.body.innerHTML;
 
     // Clear the entire body
     newWindow.document.body.innerHTML = '';
 
-    // Re-add the buttons to the body
-    if (recordButton) {
-        newWindow.document.body.appendChild(recordButton);
-    }
-    if (stopButton) {
-        newWindow.document.body.appendChild(stopButton);
-    }
-
-     if (backButton2) {
-        newWindow.document.body.appendChild(backButton2);
-    }
+    // Re-add the buttons from the temporary container
+    newWindow.document.body.appendChild(buttonContainer);
 
     // Set the title and create the heading in Arabic
     newWindow.document.title = 'غرفة الاجتماعات';
