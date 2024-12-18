@@ -8,7 +8,7 @@ function loadArabicContent(newWindow, events) {
     const buttonContainer = document.createDocumentFragment();
     if (recordButton) buttonContainer.appendChild(recordButton);
     if (stopButton) buttonContainer.appendChild(stopButton);
-    if (backButton) buttonContainer.appendChild(backButton);
+    if (backButton2) buttonContainer.appendChild(backButton2);
 
     // Clear the content of the body while keeping the buttons
     const bodyContent = newWindow.document.body.innerHTML;
