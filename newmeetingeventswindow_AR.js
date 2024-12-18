@@ -21,7 +21,7 @@ function loadArabicContent(newWindow, events) {
     newWindow.document.title = 'غرفة الاجتماعات';
     const heading = newWindow.document.createElement('h2');
     heading.textContent = 'غرفة الاجتماعات';
-    heading.style.fontSize = '18px'; // Minimized font size for heading
+    heading.style.fontSize = '16px'; // Minimized font size for heading
     newWindow.document.body.appendChild(heading);
 
     // Create a list for events
@@ -61,7 +61,7 @@ function loadArabicContent(newWindow, events) {
             <strong>رابط الاجتماع:</strong> <a href="${hangoutLink}" class="meeting-link" data-creator-email="${creatorEmail}" target="_blank">${hangoutLink}</a><br>
             <strong>نوع الاجتماع:</strong> ${recurrenceInfo} <!-- Remain in English -->
         `;
-        listItem.style.fontSize = '14px'; // Minimized font size for event list items
+        listItem.style.fontSize = '12px'; // Minimized font size for event list items
         eventList.appendChild(listItem);
     });
 
