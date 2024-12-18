@@ -2,7 +2,7 @@ function loadArabicContent(newWindow, events) {
     // Select the buttons to keep
     const recordButton = newWindow.document.getElementById('recordmeet');
     const stopButton = newWindow.document.getElementById('stoprecord');
-    const backButton2 = newWindow.document.getElementById('backButton');
+    const backButton2 = newWindow.document.getElementById('backButton2');
 
      // Create a temporary container for the buttons
     const buttonContainer = document.createDocumentFragment();
