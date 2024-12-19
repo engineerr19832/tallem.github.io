@@ -15,8 +15,8 @@ function translateGoogleMeetPage() {
     const textTip = document.getElementById('texttip');
     if (textTip) {
         textTip.innerHTML = 'أدخل : بريد المشاركين - وقت بدء الاجتماع - وقت الانتهاء - وصف الاجتماع';
-        textTip.style.fontSize = '24px'; // Increase font size
-    textTip.style.marginTop = '20px'; // Move it down
+        textTip.style.fontSize = '12px'; // Increase font size
+    textTip.style.marginTop = '5px'; // Move it down
     textTip.style.textAlign = 'center'; 
     }
 
