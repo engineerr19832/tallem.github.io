@@ -14,7 +14,10 @@ function translateGoogleMeetPage() {
     // Translate the <h4> inside the <div> with id="texttip"
     const textTip = document.getElementById('texttip');
     if (textTip) {
-        textTip.innerHTML = 'أدخل : بريد المدعوين للاجتماع - وقت بدء الاجتماع - وقت الانتهاء - وصف الاجتماع لتكوين اجتماع جديد';
+        textTip.innerHTML = 'أدخل : بريد المشاركين - وقت بدء الاجتماع - وقت الانتهاء - وصف الاجتماع';
+        textTip.style.fontSize = '24px'; // Increase font size
+    textTip.style.marginTop = '20px'; // Move it down
+    textTip.style.textAlign = 'center'; 
     }
 
     // Translate the buttons
