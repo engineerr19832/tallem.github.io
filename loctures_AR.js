@@ -18,6 +18,11 @@ function translatePageToArabic() {
     document.getElementById('updatenotes').style.fontWeight = 'bold';
     document.getElementById('updatenotes').style.fontSize = '1em';
 
+    console.log(document.getElementById('deleteVideo')); // Should log the button element or `null`
+console.log(document.getElementById('fileupload'));
+console.log(document.getElementById('updatenotes'));
+
+
     // Translate combo box labels
     document.querySelector('label[for="lecturer-email"] h3').textContent = 'ايميل الاستاذ';
     document.querySelector('label[for="lecture-time"] h3').textContent = 'تاريخ المحاضرة';
