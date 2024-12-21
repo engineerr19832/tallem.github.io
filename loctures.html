@@ -460,6 +460,13 @@ function openVideoInNewWindow(videoUrl) {
         populateComboBoxes();
         loadLectures();
     });
+
+    const arpage = localStorage.getItem('arpage');
+ // Check if the page should be translated to Arabic
+                    if (arpage === 'ar') {
+                        console.log("Arabic translation condition met");
+                        translatePageToArabic(); 
+                    }
 </script>
 
 </body>
