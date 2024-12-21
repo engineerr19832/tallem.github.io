@@ -28,9 +28,11 @@ console.log(document.getElementById('updatenotes'));
         if (label.textContent.trim() === 'Lecturer Email') {
             label.textContent = 'ايميل الاستاذ';
             label.style.fontWeight = 'bold'; // Make the text bold
+             label.style.display = 'block';
         } else if (label.textContent.trim() === 'Lecture Time') {
             label.textContent = 'تاريخ المحاضرة';
             label.style.fontWeight = 'bold'; // Make the text bold
+             label.style.display = 'block';
         }
         if (translatedText) {
             label.textContent = ''; // Clear existing content
