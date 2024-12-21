@@ -27,8 +27,10 @@ console.log(document.getElementById('updatenotes'));
     labels.forEach(label => {
         if (label.textContent.trim() === 'Lecturer Email') {
             label.textContent = 'ايميل الاستاذ';
+            label.style.fontWeight = 'bold'; // Make the text bold
         } else if (label.textContent.trim() === 'Lecture Time') {
             label.textContent = 'تاريخ المحاضرة';
+            label.style.fontWeight = 'bold'; // Make the text bold
         }
         if (translatedText) {
             label.textContent = ''; // Clear existing content
