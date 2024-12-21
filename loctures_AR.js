@@ -20,9 +20,15 @@ console.log(document.getElementById('fileupload'));
 console.log(document.getElementById('updatenotes'));
 
 
-    // Translate combo box labels
-    document.querySelector('label[for="lecturer-email"] h3').textContent = 'ايميل الاستاذ';
-    document.querySelector('label[for="lecture-time"] h3').textContent = 'تاريخ المحاضرة';
+    // Translate combo box labels based on their text
+    const labels = document.querySelectorAll('label');
+    labels.forEach(label => {
+        if (label.textContent.trim() === 'Lecturer Email') {
+            label.textContent = 'ايميل الاستاذ';
+        } else if (label.textContent.trim() === 'Lecture Time') {
+            label.textContent = 'تاريخ المحاضرة';
+        }
+    });
 
     // Translate "Display the lecture" cells
     const cells = document.querySelectorAll('td:nth-child(3) a');
