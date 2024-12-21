@@ -22,11 +22,20 @@ console.log(document.getElementById('updatenotes'));
 
     // Translate combo box labels based on their text
     const labels = document.querySelectorAll('label');
+    let translatedText = null;
+    
     labels.forEach(label => {
         if (label.textContent.trim() === 'Lecturer Email') {
             label.textContent = 'ايميل الاستاذ';
         } else if (label.textContent.trim() === 'Lecture Time') {
             label.textContent = 'تاريخ المحاضرة';
+        }
+        if (translatedText) {
+            label.textContent = ''; // Clear existing content
+            const h3 = document.createElement('h3'); // Create an <h3> element
+            h3.textContent = translatedText;
+            h3.style.margin = '0'; // Add styling to mimic original layout
+            label.appendChild(h3); // Append the <h3> to the label
         }
     });
 
