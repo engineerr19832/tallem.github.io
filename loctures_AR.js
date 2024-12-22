@@ -6,6 +6,7 @@ function translatePageToArabic() {
     document.getElementById('deleteVideo').textContent = 'حذف المحتوى';
     document.getElementById('deleteVideo').style.fontSize = '0.8em';
     document.getElementById('deleteVideo').style.paddingBottom = '3px';
+    document.getElementById('deleteVideo').style.fontWeight = 'bold';
     
     document.getElementById('fileupload').textContent = 'تحميل المحتوى';
     document.getElementById('fileupload').style.fontSize = '0.8em';
