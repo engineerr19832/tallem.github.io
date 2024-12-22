@@ -38,8 +38,9 @@ console.log(document.getElementById('updatenotes'));
         }
     });
 
- // Translate "Display content" and "Display lecture" inside table cells
-    const tableCells = document.querySelectorAll('table td'); // Select all table cells
+const lecturesTable = document.getElementById('lectures-table');
+if (lecturesTable) {
+    const tableCells = lecturesTable.querySelectorAll('td');
     tableCells.forEach(cell => {
         const cellText = cell.textContent.trim();
 
@@ -48,9 +49,9 @@ console.log(document.getElementById('updatenotes'));
         } else if (cellText === 'Display Lecture') {
             cell.textContent = 'اعرض المحاضرة';
             console.log("Display Lecture");
-        }
-        else if (cellText === 'Display picture') {
+        } else if (cellText === 'Display picture') {
             cell.textContent = 'اعرض الصورة';
         }
     });
-              }
+}
+}
