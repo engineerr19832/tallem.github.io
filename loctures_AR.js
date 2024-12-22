@@ -45,8 +45,9 @@ console.log(document.getElementById('updatenotes'));
 
         if (cellText === 'Display content') {
             cell.textContent = 'اعرض المحتوى';
-        } else if (cellText === 'Display lecture') {
+        } else if (cellText === 'Display Lecture') {
             cell.textContent = 'اعرض المحاضرة';
+            console.log("Display Lecture");
         }
         else if (cellText === 'Display picture') {
             cell.textContent = 'اعرض الصورة';
