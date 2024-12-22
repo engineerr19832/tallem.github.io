@@ -36,14 +36,6 @@ console.log(document.getElementById('updatenotes'));
             label.style.fontWeight = 'bold'; // Make the text bold
              label.style.display = 'block';
         }
-        if (translatedText) {
-            label.textContent = ''; // Clear existing content
-            const h3 = document.createElement('h3'); // Create an <h3> element
-            h3.textContent = translatedText;
-            h3.style.margin = '0'; // Add styling to mimic original layout
-            label.style.display = 'block'; // Ensure the label takes up its own line
-            label.appendChild(h3); // Append the <h3> to the label
-        }
     });
 
    // Translate "Display the lecture" cells
@@ -71,3 +63,4 @@ links.forEach(link => {
 function getFileExtension(url) {
     return url.split('.').pop().split(/\#|\?/)[0];
 }
+              }
