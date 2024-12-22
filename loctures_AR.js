@@ -4,15 +4,12 @@ function translatePageToArabic() {
 
     // Translate buttons
     document.getElementById('deleteVideo').textContent = 'حذف المحتوى';
-    document.getElementById('deleteVideo').style.fontWeight = 'bold';
     document.getElementById('deleteVideo').style.fontSize = '0.8em';
     
     document.getElementById('fileupload').textContent = 'تحميل المحتوى';
-    document.getElementById('fileupload').style.fontWeight = 'bold';
     document.getElementById('fileupload').style.fontSize = '0.8em';
     
     document.getElementById('updatenotes').textContent = 'عدل الملاحظة';
-    document.getElementById('updatenotes').style.fontWeight = 'bold';
     document.getElementById('updatenotes').style.fontSize = '0.8em';
 
     console.log(document.getElementById('deleteVideo')); // Should log the button element or `null`
