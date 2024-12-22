@@ -11,9 +11,11 @@ function translatePageToArabic() {
     document.getElementById('fileupload').textContent = 'تحميل المحتوى';
     document.getElementById('fileupload').style.fontSize = '0.8em';
     document.getElementById('fileupload').style.paddingBottom = '3px';
+    document.getElementById('fileupload').style.fontWeight = 'bold';
     
     document.getElementById('updatenotes').textContent = 'عدل الملاحظة';
     document.getElementById('updatenotes').style.fontSize = '0.8em';
+    document.getElementById('updatenotes').style.fontWeight = 'bold';
 
     console.log(document.getElementById('deleteVideo')); // Should log the button element or `null`
 console.log(document.getElementById('fileupload'));
