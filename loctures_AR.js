@@ -5,9 +5,11 @@ function translatePageToArabic() {
     // Translate buttons
     document.getElementById('deleteVideo').textContent = 'حذف المحتوى';
     document.getElementById('deleteVideo').style.fontSize = '0.8em';
+    document.getElementById('deleteVideo').style.paddingBottom = '3px';
     
     document.getElementById('fileupload').textContent = 'تحميل المحتوى';
     document.getElementById('fileupload').style.fontSize = '0.8em';
+    document.getElementById('fileupload').style.paddingBottom = '3px';
     
     document.getElementById('updatenotes').textContent = 'عدل الملاحظة';
     document.getElementById('updatenotes').style.fontSize = '0.8em';
