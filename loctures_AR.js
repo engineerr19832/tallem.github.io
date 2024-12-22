@@ -46,27 +46,26 @@ console.log(document.getElementById('updatenotes'));
         }
     });
 
-    // Translate "Display the lecture" cells
-    const cells = document.querySelectorAll('td:nth-child(3) a');
-    cells.forEach(cell => {
-        const originalText = cell.textContent.trim();
-        const cellHref = cell.href;
-        const extension = getFileExtension(cellHref).toLowerCase();
-        let translatedText = 'اعرض المحتوى'; // Default text
+   // Translate "Display the lecture" cells
+const links = document.querySelectorAll('table a'); // Find all <a> elements in the table
+links.forEach(link => {
+    const originalText = link.textContent.trim();
+    const linkHref = link.href;
+    const extension = getFileExtension(linkHref).toLowerCase();
+    let translatedText = 'اعرض المحتوى'; // Default text
 
-        // Check for specific keywords and translate accordingly
-        if (originalText === 'Display the lecture') {
-            translatedText = 'اعرض المحاضرة';
-        } else if (['png', 'jpg', 'jpeg'].includes(extension)) {
-            translatedText = 'اعرض الصورة';
-        } else if (['pdf', 'doc', 'docx', 'xls', 'xlsx'].includes(extension)) {
-            translatedText = `${extension.toUpperCase()} / اعرض المحتوى`;
-        }
+    // Check for specific keywords and translate accordingly
+    if (originalText === 'Display the lecture') {
+        translatedText = 'اعرض المحاضرة';
+    } else if (['png', 'jpg', 'jpeg'].includes(extension)) {
+        translatedText = 'اعرض الصورة';
+    } else if (['pdf', 'doc', 'docx', 'xls', 'xlsx'].includes(extension)) {
+        translatedText = `${extension.toUpperCase()} / اعرض المحتوى`;
+    }
 
-        // Set the translated text
-        cell.textContent = translatedText;
-    });
-}
+    // Set the translated text
+    link.textContent = translatedText;
+});
 
 // Helper function to get file extension
 function getFileExtension(url) {
