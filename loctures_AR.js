@@ -11,7 +11,7 @@ function translatePageToArabic() {
     document.getElementById('fileupload').style.fontWeight = 'bold';
     document.getElementById('fileupload').style.fontSize = '0.8em';
     
-    document.getElementById('updatenotes').textContent = 'تعديل الملاحظات';
+    document.getElementById('updatenotes').textContent = 'عدل الملاحظة';
     document.getElementById('updatenotes').style.fontWeight = 'bold';
     document.getElementById('updatenotes').style.fontSize = '0.8em';
 
