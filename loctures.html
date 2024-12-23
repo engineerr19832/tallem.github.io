@@ -265,7 +265,7 @@ function openVideoInNewWindow(videoUrl) {
     });
 }
         
-  function loadLectures(creatorEmail = null, stopRecordingDate = null) {
+ function loadLectures(creatorEmail = null, stopRecordingDate = null) {
     let query = db.collection('meetings_his_tbl');
 
     if (creatorEmail && creatorEmail !== 'null') {
@@ -375,6 +375,7 @@ function openVideoInNewWindow(videoUrl) {
         })
         .catch(error => console.error('Error loading lectures:', error));
 }
+
 
         
         function populateComboBoxes() {
