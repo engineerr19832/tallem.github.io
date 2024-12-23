@@ -39,56 +39,19 @@ console.log(document.getElementById('updatenotes'));
     });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const lecturesTable = document.getElementById('lectures-table');
-    console.log("Table is: ", lecturesTable);
-
-    if (lecturesTable) {
-        const tbody = lecturesTable.querySelector('tbody');
-
-        if (tbody) {
-            // Observe changes in the table's body
-            const observer = new MutationObserver(() => {
-                console.log("Table rows changed. Running translation...");
-                translateTableCells(lecturesTable);
-            });
-
-            observer.observe(tbody, {
-                childList: true, // Watch for added/removed rows
-            });
-
-            // Run translation function initially in case rows already exist
-            translateTableCells(lecturesTable);
-        } else {
-            console.error("The table does not have a <tbody> element.");
-        }
-    } else {
-        console.error("The table with ID 'lectures-table' was not found.");
-    }
-});
-
-function translateTableCells(lecturesTable) {
-    const tableCells = lecturesTable.querySelectorAll('td');
-    console.log("Table cells found:", tableCells);
-
-    if (tableCells.length === 0) {
-        console.warn("No table cells found for translation.");
-        return;
-    }
-
+  // Translate "Display content" and "Display lecture" inside table cells
+    const tableCells = document.querySelectorAll('table td'); // Select all table cells
+    console.log(tableCells);
     tableCells.forEach(cell => {
         const cellText = cell.textContent.trim();
-
+        console.log(cellText);
         if (cellText === 'Display content') {
             cell.textContent = 'اعرض المحتوى';
-        } else if (cellText === 'Display Lecture') {
+        } else if (cellText === 'Display lecture') {
             cell.textContent = 'اعرض المحاضرة';
-            console.log("Translated 'Display Lecture' to Arabic.");
         } else if (cellText === 'Display picture') {
             cell.textContent = 'اعرض الصورة';
         }
     });
-}
-
     
 }
