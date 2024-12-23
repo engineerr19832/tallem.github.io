@@ -39,6 +39,7 @@ console.log(document.getElementById('updatenotes'));
     });
 
 const lecturesTable = document.getElementById('lectures-table');
+    console.log(lecturesTable);
 if (lecturesTable) {
     const tableCells = lecturesTable.querySelectorAll('td');
     tableCells.forEach(cell => {
