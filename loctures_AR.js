@@ -45,11 +45,11 @@ console.log(document.getElementById('updatenotes'));
     tableCells.forEach(cell => {
         const cellText = cell.textContent.trim();
         console.log(cellText);
-        if (cellText === 'Display content') {
+        if (cellText === 'Display Content') {
             cell.textContent = 'اعرض المحتوى';
-        } else if (cellText === 'Display lecture') {
+        } else if (cellText === 'Display Lecture') {
             cell.textContent = 'اعرض المحاضرة';
-        } else if (cellText === 'Display picture') {
+        } else if (cellText === 'Display Picture') {
             cell.textContent = 'اعرض الصورة';
         }
     });
