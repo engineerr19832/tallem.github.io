@@ -44,6 +44,7 @@ if (lecturesTable) {
     const tableCells = lecturesTable.querySelectorAll('td');
     tableCells.forEach(cell => {
         const cellText = cell.textContent.trim();
+                   console.log(cellText);
 
         if (cellText === 'Display content') {
             cell.textContent = 'اعرض المحتوى';
