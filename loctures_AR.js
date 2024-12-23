@@ -75,8 +75,5 @@ function translateTableCells(lecturesTable) {
         }
     });
 }
-
-
-
     
 }
