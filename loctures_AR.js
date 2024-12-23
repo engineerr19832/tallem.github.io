@@ -39,19 +39,21 @@ console.log(document.getElementById('updatenotes'));
     });
 
 
-  // Translate "Display content" and "Display lecture" inside table cells
-    const tableCells = document.querySelectorAll('table td'); // Select all table cells
-    console.log(tableCells);
-    tableCells.forEach(cell => {
-        const cellText = cell.textContent.trim();
-        console.log(cellText);
-        if (cellText === 'Display Content') {
-            cell.textContent = 'اعرض المحتوى';
-        } else if (cellText === 'Display Lecture') {
-            cell.textContent = 'اعرض المحاضرة';
-        } else if (cellText === 'Display Picture') {
-            cell.textContent = 'اعرض الصورة';
+const tableCells = document.querySelectorAll('table td'); // Select all table cells
+tableCells.forEach(cell => {
+    const link = cell.querySelector('a'); // Check if the cell contains a link
+    if (link) {
+        const linkText = link.textContent.trim();
+        console.log("Link Text Found:", linkText);
+        // Translate the link text without altering the href
+        if (linkText === 'Display Content') {
+            link.textContent = 'اعرض المحتوى';
+        } else if (linkText === 'Display Lecture') {
+            link.textContent = 'اعرض المحاضرة';
+        } else if (linkText === 'Display Picture') {
+            link.textContent = 'اعرض الصورة';
         }
-    });
+    }
+});
     
 }
