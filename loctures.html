@@ -265,7 +265,7 @@ function openVideoInNewWindow(videoUrl) {
     });
 }
         
-   function loadLectures(creatorEmail = null, stopRecordingDate = null) {
+  function loadLectures(creatorEmail = null, stopRecordingDate = null) {
     let query = db.collection('meetings_his_tbl');
 
     if (creatorEmail && creatorEmail !== 'null') {
@@ -361,9 +361,21 @@ function openVideoInNewWindow(videoUrl) {
 
             // Make rows selectable
             makeRowsSelectable();
+
+            // Call the translation function after the table has been fully populated
+            const arpage = localStorage.getItem('arpage');
+            console.log("Value of 'arpage' from localStorage:", arpage); // Debugging
+
+            if (arpage === 'ar') {
+                console.log("Arabic translation condition met");
+                translatePageToArabic();
+            } else {
+                console.log("Arabic translation condition not met");
+            }
         })
         .catch(error => console.error('Error loading lectures:', error));
 }
+
         
         function populateComboBoxes() {
             const uniqueEmails = new Set();
@@ -460,15 +472,6 @@ function openVideoInNewWindow(videoUrl) {
         populateComboBoxes();
         loadLectures();
     });
-
-  document.addEventListener('DOMContentLoaded', function () {
-    const arpage = localStorage.getItem('arpage');
-    // Check if the page should be translated to Arabic
-    if (arpage === 'ar') {
-        console.log("Arabic translation condition met");
-        translatePageToArabic();
-    }
-});
 
 </script>
 
