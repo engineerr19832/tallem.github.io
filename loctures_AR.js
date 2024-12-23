@@ -38,11 +38,28 @@ console.log(document.getElementById('updatenotes'));
         }
     });
 
-const lecturesTable = document.getElementById('lectures-table');
-    console.log("The table id is: ",lecturesTable);
-if (lecturesTable) {
+
+document.addEventListener('DOMContentLoaded', function () {
+    const lecturesTable = document.getElementById('lectures-table');
+    
+    if (lecturesTable) {
+        // Observe changes in the table's body
+        const observer = new MutationObserver(() => {
+            console.log("Table rows changed. Running translation...");
+            translateTableCells(lecturesTable);
+        });
+
+        observer.observe(lecturesTable.querySelector('tbody'), {
+            childList: true, // Watch for added/removed rows
+        });
+
+        // Run translation function initially in case rows already exist
+        translateTableCells(lecturesTable);
+    }
+});
+
+function translateTableCells(lecturesTable) {
     const tableCells = lecturesTable.querySelectorAll('td');
-    console.log(tableCells);
     tableCells.forEach(cell => {
         const cellText = cell.textContent.trim();
 
@@ -56,4 +73,8 @@ if (lecturesTable) {
         }
     });
 }
+
+
+
+    
 }
