@@ -41,6 +41,7 @@ console.log(document.getElementById('updatenotes'));
 
 document.addEventListener('DOMContentLoaded', function () {
     const lecturesTable = document.getElementById('lectures-table');
+    console.log("Table is: ",lecturetable);
     
     if (lecturesTable) {
         // Observe changes in the table's body
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function translateTableCells(lecturesTable) {
     const tableCells = lecturesTable.querySelectorAll('td');
+    console.log(tableCells);
     tableCells.forEach(cell => {
         const cellText = cell.textContent.trim();
 
