@@ -42,9 +42,9 @@ const lecturesTable = document.getElementById('lectures-table');
     console.log("The table id is: ",lecturesTable);
 if (lecturesTable) {
     const tableCells = lecturesTable.querySelectorAll('td');
+    console.log(tableCells);
     tableCells.forEach(cell => {
         const cellText = cell.textContent.trim();
-                   console.log(cellText);
 
         if (cellText === 'Display content') {
             cell.textContent = 'اعرض المحتوى';
