@@ -339,16 +339,15 @@ function openVideoInNewWindow(videoUrl) {
                     const lectureCell = document.createElement('td');
                     const link = document.createElement('a');
                     link.href = lecture.videoURL;
+
+                    // Extract the file extension
+                    const urlParts = lecture.videoURL.split('?')[0]; // Remove query parameters
+                    const fileExtension = urlParts.split('.').pop().toLowerCase(); // Get file extension
                     
                     // Determine the text content based on the file extension
-                    if (link.href.endsWith('.mp4')) {
+                    if (fileExtension === 'mp4') {
                         link.textContent = 'Display Lecture';
-                    } else if (
-                        link.href.endsWith('.png') ||
-                        link.href.endsWith('.gif') ||
-                        link.href.endsWith('.jpg') ||
-                        link.href.endsWith('.jpeg')
-                    ) {
+                    } else if (['png', 'gif', 'jpg', 'jpeg'].includes(fileExtension)) {
                         link.textContent = 'Display Picture';
                     } else {
                         link.textContent = 'Display Content';
