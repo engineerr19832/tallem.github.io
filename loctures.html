@@ -360,7 +360,7 @@ function openVideoInNewWindow(videoUrl) {
             openVideoInNewWindow(lecture.videoURL); // Open in custom player
         }    else if (/\.(xls|xlsx|doc|docx)$/i.test(link.href)) {
         // Wrap the URL with Google Docs Viewer for specific file types
-        link.href = `https://docs.google.com/viewer?url=${encodeURIComponent(link.href)}&embedded=true`;
+        link.href = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(link.href)}`;
         // No need to prevent default behavior
     }
                     };
