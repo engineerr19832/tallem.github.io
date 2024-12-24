@@ -360,7 +360,10 @@ function openVideoInNewWindow(videoUrl) {
             openVideoInNewWindow(lecture.videoURL); // Open in custom player
         }    else if (/\.(xls|xlsx|doc|docx)$/i.test(link.href)) {
         // Wrap the URL with Google Docs Viewer for specific file types
-        link.href = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(link.href)}`;
+         event.preventDefault();
+    const officeViewerURL = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(lecture.videoURL)}`;
+    window.open(officeViewerURL, '_blank');
+                             //link.href = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(link.href)}`;
         // No need to prevent default behavior
     }
                     };
