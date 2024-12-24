@@ -355,8 +355,10 @@ function openVideoInNewWindow(videoUrl) {
 
                     link.target = '_blank'; // Open in a new tab
                     link.onclick = function (event) {
-                        event.preventDefault();
-                        openVideoInNewWindow(lecture.videoURL); // Open in custom player
+                         if (link.textContent === 'Display Lecture') {
+            event.preventDefault();
+            openVideoInNewWindow(lecture.videoURL); // Open in custom player
+        }
                     };
                     lectureCell.appendChild(link);
                     lectureCell.style.paddingLeft = '20px';
