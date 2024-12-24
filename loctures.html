@@ -358,7 +358,11 @@ function openVideoInNewWindow(videoUrl) {
                          if (link.textContent === 'Display Lecture') {
             event.preventDefault();
             openVideoInNewWindow(lecture.videoURL); // Open in custom player
-        }
+        }    else if (/\.(xls|xlsx|doc|docx)$/i.test(link.href)) {
+        // Wrap the URL with Google Docs Viewer for specific file types
+        link.href = `https://docs.google.com/viewer?url=${encodeURIComponent(link.href)}&embedded=true`;
+        // No need to prevent default behavior
+    }
                     };
                     lectureCell.appendChild(link);
                     lectureCell.style.paddingLeft = '20px';
