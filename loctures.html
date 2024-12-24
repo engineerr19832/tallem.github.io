@@ -277,8 +277,10 @@ function openVideoInNewWindow(videoUrl) {
         const endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + 1);
 
-        query = query.where('stopRecordingTime', '>=', firebase.firestore.Timestamp.fromDate(startDate))
-                     .where('stopRecordingTime', '<', firebase.firestore.Timestamp.fromDate(endDate));
+        query = query.where('stopRecordingTime', '>=', 
+            firebase.firestore.Timestamp.fromDate(startDate))
+                     .where('stopRecordingTime', '<', 
+            firebase.firestore.Timestamp.fromDate(endDate));
     }
 
     lecturesTableBody.innerHTML = ''; // Clear the table
@@ -298,7 +300,9 @@ function openVideoInNewWindow(videoUrl) {
 
                 groupedLectures[lecturerEmail].push({
                     id: doc.id, // Firestore document ID
-                    stopRecordingTime: new Date(lecture.stopRecordingTime.seconds * 1000).toLocaleString(),
+                    stopRecordingTime: new Date(
+                        lecture.stopRecordingTime.seconds * 1000
+                    ).toLocaleString(),
                     videoURL: lecture.videoURL,
                     notes: lecture.Notes || 'No notes',
                 });
@@ -335,7 +339,21 @@ function openVideoInNewWindow(videoUrl) {
                     const lectureCell = document.createElement('td');
                     const link = document.createElement('a');
                     link.href = lecture.videoURL;
-                    link.textContent = 'Display Lecture';
+                    
+                    // Determine the text content based on the file extension
+                    if (link.href.endsWith('.mp4')) {
+                        link.textContent = 'Display Lecture';
+                    } else if (
+                        link.href.endsWith('.png') ||
+                        link.href.endsWith('.gif') ||
+                        link.href.endsWith('.jpg') ||
+                        link.href.endsWith('.jpeg')
+                    ) {
+                        link.textContent = 'Display Picture';
+                    } else {
+                        link.textContent = 'Display Content';
+                    }
+
                     link.target = '_blank'; // Open in a new tab
                     link.onclick = function (event) {
                         event.preventDefault();
