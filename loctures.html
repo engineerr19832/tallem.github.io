@@ -374,13 +374,18 @@ function openVideoInNewWindow(videoUrl) {
         // No need to prevent default behavior
 
  // Create the Office Viewer URL
-    const officeViewerURL = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(link.href)}`;
+    //const officeViewerURL = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(link.href)}`;
 
+    const googleViewerURL = `https://docs.google.com/gview?url=${encodeURIComponent(link.href)}&embedded=true`;
+    
+
+                             
     // Dynamically create and display an iframe
     const iframeContainer = document.getElementById('documentViewer'); // Your container div
     iframeContainer.innerHTML = ''; // Clear any previous content..
     const iframe = document.createElement('iframe');
-    iframe.src = officeViewerURL;
+    //iframe.src = officeViewerURL;
+    iframe.src = googleViewerURL;
     iframe.width = '100%';
     iframe.height = '600px';
     iframe.style.border = 'none';
