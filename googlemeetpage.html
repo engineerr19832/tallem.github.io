@@ -282,7 +282,7 @@
                 <button id="loadinvit" style="height: 35px; text-align: center; font-weight: bold; position: fixed; right: 35px; top: 515px;">
                     Load invit
               </button>
-       <script>
+       <script type="module">
 const storage = firebase.storage();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -588,7 +588,7 @@ newWindow.document.body.appendChild(backButton);
                     z-index: 1; /* Ensure the button is below the line */
                 /* Additional inline styles here if needed */
             ">Update invit</button>
-                <script>
+                <script type ="module">
 document.getElementById("updateinvit").onclick = function() {
     var accessToken = localStorage.getItem('accessToken');
     accessToken = await refresh_token(accessToken);
@@ -860,7 +860,7 @@ for (let item of attendeeItems) {
                top: 515px;
                 /* Additional inline styles here if needed */
             ">Create invit</button>
-                <script>
+                <script type="module">
     document.addEventListener('DOMContentLoaded', function() {
         const savedValuesList = document.getElementById('savedValuesList');
         const startTimeInput = document.getElementById('starttime');
