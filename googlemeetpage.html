@@ -68,6 +68,7 @@
         <script src="newmeetingeventswindow_AR.js"></script>
         <script src="updatemeetingwindow_AR.js"></script>
         <script src=" stopsavetogdchannel.js"></script>
+        <script src="refresh_token.js"></script>
     </head>
     <body bgcolor="#ffffe0">
         <h6 style="font-weight:bold;color:#000000;margin-bottom: 4px;">Enter:Google Meet list of attendees emails with the</h5>
@@ -289,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadInvitButton.addEventListener('click', function() {
         const accessToken = localStorage.getItem('accessToken');
+        accessToken = await refresh_token(accessToken);
         const loggedInEmail = localStorage.getItem('loggedInEmail');
         const arpage = localStorage.getItem('arpage');
         console.log(loggedInEmail);
@@ -589,6 +591,7 @@ newWindow.document.body.appendChild(backButton);
                 <script>
 document.getElementById("updateinvit").onclick = function() {
     var accessToken = localStorage.getItem('accessToken');
+    accessToken = await refresh_token(accessToken);
     var loggedInEmail = localStorage.getItem('loggedInEmail');
     var meetings = [];
     var currentIndex = 0;
@@ -881,6 +884,7 @@ for (let item of attendeeItems) {
         }
 
         const accessToken = localStorage.getItem('accessToken');
+        accessToken = await refresh_token(accessToken);
         console.log('access token is:', accessToken);
 
         function createMeetingEvent() {
