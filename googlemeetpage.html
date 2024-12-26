@@ -282,7 +282,7 @@
                 <button id="loadinvit" style="height: 35px; text-align: center; font-weight: bold; position: fixed; right: 35px; top: 515px;">
                     Load invit
               </button>
-       <script type="module">
+       <script>
 const storage = firebase.storage();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadInvitButton.addEventListener('click', function() {
         const accessToken = localStorage.getItem('accessToken');
-        accessToken = await refresh_token(accessToken);
+        accessToken = refresh_token(accessToken);
         const loggedInEmail = localStorage.getItem('loggedInEmail');
         const arpage = localStorage.getItem('arpage');
         console.log(loggedInEmail);
@@ -588,10 +588,10 @@ newWindow.document.body.appendChild(backButton);
                     z-index: 1; /* Ensure the button is below the line */
                 /* Additional inline styles here if needed */
             ">Update invit</button>
-                <script type ="module">
+                <script>
 document.getElementById("updateinvit").onclick = function() {
     var accessToken = localStorage.getItem('accessToken');
-    accessToken = await refresh_token(accessToken);
+    accessToken = refresh_token(accessToken);
     var loggedInEmail = localStorage.getItem('loggedInEmail');
     var meetings = [];
     var currentIndex = 0;
@@ -860,7 +860,7 @@ for (let item of attendeeItems) {
                top: 515px;
                 /* Additional inline styles here if needed */
             ">Create invit</button>
-                <script type="module">
+                <script>
     document.addEventListener('DOMContentLoaded', function() {
         const savedValuesList = document.getElementById('savedValuesList');
         const startTimeInput = document.getElementById('starttime');
@@ -884,7 +884,7 @@ for (let item of attendeeItems) {
         }
 
         const accessToken = localStorage.getItem('accessToken');
-        accessToken = await refresh_token(accessToken);
+        accessToken = refresh_token(accessToken);
         console.log('access token is:', accessToken);
 
         function createMeetingEvent() {
