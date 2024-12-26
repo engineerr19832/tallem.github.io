@@ -1,4 +1,4 @@
-async function refresh_token(accessToken) {
+function refresh_token(accessToken) {
     const tokenInfoUrl = 'https://www.googleapis.com/oauth2/v1/tokeninfo';
     const refreshTokenUrl = 'https://oauth2.googleapis.com/token';
 
