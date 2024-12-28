@@ -282,297 +282,203 @@
                 <button id="loadinvit" style="height: 35px; text-align: center; font-weight: bold; position: fixed; right: 35px; top: 515px;">
                     Load invit
               </button>
-       <script>
+      <script>
 const storage = firebase.storage();
 
 document.addEventListener('DOMContentLoaded', function() {
     const loadInvitButton = document.getElementById('loadinvit');
 
     loadInvitButton.addEventListener('click', function() {
-        const accessToken = localStorage.getItem('accessToken');
+        let accessToken = localStorage.getItem('accessToken');
 
-    refresh_token(accessToken)
-     .then(newAccessToken => {
-    accessToken = newAccessToken;
-           
-        const loggedInEmail = localStorage.getItem('loggedInEmail');
-        const arpage = localStorage.getItem('arpage');
-        console.log(loggedInEmail);
+        refresh_token(accessToken)
+            .then(newAccessToken => {
+                accessToken = newAccessToken;
 
-        if (accessToken && loggedInEmail) {
-            function loadMeetings() {
-                fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const filteredEvents = data.items.filter(event => 
-                        event.attendees && event.attendees.some(attendee => attendee.email === loggedInEmail)
-                    );
+                const loggedInEmail = localStorage.getItem('loggedInEmail');
+                const arpage = localStorage.getItem('arpage');
+                console.log(loggedInEmail);
 
-                    const newWindow = window.open('', '_blank', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes');
-
-                    // Default English content before buttons
-                    newWindow.document.write('<html><head><title>Meetings</title></head><body>');
-                    newWindow.document.write('<br><h1>Meetings</h1>');
-                    
-                    newWindow.document.write('<ul style="list-style: none; margin: 0; padding: 0; font-size: 14px;">');
-
-                    filteredEvents.forEach(event => {
-                        const startTime = new Date(event.start.dateTime).toLocaleString();
-                        const endTime = new Date(event.end.dateTime).toLocaleString();
-                        const creatorEmail = event.creator.email;
-                        localStorage.setItem('creatorEmail', creatorEmail);
-                        const description = event.description || 'No description';
-                        const hangoutLink = event.hangoutLink || 'No link available';
-
-                        let recurrenceInfo = 'Single event';
-                        if (event.recurrence) {
-                            recurrenceInfo = 'Recurring event';
-
-                            const recurrenceRule = event.recurrence[0];
-                            const countMatch = recurrenceRule.match(/COUNT=(\d+)/);
-                            if (countMatch) {
-                                recurrenceInfo += `, Occurs ${countMatch[1]} times`;
+                if (accessToken && loggedInEmail) {
+                    function loadMeetings() {
+                        fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`,
                             }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const filteredEvents = data.items.filter(event => 
+                                event.attendees && event.attendees.some(attendee => attendee.email === loggedInEmail)
+                            );
 
-                            const freqMatch = recurrenceRule.match(/FREQ=(\w+)/);
-                            if (freqMatch) {
-                                recurrenceInfo += `, Frequency: ${freqMatch[1].toLowerCase()}`;
-                            }
-                        }
+                            const newWindow = window.open('', '_blank', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes');
 
-                        newWindow.document.write(`
-                            <li style="margin-bottom: 5px; border-bottom: 1px solid #ccc;">
-                                <strong>Start Time:</strong> ${startTime}<br>
-                                <strong>End Time:</strong> ${endTime}<br>
-                                <strong>Creator's Email:</strong> ${creatorEmail}<br>
-                                <strong>Description:</strong> ${description}<br>
-                                <strong>Meeting Link:</strong> <a href="${hangoutLink}" target="_blank">${hangoutLink}</a><br>
-                                <strong>Meeting Type:</strong> ${recurrenceInfo}
-                            </li>
-                        `);
-                    });
+                            // Default English content before buttons
+                            newWindow.document.write('<html><head><title>Meetings</title></head><body>');
+                            newWindow.document.write('<br><h1>Meetings</h1>');
+                            newWindow.document.write('<ul style="list-style: none; margin: 0; padding: 0; font-size: 14px;">');
 
-                    newWindow.document.write('</ul>');
+                            filteredEvents.forEach(event => {
+                                const startTime = new Date(event.start.dateTime).toLocaleString();
+                                const endTime = new Date(event.end.dateTime).toLocaleString();
+                                const creatorEmail = event.creator.email;
+                                localStorage.setItem('creatorEmail', creatorEmail);
+                                const description = event.description || 'No description';
+                                const hangoutLink = event.hangoutLink || 'No link available';
 
-                    const recordButton = newWindow.document.createElement('button');
-                    recordButton.id = 'recordmeet';
-                    recordButton.textContent = 'Start';
-                    recordButton.style.backgroundColor = 'green';
-                    recordButton.style.color = 'white';
-                    recordButton.style.position = 'fixed';
-                    recordButton.style.top = '10px';
-                    recordButton.style.right = '10px';
-                    recordButton.style.padding = '15px 30px';
-                    recordButton.style.fontWeight = 'bold';
-                    recordButton.style.fontSize = '40px';
-                    recordButton.style.border = 'none';
-                    recordButton.style.borderRadius = '5px';
-                    recordButton.style.cursor = 'pointer';
-                    recordButton.style.boxShadow = '0 4px #999';
+                                let recurrenceInfo = 'Single event';
+                                if (event.recurrence) {
+                                    recurrenceInfo = 'Recurring event';
 
-                    // Initially hide the button when the page loads
-                    recordButton.style.display = 'none';
-
-                    recordButton.addEventListener('mousedown', function() {
-                        this.style.backgroundColor = '#3e8e41';
-                        this.style.boxShadow = '0 2px #666';
-                        this.style.transform = 'translateY(2px)';
-                    });
-
-                    recordButton.addEventListener('mouseup', function() {
-                        this.style.backgroundColor = 'green';
-                        this.style.boxShadow = '0 4px #999';
-                        this.style.transform = 'translateY(0px)';
-                    });
-
-                    const stopButton = newWindow.document.createElement('button');
-                    stopButton.id = 'stoprecord';
-                    stopButton.textContent = 'Stop';
-                    stopButton.style.backgroundColor = 'red';
-                    stopButton.style.color = 'white';
-                    stopButton.style.position = 'fixed';
-                    stopButton.style.top = '10px';
-                    stopButton.style.right = '160px';
-                    stopButton.style.padding = '15px 30px';
-                    stopButton.style.fontWeight = 'bold';
-                    stopButton.style.fontSize = '40px';
-                    stopButton.style.border = 'none';
-                    stopButton.style.borderRadius = '5px';
-                    stopButton.style.cursor = 'pointer';
-                    stopButton.style.boxShadow = '0 4px #999';
-                    stopButton.disabled = true;
-                    // Initially hide the button when the page loads
-                    stopButton.style.display = 'none';
-
-                    let mediaRecorder;
-                    let stream;
-
-                    newWindow.document.querySelectorAll('.meeting-link').forEach(link => {
-                        link.addEventListener('click', function(event) {
-                            const clickedCreatorEmail = this.getAttribute('data-creator-email');
-                            localStorage.setItem('creatorEmail', clickedCreatorEmail);
-                        });
-                    });
-
-                    recordButton.addEventListener('click', function () {
-                        const creatorEmail = localStorage.getItem('creatorEmail');
-                        const loggedInEmail = localStorage.getItem('loggedInEmail');
-                        console.log(loggedInEmail);
-
-                        if (creatorEmail === loggedInEmail) {
-                            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-                                .then((mediaStream) => {
-                                    console.log("Camera and microphone access granted.");
-                                    stream = mediaStream;
-
-                                    if (stream.getVideoTracks().length > 0 && stream.getVideoTracks()[0].enabled) {
-                                        console.log("Cam is started");
-
-                                        const options = { mimeType: 'video/webm; codecs=vp9' };
-                                        mediaRecorder = new MediaRecorder(stream, options);
-                                        const chunks = [];
-
-                                        mediaRecorder.ondataavailable = function (event) {
-                                            if (event.data.size > 0) {
-                                                chunks.push(event.data);
-                                            }
-                                        };
-
-                                        mediaRecorder.onstop = async function () {
-                                            const blob = new Blob(chunks, { type: 'video/webm' });
-
-                                            try {
-                                                const storageRef = storage.ref();
-                                                const videoRef = storageRef.child(`meetings_videos/${new Date().getTime()}_meeting_recording.webm`);
-
-                                                const snapshot = await videoRef.put(blob);
-                                                const downloadURL = await snapshot.ref.getDownloadURL();
-
-                                                await db.collection('meetings_his_tbl').add({
-                                                    creatorEmail: loggedInEmail,
-                                                    stopRecordingTime: firebase.firestore.FieldValue.serverTimestamp(),
-                                                    videoURL: downloadURL,
-                                                    Notes: null
-                                                });
-
-                                                console.log("Recording saved to Firestore with URL:", downloadURL);
-                                                newWindow.alert("Recording saved to Firestore with URL: " + downloadURL);
-                                            } catch (error) {
-                                                console.error("Error saving video to Firebase:", error);
-                                            }
-                                        };
-
-                                        mediaRecorder.start();
-                                        console.log("Recording started");
-                                    } else {
-                                        console.error("Video track is not enabled or not available.");
-                                        alert("Camera access failed. Ensure your device camera is enabled and try again.");
+                                    const recurrenceRule = event.recurrence[0];
+                                    const countMatch = recurrenceRule.match(/COUNT=(\d+)/);
+                                    if (countMatch) {
+                                        recurrenceInfo += `, Occurs ${countMatch[1]} times`;
                                     }
-                                })
-                                .catch((error) => {
-                                    console.error("Error accessing camera/microphone:", error);
-                                    alert("Permission to use the camera and microphone is required to record. Please enable these permissions in your browser settings and refresh the page.");
-                                });
-                        } else {
-                            alert("You are not authorized to record this meeting.");
-                        }
-                    });
 
-                    stopButton.addEventListener('click', function() {
-                        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                            mediaRecorder.stop();
-                            stream.getTracks().forEach(track => track.stop());
-                            recordButton.disabled = false;
+                                    const freqMatch = recurrenceRule.match(/FREQ=(\w+)/);
+                                    if (freqMatch) {
+                                        recurrenceInfo += `, Frequency: ${freqMatch[1].toLowerCase()}`;
+                                    }
+                                }
+
+                                newWindow.document.write(`
+                                    <li style="margin-bottom: 5px; border-bottom: 1px solid #ccc;">
+                                        <strong>Start Time:</strong> ${startTime}<br>
+                                        <strong>End Time:</strong> ${endTime}<br>
+                                        <strong>Creator's Email:</strong> ${creatorEmail}<br>
+                                        <strong>Description:</strong> ${description}<br>
+                                        <strong>Meeting Link:</strong> <a href="${hangoutLink}" target="_blank">${hangoutLink}</a><br>
+                                        <strong>Meeting Type:</strong> ${recurrenceInfo}
+                                    </li>
+                                `);
+                            });
+
+                            newWindow.document.write('</ul>');
+
+                            // Record and Stop buttons setup
+                            const recordButton = newWindow.document.createElement('button');
+                            recordButton.id = 'recordmeet';
+                            recordButton.textContent = 'Start';
+                            recordButton.style.backgroundColor = 'green';
+                            recordButton.style.color = 'white';
+                            recordButton.style.position = 'fixed';
+                            recordButton.style.top = '10px';
+                            recordButton.style.right = '10px';
+                            recordButton.style.padding = '15px 30px';
+                            recordButton.style.fontWeight = 'bold';
+                            recordButton.style.fontSize = '40px';
+                            recordButton.style.border = 'none';
+                            recordButton.style.borderRadius = '5px';
+                            recordButton.style.cursor = 'pointer';
+                            recordButton.style.boxShadow = '0 4px #999';
+                            recordButton.style.display = 'none';
+
+                            recordButton.addEventListener('mousedown', function() {
+                                this.style.backgroundColor = '#3e8e41';
+                                this.style.boxShadow = '0 2px #666';
+                                this.style.transform = 'translateY(2px)';
+                            });
+
+                            recordButton.addEventListener('mouseup', function() {
+                                this.style.backgroundColor = 'green';
+                                this.style.boxShadow = '0 4px #999';
+                                this.style.transform = 'translateY(0px)';
+                            });
+
+                            const stopButton = newWindow.document.createElement('button');
+                            stopButton.id = 'stoprecord';
+                            stopButton.textContent = 'Stop';
+                            stopButton.style.backgroundColor = 'red';
+                            stopButton.style.color = 'white';
+                            stopButton.style.position = 'fixed';
+                            stopButton.style.top = '10px';
+                            stopButton.style.right = '160px';
+                            stopButton.style.padding = '15px 30px';
+                            stopButton.style.fontWeight = 'bold';
+                            stopButton.style.fontSize = '40px';
+                            stopButton.style.border = 'none';
+                            stopButton.style.borderRadius = '5px';
+                            stopButton.style.cursor = 'pointer';
+                            stopButton.style.boxShadow = '0 4px #999';
                             stopButton.disabled = true;
-                            console.log("Recording stopped");
-                        }
-                    });
+                            stopButton.style.display = 'none';
 
-                    newWindow.document.body.appendChild(recordButton);
-                    newWindow.document.body.appendChild(stopButton);
+                            newWindow.document.body.appendChild(recordButton);
+                            newWindow.document.body.appendChild(stopButton);
 
+                            const backButton = newWindow.document.createElement('button');
+                            backButton.id = 'backback';
+                            backButton.textContent = 'Back';
+                            backButton.style.backgroundColor = 'green';
+                            backButton.style.color = 'white';
+                            backButton.style.position = 'fixed';
+                            backButton.style.top = '70px';
+                            backButton.style.right = '40px';
+                            backButton.style.padding = '20px 50px';
+                            backButton.style.fontWeight = 'bold';
+                            backButton.style.fontSize = '40px';
+                            backButton.style.width = '150px';
+                            backButton.style.height = '80px';
+                            backButton.style.lineHeight = '80px';
+                            backButton.style.textAlign = 'center';
+                            backButton.style.border = 'none';
+                            backButton.style.borderRadius = '5px';
+                            backButton.style.cursor = 'pointer';
+                            backButton.style.boxShadow = '0 4px #999';
 
-                    const backButton = newWindow.document.createElement('button');
-backButton.id = 'backback';
-backButton.textContent = 'Back';
-backButton.style.backgroundColor = 'green';
-backButton.style.color = 'white';
-backButton.style.position = 'fixed';
-backButton.style.top = '70px';
-backButton.style.right = '40px';
-backButton.style.padding = '20px 50px'; // Increase padding for larger button
-backButton.style.fontWeight = 'bold';
-backButton.style.fontSize = '40px'; // Larger font size
-backButton.style.width = '150px'; // Explicit width for consistency
-backButton.style.height = '80px'; // Explicit height
-backButton.style.lineHeight = '80px'; // Match the height for vertical centering
-backButton.style.textAlign = 'center'; // Horizontally center the text
-backButton.style.border = 'none';
-backButton.style.borderRadius = '5px';
-backButton.style.cursor = 'pointer';
-backButton.style.boxShadow = '0 4px #999';
-                    // Center the text horizontally and vertically
+                            backButton.addEventListener('click', function() {
+                                newWindow.close();
+                            });
 
-                    
-// Add event listener to the back button to close the window
-backButton.addEventListener('click', function() {
-    newWindow.close(); // Close the newly opened window
-});
+                            newWindow.document.body.appendChild(backButton);
 
-                    // Add the back button to the body
-newWindow.document.body.appendChild(backButton);
-                    
+                            const stopSaveToGDriveButton = newWindow.document.createElement('button');
+                            stopSaveToGDriveButton.id = 'stopsavetogd';
+                            stopSaveToGDriveButton.textContent = 'Google';
+                            stopSaveToGDriveButton.style.backgroundColor = '#f39c12';
+                            stopSaveToGDriveButton.style.color = 'white';
+                            stopSaveToGDriveButton.style.position = 'fixed';
+                            stopSaveToGDriveButton.style.top = '10px';
+                            stopSaveToGDriveButton.style.right = '305px';
+                            stopSaveToGDriveButton.style.padding = '15px 30px';
+                            stopSaveToGDriveButton.style.fontWeight = 'bold';
+                            stopSaveToGDriveButton.style.fontSize = '40px';
+                            stopSaveToGDriveButton.style.border = 'none';
+                            stopSaveToGDriveButton.style.borderRadius = '5px';
+                            stopSaveToGDriveButton.style.cursor = 'pointer';
+                            stopSaveToGDriveButton.style.boxShadow = '0 4px #999';
+                            stopSaveToGDriveButton.style.display = 'none';
 
+                            stopSaveToGDriveButton.addEventListener('click', function() {
+                                alert("Video saved to Google Drive.");
+                                drive();
+                            });
 
-                    const stopSaveToGDriveButton = newWindow.document.createElement('button');
-                    stopSaveToGDriveButton.id = 'stopsavetogd';
-                    stopSaveToGDriveButton.textContent = 'Google';
-                    stopSaveToGDriveButton.style.backgroundColor = '#f39c12';
-                    stopSaveToGDriveButton.style.color = 'white';
-                    stopSaveToGDriveButton.style.position = 'fixed';
-                    stopSaveToGDriveButton.style.top = '10px';
-                    stopSaveToGDriveButton.style.right = '305px';
-                    stopSaveToGDriveButton.style.padding = '15px 30px';
-                    stopSaveToGDriveButton.style.fontWeight = 'bold';
-                    stopSaveToGDriveButton.style.fontSize='40px';
-                    stopSaveToGDriveButton.style.border = 'none';
-                    stopSaveToGDriveButton.style.borderRadius = '5px';
-                    stopSaveToGDriveButton.style.cursor = 'pointer';
-                    stopSaveToGDriveButton.style.boxShadow = '0 4px #999';
-                    // Initially hide the button when the page loads
-                    stopSaveToGDriveButton.style.display = 'none';
+                            newWindow.document.body.appendChild(stopSaveToGDriveButton);
 
-                    stopSaveToGDriveButton.addEventListener('click', function() {
-                        alert("Video saved to Google Drive.");
-                        drive();
-                    });
+                            if (arpage === 'ar') {
+                                console.log("Arabic translation condition met");
+                                loadArabicContent(newWindow, filteredEvents);
+                            }
 
-                    newWindow.document.body.appendChild(stopSaveToGDriveButton);
-
-                    // Check if the page should be translated to Arabic
-                    if (arpage === 'ar') {
-                        console.log("Arabic translation condition met");
-                        loadArabicContent(newWindow, filteredEvents); 
+                            newWindow.document.write('</body></html>');
+                            newWindow.document.close();
+                        })
+                        .catch(error => console.error('Error fetching meetings:', error));
                     }
 
-                    newWindow.document.write('</body></html>');
-                    newWindow.document.close();
-                })
-                .catch(error => console.error('Error fetching meetings:', error));
-            }
-
-            loadMeetings();
-        } else {
-            alert("User is not authenticated.");
-        }
+                    loadMeetings();
+                } else {
+                    alert("User is not authenticated.");
+                }
+            });
     });
 });
 </script>
+
 
               <div style="
     position: fixed; 
