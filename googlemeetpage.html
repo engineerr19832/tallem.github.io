@@ -290,7 +290,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadInvitButton.addEventListener('click', function() {
         const accessToken = localStorage.getItem('accessToken');
-        accessToken = refresh_token(accessToken);
+
+    refresh_token(accessToken)
+     .then(newAccessToken => {
+    accessToken = newAccessToken;
+           
         const loggedInEmail = localStorage.getItem('loggedInEmail');
         const arpage = localStorage.getItem('arpage');
         console.log(loggedInEmail);
@@ -591,7 +595,11 @@ newWindow.document.body.appendChild(backButton);
                 <script>
 document.getElementById("updateinvit").onclick = function() {
     var accessToken = localStorage.getItem('accessToken');
-    accessToken = refresh_token(accessToken);
+
+    refresh_token(accessToken)
+    .then(newAccessToken => {
+     accessToken = newAccessToken;
+                    
     var loggedInEmail = localStorage.getItem('loggedInEmail');
     var meetings = [];
     var currentIndex = 0;
@@ -884,7 +892,11 @@ for (let item of attendeeItems) {
         }
 
         const accessToken = localStorage.getItem('accessToken');
-        accessToken = refresh_token(accessToken);
+
+        refresh_token(accessToken)
+        .then(newAccessToken => {
+        accessToken = newAccessToken;
+                    
         console.log('access token is:', accessToken);
 
         function createMeetingEvent() {
