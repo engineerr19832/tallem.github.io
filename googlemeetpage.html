@@ -498,113 +498,116 @@ document.addEventListener('DOMContentLoaded', function() {
                     z-index: 1; /* Ensure the button is below the line */
                 /* Additional inline styles here if needed */
             ">Update invit</button>
-                <script>
+     <script>
 document.getElementById("updateinvit").onclick = function() {
     var accessToken = localStorage.getItem('accessToken');
 
     refresh_token(accessToken)
     .then(newAccessToken => {
-     accessToken = newAccessToken;
-                    
-    var loggedInEmail = localStorage.getItem('loggedInEmail');
-    var meetings = [];
-    var currentIndex = 0;
-    function loadMeetings() {
-        if (accessToken && loggedInEmail) {
-            fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                meetings = data.items.filter(event => 
-                    event.creator.email === loggedInEmail
-                );
-                if (meetings.length === 0) {
-                    alert('No meetings found');
-                } else {
-                    showMeeting(meetings[currentIndex]);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching meetings:', error);
-                alert('Failed to load meetings');
-            });
-        } else {
-            alert('Missing access token or logged-in email');
-        }
-    }
+        accessToken = newAccessToken;
 
-    function parseRecurrenceRule(recurrence) {
-        if (!recurrence || !recurrence[0].startsWith('RRULE:')) return {};
+        var loggedInEmail = localStorage.getItem('loggedInEmail');
+        var meetings = [];
+        var currentIndex = 0;
 
-        const rule = recurrence[0].replace('RRULE:', '').split(';');
-        const result = {};
-
-        rule.forEach(part => {
-            const [key, value] = part.split('=');
-            if (key === 'FREQ') {
-                result.frequency = value.toLowerCase();
-            } else if (key === 'INTERVAL') {
-                result.interval = parseInt(value, 10);
-            } else if (key === 'COUNT') {
-                result.count = parseInt(value, 10);
+        function loadMeetings() {
+            if (accessToken && loggedInEmail) {
+                fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    meetings = data.items.filter(event => 
+                        event.creator.email === loggedInEmail
+                    );
+                    if (meetings.length === 0) {
+                        alert('No meetings found');
+                    } else {
+                        showMeeting(meetings[currentIndex]);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching meetings:', error);
+                    alert('Failed to load meetings');
+                });
+            } else {
+                alert('Missing access token or logged-in email');
             }
-        });
-
-        return result;
-    }
-    function showMeeting(meeting) {
-        if (!meeting) {
-            alert('No meeting data available');
-            return;
         }
-        var updateWindow = window.open("", "Update Meetings", "width=800,height=600");
-        updateWindow.document.body.innerHTML = '';
-        const recurrenceDetails = parseRecurrenceRule(meeting.recurrence);
-        updateWindow.document.write('<title>Update Meeting Details</title>');
-        updateWindow.document.write('<h2 style="font-size: 55px;">Update Meetings</h2>');
-        updateWindow.document.write(`
-    <style>
-        .selected {
-            background-color: #b3d9ff; /* Highlight with a light blue color */
+
+        function parseRecurrenceRule(recurrence) {
+            if (!recurrence || !recurrence[0].startsWith('RRULE:')) return {};
+
+            const rule = recurrence[0].replace('RRULE:', '').split(';');
+            const result = {};
+
+            rule.forEach(part => {
+                const [key, value] = part.split('=');
+                if (key === 'FREQ') {
+                    result.frequency = value.toLowerCase();
+                } else if (key === 'INTERVAL') {
+                    result.interval = parseInt(value, 10);
+                } else if (key === 'COUNT') {
+                    result.count = parseInt(value, 10);
+                }
+            });
+
+            return result;
         }
-    </style>
-`);
-        updateWindow.document.write(`
-            <p><h2 style="font-size: 40px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
-         
-          <p style="display: flex; align-items: center; gap: 10px;">
-  <h1 style="font-size: 40px; margin: 0;">Start Time:</h1>
-  <input 
-    type="datetime-local" 
-    id="startTime" 
-    style="width: 350px; font-size: 35px;background-color: rgba(0, 255, 255, 0.5);" 
-    value="${meeting.start.dateTime ? new Date(meeting.start.dateTime).toISOString().slice(0, 16) : ''}">
-</p>
-            <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 40px; margin: 0;">End Time:</h1> <input type="datetime-local" id="endTime"  style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}"></p>
 
-            <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 40px; margin: 0;">Rep. Every:</h1> <input type="number" id="repeatevery" style="width: 150px;height: 60px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);text-align: center;" value="${recurrenceDetails.interval || ''}"></p>
-
-            <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 40px; margin: 0;">Freq:</h1>
-                <select id="repeatFrequency" style="width: 150px;height: 60px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);text-align: center;">
-                    <option value="null"></option>
-                    <option value="daily" ${recurrenceDetails.frequency === 'daily' ? 'selected' : ''}>Daily</option>
-                    <option value="weekly" ${recurrenceDetails.frequency === 'weekly' ? 'selected' : ''}>Weekly</option>
-                    <option value="monthly" ${recurrenceDetails.frequency === 'monthly' ? 'selected' : ''}>Monthly</option>
-                    <option value="yearly" ${recurrenceDetails.frequency === 'yearly' ? 'selected' : ''}>Yearly</option>
-                </select>
-            </p>
-            
-            <p style="display: flex; align-items: center; gap: 10px;">
-            <h1 style="font-size: 40px; margin: 0;">Occur:</h1> <input type="number" id="numofoccur" style="width: 100px;height: 60px;font-size: 35px; background-color: rgba(0, 255, 255, 0.5);text-align: center;" value="${recurrenceDetails.count || ''}" style="width: 60px;"></p>
-           
-            <ul id="attendeesList" style="
+        function showMeeting(meeting) {
+            if (!meeting) {
+                alert('No meeting data available');
+                return;
+            }
+            var updateWindow = window.open("", "Update Meetings", "width=800,height=600");
+            updateWindow.document.body.innerHTML = '';
+            const recurrenceDetails = parseRecurrenceRule(meeting.recurrence);
+            updateWindow.document.write('<title>Update Meeting Details</title>');
+            updateWindow.document.write('<h2 style="font-size: 55px;">Update Meetings</h2>');
+            updateWindow.document.write(`
+                <style>
+                    .selected {
+                        background-color: #b3d9ff; /* Highlight with a light blue color */
+                    }
+                </style>
+            `);
+            updateWindow.document.write(`
+                <p><h2 style="font-size: 40px;">Description:</h2> <input type="text" id="description" style="width: 700px; height: 80px; font-size: 40px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.description || ''}"></p>
+                <p style="display: flex; align-items: center; gap: 10px;">
+                    <h1 style="font-size: 40px; margin: 0;">Start Time:</h1>
+                    <input 
+                        type="datetime-local" 
+                        id="startTime" 
+                        style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" 
+                        value="${meeting.start.dateTime ? new Date(meeting.start.dateTime).toISOString().slice(0, 16) : ''}">
+                </p>
+                <p style="display: flex; align-items: center; gap: 10px;">
+                    <h1 style="font-size: 40px; margin: 0;">End Time:</h1> 
+                    <input type="datetime-local" id="endTime" style="width: 350px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5);" value="${meeting.end.dateTime ? new Date(meeting.end.dateTime).toISOString().slice(0, 16) : ''}">
+                </p>
+                <p style="display: flex; align-items: center; gap: 10px;">
+                    <h1 style="font-size: 40px; margin: 0;">Rep. Every:</h1> 
+                    <input type="number" id="repeatevery" style="width: 150px; height: 60px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5); text-align: center;" value="${recurrenceDetails.interval || ''}">
+                </p>
+                <p style="display: flex; align-items: center; gap: 10px;">
+                    <h1 style="font-size: 40px; margin: 0;">Freq:</h1>
+                    <select id="repeatFrequency" style="width: 150px; height: 60px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5); text-align: center;">
+                        <option value="null"></option>
+                        <option value="daily" ${recurrenceDetails.frequency === 'daily' ? 'selected' : ''}>Daily</option>
+                        <option value="weekly" ${recurrenceDetails.frequency === 'weekly' ? 'selected' : ''}>Weekly</option>
+                        <option value="monthly" ${recurrenceDetails.frequency === 'monthly' ? 'selected' : ''}>Monthly</option>
+                        <option value="yearly" ${recurrenceDetails.frequency === 'yearly' ? 'selected' : ''}>Yearly</option>
+                    </select>
+                </p>
+                <p style="display: flex; align-items: center; gap: 10px;">
+                    <h1 style="font-size: 40px; margin: 0;">Occur:</h1> 
+                    <input type="number" id="numofoccur" style="width: 100px; height: 60px; font-size: 35px; background-color: rgba(0, 255, 255, 0.5); text-align: center;" value="${recurrenceDetails.count || ''}">
+                </p>
+                   <ul id="attendeesList" style="
     list-style: none; 
     margin: 0; 
     padding: 0; 
@@ -628,8 +631,9 @@ document.getElementById("updateinvit").onclick = function() {
             <button id="updateMeeting" style="width: 285px; height: 70px; font-size: 40px;">Upd Meeting</button> &nbsp;<button id="deleteMeeting" style="width: 285px; height: 70px; font-size: 40px;">Del Meeting</button><br><br>
             <button id="backbutton2" style="width: 285px; height: 70px; font-size: 40px;">Back</button>
              </p>
-        `);
-         // Add event listener for the "Back" button
+            `);
+            // Additional content (unchanged logic)
+     // Add event listener for the "Back" button
     updateWindow.document.getElementById('backbutton2').addEventListener('click', function () {
         updateWindow.close();
     });
@@ -761,11 +765,12 @@ for (let item of attendeeItems) {
          
     if (localStorage.getItem('arpage') === 'ar') {
             translateToArabic_up(updateWindow);
+      }
         }
-    }
- loadMeetings();
+        loadMeetings();
+    });
 };
-     </script>
+</script>
                 <button id="createinvit" style=" height: 35px; 
                 text-align: center;
                 font-weight: bold; /* Make font bold */
