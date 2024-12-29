@@ -184,6 +184,8 @@
 
 <script src="scripts.js"></script>
 <script>
+     const refreshToken = localStorage.getItem('refreshToken');
+     console.log(refreshToken);
 function openTab(evt, tabId) {
     if (tabId === 'tab7') { // Handle sign-out separately
         signout().then(() => {
