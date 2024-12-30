@@ -11,6 +11,9 @@ function createWindow() {
     });
 
     win.loadFile('index.html');  // Ensure this file exists in your project
+
+     // Open the DevTools.
+    win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
