@@ -7,7 +7,13 @@ function refresh_token(accessToken) {
         .then(tokenInfoResponse => {
             if (tokenInfoResponse.ok) {
                 // Token is valid, return the same access token
-                return accessToken;
+                 const newAccessToken = accessToken;
+
+                                // Store the new access token
+                                localStorage.setItem('accessToken', newAccessToken);
+                                return newAccessToken;
+                
+             //return accessToken;
             } else {
                 // Token is invalid, attempt to refresh it
                 const refreshToken = localStorage.getItem('refreshToken');
