@@ -1,26 +1,31 @@
-//const { app, BrowserWindow } = require('electron');
-//function createWindow() {
-//    const win = new BrowserWindow({
-   //     width: 800,
-    //    height: 600,
-  //  });
-  //  win.loadURL('data:text/html;charset=utf-8,<html><body><h1>Test Window</h1></body></html>');
-//}
-
-
 const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-app.on('ready', () => {
+function createWindow() {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
+        webPreferences: {
+            nodeIntegration: true
+        }
     });
-    win.loadURL('data:text/html;charset=utf-8,<h1>Hello, Electron!</h1>');
+
+    win.loadFile('index.html');  // Ensure this file exists in your project
+
+     // Open the DevTools.
+    win.webContents.openDevTools();
+}
+
+app.whenReady().then(createWindow);
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
-//app.whenReady().then(createWindow);
-//app.on('ready', () => console.log('App is ready'));
-//app.on('window-all-closed', () => console.log('All windows closed'));
-//app.on('activate', () => console.log('App activated'));
-//app.on('error', (err) => console.error('App Error:', err));
-
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+});
